@@ -1,8 +1,12 @@
 # Secrets
 config/
+.env
 
 # Output
 output/
+
+# Temporary processing files
+.tmp/
 
 # OS
 .DS_Store
