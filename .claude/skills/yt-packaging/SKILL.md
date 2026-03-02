@@ -11,13 +11,21 @@ Analyzes a podcast transcript to extract the highest-ceiling concepts, packages 
 
 ---
 
-## Step 1: Get the Transcript
+## Step 1: Get the Transcript + Direction
 
 Accept the transcript via one of:
 - **File path** — Read the file from the provided path (`.txt`, `.md`, or similar)
 - **Pasted text** — User pastes the transcript directly in chat
 
 If neither is provided, ask: "Paste the transcript or give me a file path to work from."
+
+**Also capture any rough direction the user gives.** This might include:
+- Guest name
+- General topic/angle they're leaning toward
+- Target audience for this episode
+- Any specific framing or positioning they want to explore
+
+Direction is optional but common. Use it to weight the concept extraction and title generation. If no direction is given, extract purely from the transcript.
 
 If the transcript is very short (under ~500 words), flag it:
 > "This transcript is short. I'll work with what's here, but the concept extraction may be limited."
@@ -90,7 +98,7 @@ Produce **5-10 YouTube title variations** across the top-ranked concepts.
    - Emotional pull
    - Clarity of outcome
    - Curiosity gap
-   - Character length fit (60-75 characters max)
+   - Character length fit (78 characters max)
    - Broad relevance
 
 4. **Write at 6th-grade level.** Simple words, high-stakes meaning. No jargon.
@@ -103,6 +111,13 @@ Produce **5-10 YouTube title variations** across the top-ranked concepts.
 - Mix styles: some curiosity-driven, some identity-driven, some contrarian, some specificity-driven
 - Include parenthetical amplifiers where they add value: (No Matter What), (For Normal People), (Start Here), (Unfiltered)
 - Optional: include guest name with pipe format where it adds credibility — `| Guest Name`
+- **IMPORTANT — Include 2-3 unconventional titles per batch.** These break traditional YouTube title conventions on purpose. Patterns from the swipe file section "Unconventional / raw tone" include:
+  - Lowercase, broken grammar, casual texting energy
+  - First-person confessional with specific numbers
+  - Conversational parentheticals: "(this feels illegal)", "(pls watch this)"
+  - Stacked short sentences with rhythm
+  - Year-stamping for timeliness (e.g., "2026...")
+  - These stand out BECAUSE they don't look like typical YouTube titles. Mix them in alongside traditional formats for variety.
 
 ### For each title, note:
 - Which umbrella concept it maps to
@@ -181,6 +196,6 @@ Print everything to chat. Structure the output as:
 
 - This skill is for analysis and packaging, not full copywriting. It does not produce descriptions, thumbnails, captions, or other assets. Use `/copywriter` for those.
 - Never fabricate quotes. If a sub-theme has weak transcript support, say so.
-- Titles must respect the 60-75 character rule from the swipe file. Flag any that run over.
+- Titles must respect the 78-character max from the swipe file. Flag any that run over.
 - When a title is confirmed as used by Jasper, append it to the "Winning Titles Log" in `resources/nalu/yt-headlines-swipe-file.md`.
 - If the user asks for more title options or different angles after the initial output, generate additional variations without re-running the full analysis.

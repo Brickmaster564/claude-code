@@ -35,10 +35,14 @@ Purpose: Pattern extraction for universal YouTube title ideation
 - 2026 Online Business Advice To Stand Out In A World Of Clones (Here's The New Game)
 - 2026 Online Business Advice To Win In The AI Era (Most People Won't Do This)
 - 2026 Predictions To Make You Immune To AI & Job Loss (Most People Won't Listen…)
+- AI found the product. AI made the ads. i make $305k/mo. (this feels illegal)
+- If you're ambitious and in your 20s or 30s (pls watch this)
+- You're Procrastinating 80% of Your Time (Here's How I Fixed It)
+- How to Articulate Your Thoughts More Clearly Than 99% of People
 
 ## Hard-coded title rules
 
-1. 60-75 characters max.
+1. 78 characters max.
 2. 6th grade language.
 3. Must have mass appeal, even if niched down.
 
@@ -84,6 +88,14 @@ Purpose: Pattern extraction for universal YouTube title ideation
 - Even niche topics connect to universal outcomes.
 - Topic-specific words are framed through broad human benefit.
 
+### 9) Unconventional / raw tone
+- Lowercase, broken grammar, deliberately casual. Feels like a friend texting, not a producer writing.
+- First-person confessional: "i make $305k/mo" reads like someone sharing a secret, not a headline.
+- Conversational parentheticals: "(this feels illegal)", "(pls watch this)" break the fourth wall.
+- Stacked short sentences: "AI found the product. AI made the ads." creates rhythm and punch.
+- Comparison to "most people" or percentages: "99% of People", "80% of Your Time" creates in-group pull.
+- These titles stand out BECAUSE they break conventions. Use 2-3 of these per batch alongside traditional formats.
+
 ## Reusable frameworks
 
 - X Things That Made Me Y
@@ -96,6 +108,10 @@ Purpose: Pattern extraction for universal YouTube title ideation
 - The X Laws of Y (Unfiltered)
 - X Mistakes That Kill Your Y
 - Build X That Can't Be Y, Z, or W
+- AI did X. AI did Y. i do Z. (this feels illegal)
+- If you're X and in your Ys (pls watch this)
+- How to X Better Than Y% of People
+- [short sentence]. [short sentence]. [result]. (emotional reaction)
 
 ## Operator note
 
