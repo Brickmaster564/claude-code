@@ -14,6 +14,7 @@ import json
 import sys
 import time
 import urllib.request
+import urllib.parse
 import urllib.error
 from pathlib import Path
 
@@ -34,8 +35,7 @@ def load_api_key():
 def api_request(api_key, method, endpoint, data=None, params=None):
     url = f"{API_BASE}{endpoint}"
     if params:
-        query = "&".join(f"{k}={v}" for k, v in params.items())
-        url = f"{url}?{query}"
+        url = f"{url}?{urllib.parse.urlencode(params)}"
 
     body = json.dumps(data).encode() if data else None
     req = urllib.request.Request(url, data=body, method=method)
@@ -61,38 +61,27 @@ def list_campaigns(api_key, search=None):
     return result
 
 
-def add_single_lead(api_key, campaign_id, lead):
+def add_leads(api_key, campaign_id, leads):
+    """Add leads to a campaign via POST /leads/add (batch endpoint)."""
     payload = {
-        "email": lead["email"],
-        "first_name": lead.get("first_name", ""),
-        "company_name": lead.get("company_name", ""),
         "campaign_id": campaign_id,
         "skip_if_in_campaign": True,
+        "leads": leads,
     }
-    return api_request(api_key, "POST", "/leads", data=payload)
+    result = api_request(api_key, "POST", "/leads/add", data=payload)
 
-
-def add_leads(api_key, campaign_id, leads):
-    results = {"added": [], "failed": []}
-
-    for i, lead in enumerate(leads):
-        result = add_single_lead(api_key, campaign_id, lead)
-
-        if "error" in result:
-            results["failed"].append({"email": lead["email"], "error": result["error"]})
-        else:
-            results["added"].append({"email": lead["email"]})
-
-        # Rate limit safety (10 req/sec for Instantly)
-        if i < len(leads) - 1:
-            time.sleep(0.15)
+    if "error" in result:
+        return {"campaign_id": campaign_id, "error": result["error"]}
 
     return {
         "campaign_id": campaign_id,
-        "total": len(leads),
-        "added": len(results["added"]),
-        "failed": len(results["failed"]),
-        "details": results,
+        "total_sent": result.get("total_sent", 0),
+        "leads_uploaded": result.get("leads_uploaded", 0),
+        "duplicated_leads": result.get("duplicated_leads", 0),
+        "skipped_count": result.get("skipped_count", 0),
+        "invalid_email_count": result.get("invalid_email_count", 0),
+        "in_blocklist": result.get("in_blocklist", 0),
+        "remaining_in_plan": result.get("remaining_in_plan"),
     }
 
 

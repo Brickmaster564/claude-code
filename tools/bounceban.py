@@ -16,6 +16,7 @@ import time
 import urllib.request
 import urllib.parse
 import urllib.error
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 CONFIG_PATH = Path(__file__).parent.parent / "config" / "api-keys.json"
@@ -83,26 +84,27 @@ def main():
 
     results = {"deliverable": [], "risky": [], "undeliverable": [], "unknown": [], "error": []}
 
-    for i, email in enumerate(emails):
-        data = verify_email(api_key, email)
-        result_status = data.get("result", "unknown")
+    # Verify concurrently (5 workers, well within 25 req/sec rate limit)
+    max_workers = min(5, len(emails))
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = {executor.submit(verify_email, api_key, email): email for email in emails}
+        for future in as_completed(futures):
+            email = futures[future]
+            data = future.result()
+            result_status = data.get("result", "unknown")
 
-        entry = {
-            "email": email,
-            "result": result_status,
-            "score": data.get("score"),
-            "is_disposable": data.get("is_disposable"),
-            "accept_all": data.get("accept_all"),
-        }
+            entry = {
+                "email": email,
+                "result": result_status,
+                "score": data.get("score"),
+                "is_disposable": data.get("is_disposable"),
+                "accept_all": data.get("accept_all"),
+            }
 
-        if result_status in results:
-            results[result_status].append(entry)
-        else:
-            results["unknown"].append(entry)
-
-        # Respect rate limit (25 req/sec)
-        if i < len(emails) - 1:
-            time.sleep(0.05)
+            if result_status in results:
+                results[result_status].append(entry)
+            else:
+                results["unknown"].append(entry)
 
     summary = {
         "total": len(emails),

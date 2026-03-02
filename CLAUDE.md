@@ -28,6 +28,12 @@ Research-gated copywriter for Client Network (lead gen verticals) and Nalu (podc
 - **Triggers:** "write copy for...", "create an ad for...", "draft headlines for..."
 - **Resources:** `resources/client-network/{vertical}/`, `resources/nalu/`, `resources/general/`
 
+### `/yt-packaging`
+Analyzes a podcast transcript to extract 3-5 high-ceiling concepts (with micro sub-themes and verbatim quotes), ranks them by click potential, and generates 5-10 YouTube title options based on proven conventions. Built for Nalu client episodes.
+
+- **Triggers:** "package this episode", "find high-ceiling concepts", "create YouTube titles from transcript"
+- **Resources:** `resources/nalu/yt-headlines-swipe-file.md`, `resources/general/copywriting-resources/headline-performers.md`, `resources/general/copywriting-resources/headlines-swipe-file-dna.md`
+
 ### `/youtube-transcript`
 Download transcripts from YouTube videos.
 

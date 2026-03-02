@@ -12,10 +12,10 @@ Returns JSON with each email categorised as good, risky, or bad.
 import argparse
 import json
 import sys
-import time
 import urllib.request
 import urllib.parse
 import urllib.error
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 CONFIG_PATH = Path(__file__).parent.parent / "config" / "api-keys.json"
@@ -56,25 +56,26 @@ def main():
 
     results = {"good": [], "risky": [], "bad": [], "error": []}
 
-    for i, email in enumerate(emails):
-        result = verify_email(api_key, email)
-        quality = result.get("quality", "error")
+    # Verify concurrently (10 workers, well within 160 req/sec rate limit)
+    max_workers = min(10, len(emails))
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = {executor.submit(verify_email, api_key, email): email for email in emails}
+        for future in as_completed(futures):
+            email = futures[future]
+            result = future.result()
+            quality = result.get("quality", "error")
 
-        entry = {
-            "email": email,
-            "quality": quality,
-            "result": result.get("result", ""),
-            "subresult": result.get("subresult", ""),
-        }
+            entry = {
+                "email": email,
+                "quality": quality,
+                "result": result.get("result", ""),
+                "subresult": result.get("subresult", ""),
+            }
 
-        if quality in results:
-            results[quality].append(entry)
-        else:
-            results["error"].append(entry)
-
-        # Respect rate limit (160 req/sec) — small delay for safety
-        if i < len(emails) - 1:
-            time.sleep(0.01)
+            if quality in results:
+                results[quality].append(entry)
+            else:
+                results["error"].append(entry)
 
     summary = {
         "total": len(emails),
