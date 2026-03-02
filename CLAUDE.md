@@ -32,6 +32,16 @@ Research-gated copywriter for Client Network (lead gen verticals) and Nalu (podc
 ### `/youtube-transcript`
 Download transcripts from YouTube videos.
 
+## Available Workflows
+
+### Prospector (`workflows/prospector.md`)
+End-to-end lead generation pipeline for Client Network. Finds decision-makers in Apollo (MCP), verifies emails through MillionVerifier and BounceBan, and loads verified leads into an Instantly campaign.
+
+- **Trigger:** "find me X leads for [vertical]", "run prospector", "prospect [vertical]"
+- **Input:** lead count, vertical, Apollo list name, Instantly campaign name
+- **Tools:** `tools/millionverifier.py`, `tools/bounceban.py`, `tools/instantly.py`
+- **MCP:** Apollo (search, enrich, create contacts)
+
 ---
 
 ## WAT Framework (Workflows, Agent, Tools)
