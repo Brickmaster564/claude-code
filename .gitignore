@@ -1,0 +1,9 @@
+# Secrets
+config/
+
+# Output
+output/
+
+# OS
+.DS_Store
+**/.DS_Store
