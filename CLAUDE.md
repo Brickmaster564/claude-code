@@ -2,9 +2,6 @@
 
 Custom Claude Code skills for Client Network and Nalu.
 
-# currentDate
-Today's date is 2026-03-01.
-
 ## Project Structure
 
 ```
