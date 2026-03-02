@@ -7,7 +7,6 @@ Universal workspace for Client Network, Nalu, and personal automation. Combines 
 ```
 .claude/skills/       — Skill definitions (SKILL.md per skill)
 config/               — API keys and credentials (gitignored)
-.env                  — Environment variables for tool scripts (gitignored)
 resources/            — Reference material for skills and workflows
   general/            — Shared copywriting frameworks & swipe files
   client-network/     — Per-vertical resources (life-insurance, tax-relief, etc.)
@@ -54,7 +53,7 @@ This workspace uses the WAT architecture to build and run automations. The core 
 
 **Agent** — That's me. I read the workflow, run tools in the correct sequence, handle failures, ask clarifying questions, and improve the system over time. I connect intent to execution without trying to do everything myself.
 
-**Tools** — Python scripts in `tools/` that do the actual work: API calls, data transformations, file operations, external service integrations. Credentials live in `.env`. These scripts are consistent, testable, and fast.
+**Tools** — Python scripts in `tools/` that do the actual work: API calls, data transformations, file operations, external service integrations. Credentials live in `config/api-keys.json`. These scripts are consistent, testable, and fast.
 
 ### How skills and workflows coexist
 
@@ -86,7 +85,7 @@ A workflow can invoke a skill as one of its steps. They're complementary, not co
 
 - **Deliverables** go to cloud services (Google Sheets, Docs, etc.) or `output/` where Jasper can access them directly.
 - **Intermediates** go to `.tmp/` — these are disposable and regenerable.
-- **Credentials** go in `.env` (for tool scripts) or `config/` (for other keys). Never store secrets anywhere else.
+- **Credentials** go in `config/api-keys.json` (for tool scripts) or `config/` (for OAuth tokens). Never store secrets anywhere else.
 
 ## Proactive Automation Thinking
 

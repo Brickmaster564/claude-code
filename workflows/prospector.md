@@ -20,6 +20,55 @@ If any input is missing, ask before proceeding.
 
 ---
 
+## Working Data File
+
+All prospect data MUST be written to `.tmp/prospector-run.json` and kept updated after every step. This ensures the pipeline can survive context compaction without losing progress.
+
+**File structure:**
+```json
+{
+  "inputs": {
+    "vertical": "",
+    "location": "",
+    "lead_count": 0,
+    "apollo_list": "",
+    "company_size": "",
+    "instantly_campaign": ""
+  },
+  "current_step": 1,
+  "prospects": [
+    {
+      "name": "",
+      "first_name": "",
+      "title": "",
+      "company": "",
+      "email": "",
+      "apollo_id": "",
+      "status": "found|enriched|no_email|duplicate|created|good|risky|bad|recovered|loaded"
+    }
+  ],
+  "stats": {
+    "found": 0,
+    "enriched": 0,
+    "duplicates_skipped": 0,
+    "contacts_created": 0,
+    "emails_good": 0,
+    "emails_risky": 0,
+    "emails_bad": 0,
+    "emails_recovered": 0,
+    "loaded_to_instantly": 0
+  }
+}
+```
+
+**Rules:**
+- Create this file at the start of Step 1 with the user's inputs.
+- Update it after each step completes (update `current_step`, prospect statuses, and stats).
+- If context has been compacted, read this file first to recover state before continuing.
+- Delete the file after Step 8 (final report).
+
+---
+
 ## Target Roles (Universal — Same Across All Verticals)
 
 These are the decision-maker roles we always target. Do not deviate from these unless Jasper explicitly overrides.
@@ -66,7 +115,7 @@ Use `apollo_mixed_people_api_search` to find prospects matching:
 
 Collect results until you have enough unique prospects to meet the requested lead count. If a single search doesn't return enough, run additional searches varying the title keywords or broadening keyword combinations.
 
-Track all found prospects in a working list: `name, title, company, email (if available)`.
+**After searching:** Create `.tmp/prospector-run.json` with all found prospects. Extract only the fields we need (name, first_name, title, company, email, apollo_id). Do NOT store full Apollo response objects — keep it lean.
 
 **Vertical Search Config:**
 
@@ -89,17 +138,24 @@ Use 5-10 specific keywords. Avoid generic terms that would pull in unrelated com
 ### Step 2 — Apollo Enrich (MCP)
 
 For prospects that don't have email addresses from the search results:
-- Use `apollo_people_match` with their name + company to pull enriched data
-- Or use `apollo_people_bulk_match` for batches
+- Use `apollo_people_bulk_match` for batches (preferred — fewer API calls, less context used)
+- Fall back to `apollo_people_match` individually only if bulk fails
 
-After enrichment, filter out any prospects that still have no email. Report how many were dropped.
+After enrichment, update `.tmp/prospector-run.json`:
+- Set status to `enriched` for prospects that now have emails
+- Set status to `no_email` for prospects that still don't
+- Filter out `no_email` prospects from the active pipeline
+
+Report how many were enriched vs dropped.
 
 ### Step 3 — Dedup Check (MCP)
 
 Before creating any contacts, check each prospect against existing Apollo contacts:
 1. For each prospect, search `apollo_contacts_search` using their email address
-2. If a match is found, skip them — they're already in the system from a previous list
+2. If a match is found, mark as `duplicate` in the working file — they're already in the system
 3. If skipped, find a replacement to maintain the requested lead count
+
+Update `.tmp/prospector-run.json` with dedup results.
 
 Report: "{X} duplicates found and skipped, {X} replacements sourced"
 
@@ -118,6 +174,8 @@ If the list label ID isn't known, search existing contacts in that list to disco
 
 Update this table as new lists are discovered.
 
+Update `.tmp/prospector-run.json` — set status to `created` for each successful contact.
+
 Report: "{X} contacts created and added to {list name}"
 
 ### Step 5 — MillionVerifier Email Verification (API)
@@ -130,13 +188,15 @@ python3 tools/millionverifier.py --emails "email1@co.com,email2@co.com,..."
 
 The script returns a JSON result categorising each email as `good`, `risky`, or `bad`.
 
-- **good** → these go straight to Instantly (Step 6)
-- **risky** → these go to BounceBan (Step 5)
+- **good** → these go straight to Instantly (Step 7)
+- **risky** → these go to BounceBan (Step 6)
 - **bad** → discard, report as undeliverable
+
+Update `.tmp/prospector-run.json` with verification results for each prospect.
 
 ### Step 6 — BounceBan Risky Email Verification (API)
 
-Send only the `risky` emails from Step 4 to BounceBan:
+Send only the `risky` emails from Step 5 to BounceBan:
 
 ```bash
 python3 tools/bounceban.py --emails "risky1@co.com,risky2@co.com,..."
@@ -144,8 +204,10 @@ python3 tools/bounceban.py --emails "risky1@co.com,risky2@co.com,..."
 
 The script returns results categorised as `deliverable`, `risky`, `undeliverable`, or `unknown`.
 
-- **deliverable** → add to Instantly (Step 6)
+- **deliverable** → mark as `recovered`, add to Instantly (Step 7)
 - Everything else → discard, report as undeliverable
+
+Update `.tmp/prospector-run.json` with BounceBan results.
 
 ### Step 7 — Add Leads to Instantly Campaign (API)
 
@@ -157,7 +219,7 @@ python3 tools/instantly.py list-campaigns --search "campaign name from input"
 
 This returns matching campaigns with their IDs. Fuzzy match the user's input to the closest campaign name. If ambiguous, confirm with Jasper.
 
-Then add all verified leads:
+Then add all verified leads (those with status `good` or `recovered`):
 
 ```bash
 python3 tools/instantly.py add-leads --campaign-id "CAMPAIGN_ID" --leads '[{"email":"...","first_name":"...","company_name":"..."},...]'
@@ -165,9 +227,11 @@ python3 tools/instantly.py add-leads --campaign-id "CAMPAIGN_ID" --leads '[{"ema
 
 Fields mapped: `first_name`, `email`, `company_name`.
 
+Update `.tmp/prospector-run.json` — set status to `loaded` for each lead successfully added.
+
 ### Step 8 — Report
 
-Present a confirmation summary in chat:
+Read `.tmp/prospector-run.json` to compile the final summary, then present in chat:
 
 ```
 PROSPECTOR COMPLETE
@@ -190,6 +254,8 @@ LEADS ADDED:
 | ...  | ...   | ...     | ...   | recovered |
 ```
 
+After presenting the report, delete `.tmp/prospector-run.json`.
+
 ---
 
 ## Error Handling
@@ -199,6 +265,7 @@ LEADS ADDED:
 - **MillionVerifier or BounceBan API errors:** Report the error, retry once. If still failing, pause and ask Jasper.
 - **Instantly campaign not found:** Show available campaigns and ask Jasper to pick.
 - **Rate limits hit:** Back off and retry with a short delay.
+- **Context compacted mid-run:** Read `.tmp/prospector-run.json` to recover state. Check `current_step` and resume from where it left off.
 
 ## Notes
 
