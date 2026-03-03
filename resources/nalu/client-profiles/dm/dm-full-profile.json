@@ -1,0 +1,210 @@
+{
+  "client": {
+    "name": "Dominic Monkhouse",
+    "role": "Founder & Head Coach",
+    "company": "Monkhouse & Company",
+    "location_base": "New Forest / Wiltshire, UK (90 mins from London)",
+    "links": {
+      "website": "https://www.monkhouseandcompany.com/",
+      "linkedin": "https://www.linkedin.com/in/dominicmonkhouse/",
+      "podcast": "The Melting Pot"
+    },
+    "notable_background": [
+      "Scaled tech businesses (e.g., hosting companies) prior to coaching",
+      "Author of 'Plan B: How to Scale Your Technology Business Faster and More Sustainably'"
+    ]
+  },
+  "company": {
+    "name": "Monkhouse & Company",
+    "positioning": "Scale-up coaching for founder-CEOs who are stuck in 'No Man\u2019s Land'\u2014high growth, rising complexity, leadership bottlenecks.",
+    "offerings": [
+      {
+        "name": "Premium Leadership Team Program",
+        "summary": "CEO + leadership team do a two-day kickoff at the Farm, quarterly off-sites, and coaching between sessions.",
+        "format": "In-person off-sites + ongoing coaching",
+        "ideal_fit": "Scale-ups ~50\u2013100+ headcount needing operating system and leadership cadence"
+      },
+      {
+        "name": "1:1 CEO Coaching",
+        "summary": "Direct coaching for founder-CEOs of smaller or venture-backed companies.",
+        "note": "Time-limited\u2014capacity constraints led to cohort development."
+      },
+      {
+        "name": "Cohort Program (New)",
+        "summary": "Group for founder-CEOs to learn frameworks, reclaim time, and scale with peer support.",
+        "status": "Pre-launch",
+        "goal_outcome": "Move CEO from firefighting to strategic focus using core playbooks."
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "Seven-Stage Founder\u2019s Curve",
+        "purpose": "Diagnose stage, especially 'Frustration' and 'No Man\u2019s Land' inflection.",
+        "key_markers": [
+          "Startup \u2192 Investment \u2192 Lift Off \u2192 Validation \u2192 Frustration \u2192 No Man\u2019s Land \u2192 Future (growth/decline)"
+        ]
+      },
+      {
+        "name": "Two-Day-a-Week CEO Blueprint",
+        "purpose": "Reduce operational drag; shift CEO to high-ROI strategic work.",
+        "outcome": "From 7 days firefighting to 2 days running ops, 3 days on uniquely-CEO work."
+      }
+    ]
+  },
+  "icp": {
+    "who": "Founder-CEOs of scale-ups",
+    "region_priority": "UK (London/South East focus); international clients welcome if willing to travel to the Farm",
+    "firmographics": {
+      "headcount": "50\u2013100+ employees (pain often intensifies at 70\u2013100)",
+      "revenue": "\u00a310M\u2013\u00a3200M+",
+      "model": [
+        "Bootstrapped or VC-backed"
+      ],
+      "stage": "Post-PMF, rapid growth, hitting organisational complexity"
+    },
+    "pain_points": [
+      "CEO burnout: 7 days/week, 14-hour days, constant firefighting",
+      "Leadership gaps: weak or missing exec team; hiring/onboarding not systematised",
+      "What worked before now stalls; strategy execution slows",
+      "Operational chaos: crisis management in short bursts; margins/quality at risk"
+    ],
+    "psychographics": [
+      "Hands-on, scrappy builders struggling to let go",
+      "Outcome-driven, value clear frameworks and peer learning",
+      "Ready to invest for time back, clarity, and scalable systems"
+    ],
+    "buying_triggers": [
+      "Crossing ~50\u2013100 headcount",
+      "Growth plateaus or wheels starting to come off",
+      "Major life pressure (family/time), risk of burnout/divorce",
+      "Need to prepare for funding, new markets, or exit"
+    ],
+    "negative_signals": [
+      "Unwillingness to delegate or adopt cadence/operating system",
+      "Seeking vanity metrics over operational change"
+    ]
+  },
+  "goals": {
+    "business_outcomes": [
+      "Reclaim CEO time for strategy, partnerships, and category leadership",
+      "Build/upgrade leadership team and operating cadence",
+      "Sustain growth through next S-curve (beyond ~100 headcount)"
+    ],
+    "marketing_outcomes": [
+      "Audience growth around Dominic\u2019s thought leadership (not just guests)",
+      "Increase qualified inbound leading to booked calls and engagements",
+      "Launch and fill the new cohort program"
+    ]
+  },
+  "current_marketing_state": {
+    "strongest_channel": "Inbound via website (post-redesign + SavvyCal booking)",
+    "newsletter": {
+      "subscribers": 6000,
+      "cadence": "Weekly (expanding to additional personal/insight notes)",
+      "top_clicked": "Podcast"
+    },
+    "linkedin": {
+      "connections_followers": 15000,
+      "in_uk_founder_ceo_segment": 1500,
+      "action": "Pruning connections to concentrate on ICP; guests shifting to UK founders"
+    },
+    "podcast": {
+      "title": "The Melting Pot",
+      "guest_strategy": "Refocused on UK founders of scale-ups to mirror ICP",
+      "distribution_note": "Align podcast release with newsletter send for 48-hour lift"
+    },
+    "instagram": "Minimal presence",
+    "content_beliefs": [
+      "Bingers are buyers\u2014content binge precedes high-ticket inbound",
+      "Niche views may be lower but conversion potential is high"
+    ]
+  },
+  "conversion_assets_and_ctas": {
+    "primary_cta_now": "Book a call (SavvyCal on website)",
+    "secondary_cta": "Download free PDF of 'Plan B' \u2192 offer physical book \u2192 nurture to call",
+    "future_cta": "Cohort waitlist/sign-ups once program page is live",
+    "planned_video_assets": [
+      "New homepage/company video (upgrade current)",
+      "15-minute VSL explaining the Two-Day-a-Week CEO Blueprint"
+    ]
+  },
+  "nalu_strategy_alignment": {
+    "creative_plan": {
+      "long_form": "Bi-weekly thought-leadership videos (initially 2/month) with structured talking points; Nalu to produce, edit, and package",
+      "short_form": "Dedicated shorts from long-form + bespoke scripts/hooks for LinkedIn/YouTube/ads",
+      "distribution": "Scheduling + copywriting across channels; build owned audience"
+    },
+    "paid_media": {
+      "approach": "Use shorts/long-form as ad creative for awareness and direct response",
+      "objectives": [
+        "Channel growth (YouTube/LinkedIn)",
+        "Booked calls",
+        "Cohort list growth"
+      ],
+      "ops": "Run via Nalu ad accounts where practical; connect to YouTube for Google Ads"
+    },
+    "initial_capacity": {
+      "months_1_2": "2 long-forms/month with heavier paid testing",
+      "steady_state": "Up to 3 long-forms/month"
+    }
+  },
+  "kpis": {
+    "north_star": [
+      "Booked calls from qualified ICP",
+      "Cohort sign-ups (post-launch)"
+    ],
+    "content_kpis": [
+      "View-through rate and avg. view duration (YouTube)",
+      "Hook retention at 0\u201330s",
+      "Click-through rate to website/booking",
+      "Podcast 48-hour downloads/plays"
+    ],
+    "funnel_kpis": [
+      "Cost per booked call",
+      "Lead-to-call conversion rate",
+      "Call-to-client close rate (historically ~50% on inbound per Dominic)",
+      "Email list growth and activation (open/click/reply)"
+    ]
+  },
+  "proof_points_examples": [
+    "DataBarracks: LinkedIn \u2192 site \u2192 book purchase \u2192 podcast binge \u2192 closed ~\u00a3150k",
+    "Unforgettable Travel: ~80 staff; CEO working 7 days; seeking time back and stability",
+    "FX Digital: Leadership team now runs off-sites; CEO focuses on future (Barcelona office, US, large deals)"
+  ],
+  "logistics_preferences": {
+    "offsite": "The Farm (New Forest) for proper off-site environment",
+    "travel_scope": "Prefers London/South East; international clients fly in",
+    "recording_setup": [
+      "Simpler, calmer background for solo thought-leadership videos (minimise busy bookshelf look)",
+      "Option to reconfigure studio room; Nalu to advise on framing, lighting, and set dressing"
+    ]
+  },
+  "operations_stack": {
+    "scheduling": "SavvyCal",
+    "newsletter": "Internal ESP (weekly cadence; expanding to personal notes)",
+    "website": "Redesigned in 2024/2025; improved conversion",
+    "ads_access": "Prefer Google Ads connection to YouTube via Nalu"
+  },
+  "open_actions": [
+    "Grant Nalu access to YouTube channel (instructions to be sent)",
+    "Complete Google Ads \u2194 YouTube consent/connection form",
+    "Share brand assets (logos, colours, guidelines) via Google Drive/Doc",
+    "Confirm weekly call slot (prefer early week)",
+    "Approve example styles: shorts, long-form, VSL"
+  ],
+  "messaging_notes": {
+    "core_narrative": "From exhausted operator to strategic leader\u2014install the operating system that gives you time back and unlocks the next S-curve.",
+    "common_objections_to_handle": [
+      "Fear of letting go/delegation",
+      "Skepticism about time-to-value",
+      "Preference for DIY experimentation over proven playbooks"
+    ],
+    "tone_of_voice": [
+      "Direct",
+      "Practical",
+      "No-nonsense",
+      "Evidence-led",
+      "UK English"
+    ]
+  }
+}
