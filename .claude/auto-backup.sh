@@ -3,6 +3,7 @@
 
 REPO_DIR="/Users/jasper/Library/Application Support/Claude/Jasper OS - CC Hub"
 export PATH="/opt/homebrew/bin:$PATH"
+export GIT_SSH_COMMAND="ssh -i /Users/jasper/.ssh/id_ed25519 -o IdentitiesOnly=yes"
 
 cd "$REPO_DIR" || exit 1
 
