@@ -137,6 +137,8 @@ Use `apollo_mixed_people_api_search` to find prospects matching:
 - **Seniority:** director, vp, c_suite, owner, founder, manager
 - **Per page:** use `per_page: 10` to keep each response lean
 
+**Max 3 contacts per company.** While collecting results, track how many prospects have been picked from each company. Once a company has 3 people in the pipeline, skip any further results from that company. This prevents over-saturating a single organisation and keeps outreach spread across more businesses.
+
 Collect results until you have enough unique prospects to meet the requested lead count (overshoot by ~20% to account for losses in enrichment and dedup). If a single search doesn't return enough, run additional searches varying the title keywords or broadening keyword combinations.
 
 **Per-page checkpoint:** After processing each page of results, extract the lean fields (name, first_name, title, company, email, apollo_id) and write them to `.tmp/prospector-run.json` BEFORE requesting the next page. Do NOT store full Apollo response objects.
