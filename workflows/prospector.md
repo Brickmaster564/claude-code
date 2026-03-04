@@ -200,8 +200,17 @@ If the list label ID isn't known, search existing contacts in that list to disco
 |---|---|
 | US - Tax Debt - 25/02 | 699f28b1debd6d0021a38df2 |
 | UK Life Insurance - 13/02/26 | 698f18d2d26f580019fdc98f |
+| Senior Care - US - 04/03/26 | 69a80086e76fc400157a32f7 |
 
 Update this table as new lists are discovered.
+
+**Known Instantly campaign IDs:**
+| Campaign Name | Campaign ID |
+|---|---|
+| CN- Life - US/UK/AUS/CA | 14f5a1a1-cfca-422d-b8cd-d4c5d8577364 |
+| CN - Senior Care - US - 04/03/26 | 6f4800d2-13e1-4b95-a4a8-a489d48866e5 |
+
+Update this table as new campaigns are discovered.
 
 Report: "{X} contacts created, {X} duplicates skipped, added to {list name}"
 
