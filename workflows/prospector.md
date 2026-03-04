@@ -96,7 +96,9 @@ When context has been compacted mid-run, the FIRST action must be:
 
 These are the decision-maker roles we always target. Do not deviate from these unless Jasper explicitly overrides.
 
-**Primary — Marketing:**
+**Search order matters.** Always exhaust the three Primary groups first before falling back to Secondary. The goal is to fill lead counts with marketing, partnerships, and BD contacts. Only pull from Secondary (Operations) if Primary groups don't yield enough results for a given company.
+
+**Primary — Marketing (search first):**
 - Head of Marketing
 - Marketing Director
 - Marketing Manager
@@ -115,13 +117,17 @@ These are the decision-maker roles we always target. Do not deviate from these u
 - Business Development Manager
 - VP of Business Development
 
-**Secondary — Operations:**
+**Secondary — Operations (fallback only):**
 - Head of Operations
 - Director of Operations
 - VP of Operations
 - Chief Operating Officer (COO)
 
-When searching Apollo, combine these titles with the vertical's industry filters. Cast a wide net across all role groups to hit the lead count.
+**Excluded titles (never add these):**
+- Chief of People Operations
+- Any HR/People Operations role (e.g. VP of People, Head of People, People Operations Manager)
+
+When searching Apollo, combine these titles with the vertical's industry filters. Prioritise the three Primary groups to hit the lead count. Only dip into Secondary if needed.
 
 ---
 
@@ -130,7 +136,7 @@ When searching Apollo, combine these titles with the vertical's industry filters
 ### Step 1 — Apollo Search (MCP)
 
 Use `apollo_mixed_people_api_search` to find prospects matching:
-- **Titles:** all roles listed above (search multiple batches if needed to cover all role groups)
+- **Titles:** Search Primary groups first (Marketing, Partnerships, BD). Only search Secondary (Operations) if Primary doesn't fill the lead count for a company. Never include excluded titles (People Operations, HR roles).
 - **Industry + Keywords:** use the industry as the broad filter, then layer in specific keywords to narrow results to the right niche (see Vertical Search Config below)
 - **Location:** as specified by Jasper (person location, not company HQ)
 - **Company size:** as specified by Jasper (never less than 10 employees — hard floor)
