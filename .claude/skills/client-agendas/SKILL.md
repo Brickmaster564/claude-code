@@ -11,8 +11,7 @@ Configured clients: **Dominic Monkhouse**, **Jeremy Harbour**. Process runs Dom 
 
 ## Key People
 
-- **Scott** (`U07BL527UP8` / `@scottlawuk`): Does the brain dumps for all clients. Reviews the doc draft and approves the email before it sends.
-- **Jasper**: Triggers the skill and relays when Scott has replied in the thread.
+- **Scott** (`U07BL527UP8` / `@scottlawuk`): Does the brain dumps for all clients. Reviews the doc draft and approves the email before it sends. The entire workflow runs between Claude and Scott via the Slack thread.
 
 ## Input
 
@@ -21,7 +20,7 @@ Jasper triggers this with something like:
 > Prepare Dom's Friday agenda
 > Client agendas for dominic-monkhouse
 
-If no client is specified, run all clients in order (Dom first, then Jeremy). The client name must match a key in `clients.json`.
+If no client is specified, run all clients in order (Dom first, then Jeremy). The client name must match a key in `clients.json`. Once triggered, the workflow runs autonomously between Claude and Scott in #nalu-hub. Jasper does not need to relay or intervene.
 
 ---
 
@@ -55,9 +54,7 @@ For each section in the client's `sections` config:
 python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --text "*{section_label}*\n{prompt}"
 ```
 
-2. Tell Jasper (in Claude Code): "Waiting on Scott for {section_label}." Then pause.
-
-3. When Jasper says Scott has replied ("check thread", "continue", "next", etc.), read the thread:
+2. Wait for Scott to reply. After a reasonable pause, check the thread for new messages:
 
 ```bash
 python3 tools/slack.py read-thread --channel "#nalu-hub" --thread-ts "{thread_ts}"
@@ -124,7 +121,7 @@ The doc must look like a polished, professional weekly agenda. Structure Scott's
 
 - **Tone**: professional but direct. Short sentences. No em dashes. No filler. Every bullet should convey information, not padding.
 
-- **Per-client adaptation**: The formatting above is based on Dom's agenda. Jeremy's template has different sections (Executive Summary, Performance Snapshot instead of two separate performance sections). Read the template structure with `get` first and match whatever section headings and hierarchy that template uses. The principles (concise bullets, bold labels, checkbox action items) apply to all clients.
+- **Per-client adaptation**: Both templates follow the same structure and formatting principles. Jeremy's has an Executive Summary up top (Performance headline, Key Priorities, Key Decisions, Fixes/Improvements) and a single Performance Snapshot instead of two separate channels. Otherwise identical: same bullet hierarchy, same Video Ideation section, same Creative Pipeline, same Next Steps with checkboxes. Always read the template with `get` first and match its exact section headings.
 
 ### Step 6: Share for Review
 
@@ -138,7 +135,7 @@ python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --t
 
 ### Step 7: Wait for Doc Approval
 
-When Jasper says Scott has reviewed the doc ("doc's good", "looks good", "done reviewing", etc.), read the thread to confirm:
+Wait for Scott to confirm the doc is ready. Check the thread for his response:
 
 ```bash
 python3 tools/slack.py read-thread --channel "#nalu-hub" --thread-ts "{thread_ts}"
@@ -205,7 +202,7 @@ Reply in the Slack thread:
 python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --text "Done. Email sent to {email_to}. Doc moved to Logged. Moving on to {next_client_or_'all done'}."
 ```
 
-Also confirm to Jasper in Claude Code:
+Also log to Claude Code output:
 - Doc: {link} (shared, moved to Logged)
 - Email: sent to {email_to} (CC: {email_cc} or "none")
 
@@ -223,5 +220,5 @@ If there are more clients in the queue, go back to Step 2 and start a **new thre
 - **Date format:** Use ordinal dates (10th March, not March 10). Week commencing = next Monday.
 - **Slack tool:** Uses `tools/slack.py` (direct API with Nalu bot token), not the MCP Slack integration (which is CN workspace only).
 - **Doc access:** Scott is signed into hello@nalupodcasts.com (the Nalu account), so he has direct edit access to all docs created under that account. No sharing step needed for him.
-- **Async workflow:** This skill pauses multiple times waiting for Scott: (1) after each section prompt for brain dumps, (2) after sharing the doc draft for review, (3) after posting the email preview for approval. Jasper relays when Scott has replied by saying things like "check thread", "he's replied", "next", "good to go", "send it", etc.
+- **Async workflow:** This skill pauses multiple times waiting for Scott: (1) after each section prompt for brain dumps, (2) after sharing the doc draft for review, (3) after posting the email preview for approval. Claude polls the thread for Scott's replies and proceeds autonomously. Jasper only triggers the skill; everything else runs between Claude and Scott.
 - **Multiple clients:** Each client gets a separate Slack thread. Run Dom first, then Jeremy, unless Jasper specifies otherwise.
