@@ -1,0 +1,329 @@
+# Lead Replenish Outbound Workflow
+
+Automated weekly pipeline: scan Instantly campaigns for completed leads, identify their companies, find fresh contacts at those companies via Apollo, verify emails, load into Instantly, and route active LinkedIn posters to Lemlist.
+
+## Input
+
+This workflow is triggered by a cron job or manual invocation specifying a vertical:
+
+> Run replenisher for life-insurance
+
+**Required input:**
+- **Vertical name** — must match a key in `config/replenisher.json`
+
+The config file contains everything else (campaign IDs, Apollo lists, Lemlist campaign ID). If the vertical isn't in the config, stop and ask Jasper to add it.
+
+---
+
+## Config File
+
+`config/replenisher.json` maps each vertical to its campaign details:
+
+```json
+{
+  "life-insurance": {
+    "instantly_campaign_id": "...",
+    "lemlist_campaigns": { "US": "...", "UK": "...", "CA": "...", "AU": "..." },
+    "max_leads_per_run": 80,
+    "max_per_company": 4
+  },
+  "home-security": {
+    "instantly_campaign_id": "...",
+    "lemlist_campaign_id": "...",
+    "max_leads_per_run": 80,
+    "max_per_company": 4
+  },
+  "senior-care": {
+    "instantly_campaign_id": "...",
+    "lemlist_campaign_id": "...",
+    "max_leads_per_run": 80,
+    "max_per_company": 4
+  }
+}
+```
+
+**Lemlist routing:**
+- Most verticals use a single `lemlist_campaign_id`.
+- **Life Insurance** uses `lemlist_campaigns` (geo-keyed object) because each geography has its own Lemlist campaign. The lead's country from Apollo determines which campaign they're routed to.
+
+Jasper will populate campaign IDs as verticals go live.
+
+---
+
+## Working Data File
+
+All data MUST be written to `.tmp/replenisher-run.json` and kept updated throughout the run. Same rationale as the prospector workflow: survives context compaction.
+
+**File structure:**
+```json
+{
+  "vertical": "",
+  "config": {},
+  "current_step": 1,
+  "step_status": "in_progress",
+  "completed_leads": [],
+  "replied_companies": [],
+  "target_companies": [],
+  "new_prospects": [],
+  "stats": {
+    "completed_scanned": 0,
+    "replied_companies_excluded": 0,
+    "target_companies": 0,
+    "prospects_found": 0,
+    "emails_good": 0,
+    "emails_risky": 0,
+    "emails_bad": 0,
+    "emails_recovered": 0,
+    "loaded_to_instantly": 0,
+    "loaded_to_lemlist": 0,
+    "linkedin_active": 0,
+    "linkedin_inactive": 0,
+    "linkedin_no_profile": 0
+  }
+}
+```
+
+**Rules:**
+- Create this file at the start of Step 1.
+- Write after every individual operation.
+- Follow the same compaction recovery procedure as the prospector workflow: read the file, check `current_step` and `step_status`, resume from where you left off.
+
+---
+
+## Target Roles
+
+Same as the prospector workflow. Search order matters: exhaust Primary before falling back to Secondary.
+
+**Primary -- Marketing (search first):**
+- Head of Marketing
+- Marketing Director
+- Marketing Manager
+- VP of Marketing
+- Chief Marketing Officer (CMO)
+
+**Primary -- Partnerships:**
+- Head of Partnerships
+- Strategic Partnerships Manager
+- Partnership Director
+- VP of Partnerships
+
+**Primary -- Business Development:**
+- Head of Business Development
+- Business Development Director
+- Business Development Manager
+- VP of Business Development
+
+**Secondary -- Operations + Sales (fallback only):**
+- Head of Operations
+- Director of Operations
+- VP of Operations
+- Chief Operating Officer (COO)
+- Head of Sales
+- Sales Director
+- VP of Sales
+
+**Excluded titles (never add these):**
+- Chief of People Operations
+- Any HR/People Operations role
+
+---
+
+## Steps
+
+### Step 1 -- Scan Instantly for Completed Leads
+
+Pull all leads from the Instantly campaign with status "completed" (finished the sequence without replying):
+
+```bash
+python3 tools/instantly.py list-leads --campaign-id "CAMPAIGN_ID" --status "completed"
+```
+
+This returns leads with their email, name, and company. Collect all of them.
+
+**Write checkpoint:** Save all completed leads to `.tmp/replenisher-run.json`.
+
+### Step 2 -- Identify Replied Companies (Exclusion List)
+
+Pull all leads with status "replied" from the same campaign:
+
+```bash
+python3 tools/instantly.py list-leads --campaign-id "CAMPAIGN_ID" --status "replied"
+```
+
+Extract unique company names from replied leads. These companies are excluded from replenishment because someone there is already in conversation.
+
+**Write checkpoint:** Save replied company names to the working file.
+
+### Step 3 -- Build Target Company List
+
+From the completed leads (Step 1), extract unique company names. Remove any company that appears in the replied exclusion list (Step 2).
+
+The result is the list of companies to replenish: leads went through the full sequence, nobody at that company replied.
+
+**Write checkpoint:** Save target companies to the working file.
+
+### Step 4 -- Find New Contacts in Apollo (MCP)
+
+For each target company, search Apollo for new contacts:
+
+1. Use `apollo_mixed_people_api_search` with:
+   - **Company name** as keyword
+   - **Titles** from Primary groups first (Marketing, Partnerships, BD)
+   - If no Primary results, search **Secondary** titles (Operations, Sales)
+   - **Seniority:** director, vp, c_suite, owner, founder, manager
+
+2. **Deduplicate against existing Apollo contacts.** Use `apollo_contacts_search` with the person's email or name + company to check if they already exist as a contact. If they do, skip them. This is simpler and more reliable than checking against specific list names, and catches contacts added through any workflow or manually.
+
+3. **Cap per company:** max `max_per_company` new contacts per company (default 4).
+
+4. **Cap per run:** stop once you hit `max_leads_per_run` total new prospects (default 80).
+
+5. If no contacts are found for a company at all (Primary + Secondary exhausted), skip that company.
+
+**Per-company checkpoint:** After processing each company, write results to the working file.
+
+### Step 5 -- Email Verification (MillionVerifier)
+
+Run all new prospect emails through MillionVerifier:
+
+```bash
+python3 tools/millionverifier.py --emails "email1@co.com,email2@co.com,..."
+```
+
+- **good** -> proceed to Step 6
+- **risky** -> proceed to Step 5b (BounceBan)
+- **bad** -> discard
+
+### Step 5b -- BounceBan Risky Email Verification
+
+Send risky emails to BounceBan:
+
+```bash
+python3 tools/bounceban.py --emails "risky1@co.com,risky2@co.com,..."
+```
+
+- **deliverable** -> mark as `recovered`, proceed to Step 6
+- Everything else -> discard
+
+**Write checkpoint:** Update verification results in the working file.
+
+### Step 6 -- LinkedIn Activity Check (Apify)
+
+For all verified leads (good + recovered) that have a LinkedIn URL from Apollo:
+
+```bash
+python3 tools/apify.py scrape-profiles --urls "https://linkedin.com/in/person1,https://linkedin.com/in/person2,..."
+```
+
+The script runs the `dev_fusion/Linkedin-Profile-Scraper` actor on Apify and returns profile data including recent posts.
+
+**Classification:**
+- If `updates/0/postText` exists and is non-empty -> **active poster**
+- If `updates/0/postText` is empty or missing -> **inactive**
+- If no LinkedIn URL from Apollo -> **no profile** (treat as inactive)
+
+**Write checkpoint:** Update each prospect with their LinkedIn activity status.
+
+### Step 7 -- Load into Instantly
+
+Add ALL verified leads (good + recovered) to the Instantly campaign:
+
+```bash
+python3 tools/instantly.py add-leads --campaign-id "CAMPAIGN_ID" --leads '[{"email":"...","first_name":"...","company_name":"..."}]'
+```
+
+Same batch endpoint as the prospector workflow.
+
+**Write checkpoint:** Update loaded status.
+
+### Step 8 -- Load Active Posters into Lemlist
+
+For leads flagged as **active posters** in Step 6, also add them to the Lemlist campaign.
+
+**Geo-based routing (Life Insurance only):**
+If the vertical config has `lemlist_campaigns` (object), use the lead's country from Apollo to pick the correct campaign ID. Map common country values: "United States" -> "US", "United Kingdom" -> "UK", "Canada" -> "CA", "Australia" -> "AU". If the lead's country doesn't match any key, skip Lemlist for that lead and note it in the report.
+
+**Single campaign (all other verticals):**
+If the config has `lemlist_campaign_id` (string), use that for all leads.
+
+```bash
+python3 tools/lemlist.py add-lead --campaign-id "LEMLIST_CAMPAIGN_ID" --email "..." --first-name "..." --last-name "..." --company "..." --title "..." --linkedin "..."
+```
+
+Run this for each active poster. The Lemlist API accepts one lead per call.
+
+If no Lemlist campaign is configured (empty string or missing), skip this step and note it in the report.
+
+**Write checkpoint:** Update Lemlist loaded status.
+
+### Step 9 -- Create Contacts in Apollo + Add to New List (MCP)
+
+For all verified leads that were loaded to Instantly, create them as contacts in Apollo and add to a **new list specific to this run**:
+
+1. Generate the list name: `{Vertical} - Replenish - {DD/MM/YY}` (e.g., "Senior Care - Replenish - 05/03/26")
+2. Use `apollo_contacts_create` with `run_dedupe: true`
+3. Include `label_names` with the new run-specific list name
+4. Apollo auto-creates the list if it doesn't exist
+5. This keeps replenished contacts separate from initial prospector batches while still ensuring future runs deduplicate against them
+
+**Per-contact checkpoint:** Write after each create.
+
+### Step 10 -- Report + Slack Notification
+
+Compile the final summary and send to Slack:
+
+```
+REPLENISHER COMPLETE
+====================
+
+Vertical:         {vertical}
+Campaign:         {instantly campaign name}
+Lemlist Campaign: {lemlist campaign name or "N/A"}
+
+Completed Leads Scanned: {X}
+Replied Companies Excluded: {X}
+Target Companies: {X}
+
+New Prospects Found: {X}
+Verified: {X} good + {X} recovered
+Discarded: {X} bad/undeliverable
+
+LinkedIn Active: {X} (-> Instantly + Lemlist)
+LinkedIn Inactive: {X} (-> Instantly only)
+No LinkedIn: {X} (-> Instantly only)
+
+Loaded to Instantly: {X}
+Loaded to Lemlist: {X}
+Skipped by Instantly: {X}
+
+LEADS ADDED:
+| Name | Title | Company | Email | LinkedIn | Status |
+|------|-------|---------|-------|----------|--------|
+| ...  | ...   | ...     | ...   | Active   | good   |
+```
+
+Send this summary to Slack using the Slack MCP integration, then present it in chat.
+
+After reporting, delete `.tmp/replenisher-run.json`.
+
+---
+
+## Error Handling
+
+- **Instantly returns no completed leads:** Report "No completed leads found. Nothing to replenish." and stop.
+- **No target companies after exclusion:** Report "All completed companies have replied leads. Nothing to replenish." and stop.
+- **Apollo returns no new contacts for a company:** Skip that company, note in the report.
+- **Apify actor fails or times out:** Default those leads to "inactive" (Instantly only). Don't block the pipeline.
+- **Lemlist campaign ID not set:** Skip Lemlist loading entirely, note in the report.
+- **MillionVerifier or BounceBan API errors:** Retry once. If still failing, pause and ask Jasper.
+- **Rate limits:** Back off and retry with a short delay.
+- **Context compacted mid-run:** Read `.tmp/replenisher-run.json` and resume from the last step.
+
+## Notes
+
+- This workflow is designed to run weekly per vertical via cron job.
+- Apollo enrichment credits are consumed during Step 4. The workflow proceeds automatically since finding contacts is the core purpose.
+- Apify compute units are consumed during Step 6. Costs are small per profile but scale with lead volume.
+- The Lemlist routing (Step 8) is optional. If no Lemlist campaign is configured, leads still go to Instantly.
+- This workflow does NOT write outreach copy. Use `/copywriter` for that.
+- All API keys are loaded from `config/api-keys.json` by the tool scripts.

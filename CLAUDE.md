@@ -47,6 +47,15 @@ End-to-end lead generation pipeline for Client Network. Finds decision-makers in
 - **Tools:** `tools/millionverifier.py`, `tools/bounceban.py`, `tools/instantly.py`
 - **MCP:** Apollo (search, enrich, create contacts)
 
+### Lead Replenish Outbound (`workflows/lead-replenish-outbound.md`)
+Weekly automated pipeline that scans Instantly campaigns for completed leads, finds fresh contacts at the same companies via Apollo, verifies emails, loads them into Instantly, and routes active LinkedIn posters to Lemlist.
+
+- **Trigger:** "run lead replenish outbound for [vertical]", "replenish [vertical]", "lead replenish [vertical]"
+- **Input:** vertical name (must match a key in `config/replenisher.json`)
+- **Config:** `config/replenisher.json` (maps verticals to campaign IDs, Apollo lists, Lemlist campaigns)
+- **Tools:** `tools/instantly.py`, `tools/millionverifier.py`, `tools/bounceban.py`, `tools/apify.py`, `tools/lemlist.py`
+- **MCP:** Apollo (search, create contacts), Slack (summary notification)
+
 ---
 
 ## WAT Framework (Workflows, Agent, Tools)
