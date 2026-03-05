@@ -92,7 +92,7 @@ python3 tools/gmail.py --account {google_account} send \
   --to "{email_to}" \
   --cc "{email_cc}" \
   --subject "{display_name} & SW: Agenda (W/C {next_monday_date})" \
-  --body "Hi Dom,
+  --body "{email_greeting},
 
 Here's your agenda and performance snapshot for the week commencing {next_monday_date}.
 
@@ -111,17 +111,27 @@ The email body should include:
 - A brief executive summary (2-4 bullet points hitting: performance headline, top priority, any decisions needed)
 - Professional but warm sign-off
 
-### Step 7: Post to Slack (if available)
+### Step 7: Move to Logged Folder
+
+Move the completed agenda doc into the client's "Logged" folder in Drive:
+
+```bash
+python3 tools/gdocs.py --account {google_account} move --doc-id "{new_doc_id}" --folder-id "{logged_folder_id}"
+```
+
+The `logged_folder_id` comes from the client config. This keeps the client's Drive folder clean, with only the template remaining at the top level.
+
+### Step 8: Post to Slack (if available)
 
 If the Slack channel is accessible, post a message to the client's Slack channel with the doc link and a brief summary.
 
 If the Slack workspace isn't connected (as is currently the case for Nalu), skip this step and note it was skipped.
 
-### Step 8: Confirm
+### Step 9: Confirm
 
 Tell Jasper:
-- Doc created and shared: {link}
-- Email sent to {email_to} (CC: {email_cc})
+- Doc created, shared, and moved to Logged: {link}
+- Email sent to {email_to} (CC: {email_cc} or "none")
 - Slack: {sent/skipped}
 
 ---

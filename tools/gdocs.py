@@ -167,6 +167,20 @@ def share_doc(doc_id, email, role="reader"):
     return api_request_with_refresh("POST", url, body)
 
 
+def move_doc(doc_id, dest_folder_id):
+    """Move a document to a different Drive folder."""
+    # First get current parents
+    url = f"https://www.googleapis.com/drive/v3/files/{doc_id}?fields=parents"
+    result = api_request_with_refresh("GET", url)
+    if isinstance(result, dict) and "error" in result:
+        return result
+
+    current_parents = ",".join(result.get("parents", []))
+    # Move by adding new parent and removing old
+    url = f"https://www.googleapis.com/drive/v3/files/{doc_id}?addParents={dest_folder_id}&removeParents={current_parents}"
+    return api_request_with_refresh("PATCH", url, {})
+
+
 def main():
     parser = argparse.ArgumentParser(description="Google Docs tool")
     parser.add_argument("--account", default="cn", choices=list(ACCOUNTS.keys()),
@@ -201,6 +215,11 @@ def main():
     share_cmd.add_argument("--role", default="reader", choices=["reader", "writer", "commenter"],
                            help="Permission role (default: reader)")
 
+    # move
+    move_cmd = subparsers.add_parser("move", help="Move document to a folder")
+    move_cmd.add_argument("--doc-id", required=True, help="Google Doc ID")
+    move_cmd.add_argument("--folder-id", required=True, help="Destination folder ID")
+
     args = parser.parse_args()
     set_account(args.account)
 
@@ -219,6 +238,9 @@ def main():
         print(json.dumps(result, indent=2))
     elif args.command == "share":
         result = share_doc(args.doc_id, args.email, args.role)
+        print(json.dumps(result, indent=2))
+    elif args.command == "move":
+        result = move_doc(args.doc_id, args.folder_id)
         print(json.dumps(result, indent=2))
     else:
         parser.print_help()
