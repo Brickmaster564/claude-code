@@ -92,24 +92,17 @@ python3 tools/gmail.py --account {google_account} send \
   --to "{email_to}" \
   --cc "{email_cc}" \
   --subject "{display_name} & SW: Agenda (W/C {next_monday_date})" \
-  --body "{email_greeting},
-
-Here's your agenda and performance snapshot for the week commencing {next_monday_date}.
-
-Doc: https://docs.google.com/document/d/{new_doc_id}/edit
-
-{executive_summary}
-
-Speak Monday.
-
-Best,
-Jasper & Team Nalu"
+  --body "{casual_email_body}"
 ```
 
-The email body should include:
-- Link to the Google Doc
-- A brief executive summary (2-4 bullet points hitting: performance headline, top priority, any decisions needed)
-- Professional but warm sign-off
+**Email voice and tone:**
+- Write as Jasper, not as a corporate agency. Conversational, direct, no fluff.
+- Open casually: "Hey Dom, just sending in the agenda for next week." or similar. Match the greeting name to `email_greeting` in the client config.
+- Get into the substance quickly. Mention 2-3 headline points from the interview (performance wins, priorities, anything that needs their input) in a natural, conversational way. Not bullet points in the email itself. Just talk through it like you're giving a quick verbal rundown.
+- Include the Google Doc link inline, e.g. "Full agenda here: {link}"
+- Close warmly but briefly: "Speak Monday." or "Chat Monday." Sign off as "Jasper" (not "Jasper & Team Nalu").
+- No em dashes. Keep it short. 4-6 sentences max after the greeting.
+- The email should feel like a quick Friday message from someone who knows the client well, not a formal report delivery.
 
 ### Step 7: Move to Logged Folder
 
