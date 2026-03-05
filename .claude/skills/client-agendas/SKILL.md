@@ -11,8 +11,8 @@ Configured clients: **Dominic Monkhouse**, **Jeremy Harbour**. Process runs Dom 
 
 ## Key People
 
-- **Scott** (`U07BL527UP8` / `@scottlawuk`): Does the brain dumps for all clients. Tag him to kick off each agenda.
-- **Jasper**: Triggers the skill. Signs off on the final email.
+- **Scott** (`U07BL527UP8` / `@scottlawuk`): Does the brain dumps for all clients. Reviews the doc draft and approves the email before it sends.
+- **Jasper**: Triggers the skill and relays when Scott has replied in the thread.
 
 ## Input
 
@@ -124,6 +124,8 @@ The doc must look like a polished, professional weekly agenda. Structure Scott's
 
 - **Tone**: professional but direct. Short sentences. No em dashes. No filler. Every bullet should convey information, not padding.
 
+- **Per-client adaptation**: The formatting above is based on Dom's agenda. Jeremy's template has different sections (Executive Summary, Performance Snapshot instead of two separate performance sections). Read the template structure with `get` first and match whatever section headings and hierarchy that template uses. The principles (concise bullets, bold labels, checkbox action items) apply to all clients.
+
 ### Step 6: Share for Review
 
 Scott is signed into hello@nalupodcasts.com (the same account that owns the doc), so no sharing step is needed. Just post the link in the thread:
@@ -134,15 +136,15 @@ python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --t
 
 **Now wait.** Scott will review, edit the doc directly, add screenshots, tighten things up. Do not proceed until Scott confirms.
 
-### Step 7: Wait for "Good to Go"
+### Step 7: Wait for Doc Approval
 
-When Jasper says Scott has confirmed (or says "good to go", "send it", "all done", "approved", etc.), read the thread to verify:
+When Jasper says Scott has reviewed the doc ("doc's good", "looks good", "done reviewing", etc.), read the thread to confirm:
 
 ```bash
 python3 tools/slack.py read-thread --channel "#nalu-hub" --thread-ts "{thread_ts}"
 ```
 
-Look for Scott's confirmation message. Once confirmed, proceed to send.
+Once Scott confirms the doc is ready, move to the email preview. Do not send the email until it has also been approved separately in Step 8.
 
 ### Step 8: Preview Email with Scott
 
@@ -169,8 +171,15 @@ Share the doc with the client (reader access), then send the approved email:
 
 ```bash
 python3 tools/gdocs.py --account {google_account} share --doc-id "{new_doc_id}" --email "{email_to}" --role "reader"
+```
+
+If `email_cc` is not empty in the config, also share with them:
+
+```bash
 python3 tools/gdocs.py --account {google_account} share --doc-id "{new_doc_id}" --email "{email_cc}" --role "reader"
 ```
+
+Then send:
 
 ```bash
 python3 tools/gmail.py --account {google_account} send \
@@ -180,7 +189,7 @@ python3 tools/gmail.py --account {google_account} send \
   --body "{approved_email_body}"
 ```
 
-Skip CC if `email_cc` is empty in the config.
+If `email_cc` is empty, omit the `--cc` flag entirely.
 
 ### Step 10: Move to Logged Folder
 
@@ -214,5 +223,5 @@ If there are more clients in the queue, go back to Step 2 and start a **new thre
 - **Date format:** Use ordinal dates (10th March, not March 10). Week commencing = next Monday.
 - **Slack tool:** Uses `tools/slack.py` (direct API with Nalu bot token), not the MCP Slack integration (which is CN workspace only).
 - **Doc access:** Scott is signed into hello@nalupodcasts.com (the Nalu account), so he has direct edit access to all docs created under that account. No sharing step needed for him.
-- **Async workflow:** This skill pauses multiple times waiting for Scott: once after each section prompt (one at a time), and once after sharing the draft for review. Jasper tells Claude when to continue by saying things like "check thread", "he's replied", "next", "good to go", etc.
+- **Async workflow:** This skill pauses multiple times waiting for Scott: (1) after each section prompt for brain dumps, (2) after sharing the doc draft for review, (3) after posting the email preview for approval. Jasper relays when Scott has replied by saying things like "check thread", "he's replied", "next", "good to go", "send it", etc.
 - **Multiple clients:** Each client gets a separate Slack thread. Run Dom first, then Jeremy, unless Jasper specifies otherwise.
