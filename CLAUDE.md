@@ -46,8 +46,8 @@ Researches and builds the complete foundational resource library for a new Clien
 Daily intelligence briefing covering copywriting wisdom, AI news, X/Twitter insights from tracked marketers, and BlackHatWorld gems. Runs as a 7:45 AM cron job or manually.
 
 - **Triggers:** "run morning coffee", "daily briefing", "morning intel"
-- **Outputs:** Slack DM (Nalu workspace) + `output/morning-coffee/YYYY-MM-DD.md`
-- **Dependencies:** WebSearch, WebFetch, Apify (X scraper), Slack MCP
+- **Outputs:** Email (hello@clientnetwork.io → Jasperkilic10@gmail.com) + `output/morning-coffee/YYYY-MM-DD.md`
+- **Dependencies:** WebSearch, WebFetch, Apify (X scraper), `tools/gmail.py`
 - **Cron:** `cron-morning-coffee.sh` at 7:45 AM daily
 
 ### `/youtube-transcript`

@@ -6,13 +6,13 @@ disable-model-invocation: true
 
 ## What This Skill Does
 
-Daily intelligence briefing that keeps Jasper sharp on copywriting, AI, and marketing. Researches live content across four domains, compiles a formatted briefing, saves it as a swipe file, and delivers it via Slack DM.
+Daily intelligence briefing that keeps Jasper sharp on copywriting, AI, and marketing. Researches live content across four domains, compiles a formatted briefing, saves it as a swipe file, and delivers it via email.
 
 Runs automatically at 7:45 AM daily via cron, or manually with `/morning-coffee`.
 
 ## Output
 
-1. **Slack DM** in the Nalu workspace (formatted briefing)
+1. **Email** from hello@clientnetwork.io to Jasperkilic10@gmail.com
 2. **Swipe file** saved to `output/morning-coffee/YYYY-MM-DD.md`
 
 ---
@@ -108,13 +108,17 @@ output/morning-coffee/YYYY-MM-DD.md
 
 Use today's date. If the file already exists (e.g., manual re-run), overwrite it.
 
-### Step 7: Send Slack DM
+### Step 7: Send Email
 
-Send the formatted briefing as a Slack DM to Jasper in the Nalu workspace.
+Send the formatted briefing as an email from hello@clientnetwork.io to Jasperkilic10@gmail.com.
 
-Use the Slack MCP tool `slack_send_message`. Send to Jasper's DM (search for Jasper's user in the Nalu workspace if needed on the first run, then note the user ID).
+**Process:**
+1. Save the briefing to the swipe file first (Step 6)
+2. Run: `python3 tools/gmail.py send --to "Jasperkilic10@gmail.com" --subject "Morning Coffee | YYYY-MM-DD" --body-file "output/morning-coffee/YYYY-MM-DD.md"`
 
-If Slack delivery fails, flag the error but still save the swipe file.
+The subject line should use today's date (e.g., "Morning Coffee | 2026-03-05").
+
+If email delivery fails, flag the error but still save the swipe file.
 
 ---
 

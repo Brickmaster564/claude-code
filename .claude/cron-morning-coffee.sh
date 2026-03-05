@@ -21,7 +21,7 @@ cd "$WORKDIR"
   --print \
   --dangerously-skip-permissions \
   --max-budget-usd 3 \
-  "Run /morning-coffee. Follow the skill instructions exactly. Save the swipe file and send the Slack DM." \
+  "Run /morning-coffee. Follow the skill instructions exactly. Save the swipe file and send the email." \
   >> "$LOGFILE" 2>&1
 
 echo "$(date): Finished morning coffee briefing" >> "$LOGFILE"
