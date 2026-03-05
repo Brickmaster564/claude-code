@@ -45,29 +45,41 @@ python3 tools/slack.py send --channel "#nalu-hub" --text "<@U07BL527UP8> - {disp
 
 ### Step 3: Collect Brain Dumps (In-Thread)
 
-For each section in the client's `sections` config, post a prompt in the thread:
+Post **all section prompts at once** in a single thread reply. Each section has one `prompt` field in the config. Format them clearly so Scott can scan the lot and voice-dump his answers in whatever order he wants.
 
 ```bash
-python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --text "*{section_label}*\n{prompts_formatted}"
+python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --text "{all_sections_formatted}"
 ```
 
-**Prompting style:**
-- Post one section at a time. Keep it simple and specific.
-- Frame prompts so Scott can just talk/type stream-of-consciousness. Example: "*Performance (Dominic Long-Form)* - What's the viewership/subscriber snapshot looking like this week? Any bottlenecks?"
-- Don't ask multiple complex questions in one message. One section, one clear ask.
-- After posting a section prompt, tell Jasper (in Claude Code) that you're waiting for Scott's reply, then pause.
+Format the message like:
 
-**Reading Scott's replies:**
+```
+*1. Performance (Dominic Long-Form)*
+Dominic long-form channel. How's viewership and subs looking this week? Any wins worth flagging? And is there anything blocking growth right now, and if so what's the fix?
+
+*2. Performance (Scale to Win)*
+Scale to Win. How's YouTube and audio/podcast performing? ...
+
+*3. Key Priorities*
+What are the top priorities for next week? ...
+
+(etc. for all sections)
+```
+
+**How Scott replies:**
+- He'll voice-dump via Whisper or type quick notes. Could be one massive message or several. Messy, stream-of-consciousness, no structure. That's fine.
+- He might answer sections out of order, skip section labels, or lump things together. Parse it all.
+
+**After Scott replies:**
 - When Jasper says Scott has replied (or says "check thread", "continue", etc.), read the thread:
 
 ```bash
 python3 tools/slack.py read-thread --channel "#nalu-hub" --thread-ts "{thread_ts}"
 ```
 
-- Parse Scott's brain dump. He'll send messy, verbatim voice-to-text or quick typed notes. Extract the key data: numbers, names, dates, statuses, action items.
-- If something is unclear or missing, reply in the thread asking for clarification. Keep follow-ups short and specific.
-- Once you have what you need for that section, move to the next one.
-- After all sections are covered, reply in the thread: "Got everything. Building the doc now."
+- Extract the key data: numbers, names, dates, episode statuses, action items, decisions. Map each piece of info to the right section.
+- If something critical is missing or unclear, reply in the thread with a specific follow-up. Keep it short: "Got it. Quick one: what's the status on [X]? Filmed or still to do?"
+- Once you have enough for all sections, reply: "Got everything. Building the doc now."
 
 ### Step 4: Duplicate the Template
 

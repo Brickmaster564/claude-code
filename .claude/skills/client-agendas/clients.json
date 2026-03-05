@@ -13,42 +13,27 @@
     "sections": {
       "performance_dm": {
         "label": "Performance (Dominic Long-Form)",
-        "prompts": [
-          "Viewership/subscriber snapshot for Dominic's main YouTube channel this week",
-          "Any bottlenecks or issues, and proposed solutions"
-        ]
+        "prompt": "Dominic long-form channel. How's viewership and subs looking this week? Any wins worth flagging? And is there anything blocking growth right now, and if so what's the fix?"
       },
       "performance_stw": {
         "label": "Performance (Scale to Win)",
-        "prompts": [
-          "YouTube and audio/podcast performance snapshot for Scale to Win",
-          "Any bottlenecks or issues, and proposed solutions"
-        ]
+        "prompt": "Scale to Win. How's YouTube and audio/podcast performing? Anything holding it back, and what are we doing about it?"
       },
       "key_priorities": {
         "label": "Key Priorities",
-        "prompts": [
-          "Top priorities for the coming week (guest pipeline, filming, promotions, etc.)"
-        ]
+        "prompt": "What are the top priorities for next week? Guest pipeline, filming, promotions, anything Dom needs to know is being pushed forward."
       },
       "video_ideation": {
         "label": "DM: Video Ideation & Scripting",
-        "prompts": [
-          "New video ideas highlighted this week (titles, Notion links, status, rationale)"
-        ]
+        "prompt": "Any new video ideas on the board? For each one, give me the title, where it's at (just an idea, scripting, ready to film), and any info-gathering questions we need Dom to answer."
       },
       "creative_pipeline": {
         "label": "Creative & Operations Pipeline",
-        "prompts": [
-          "Episode timeline: what's going live, what's filmed, what still needs filming"
-        ]
+        "prompt": "Episode timeline. Run through what's going live and when, what's been filmed, and what still needs filming. Episode name, date, status for each."
       },
       "next_steps": {
         "label": "Next Steps",
-        "prompts": [
-          "Critical decisions that need Dom's input",
-          "This week's strategic priorities (action items with owners)"
-        ]
+        "prompt": "Critical decisions and action items. What needs Dom's sign-off? What are the must-dos for next week and who owns each one?"
       }
     }
   },
@@ -66,35 +51,23 @@
     "sections": {
       "executive_summary": {
         "label": "Executive Summary",
-        "prompts": [
-          "Performance headline, key priorities, key decisions, fixes/improvements"
-        ]
+        "prompt": "Quick headline. How are things looking overall? Performance headline, top priority, any key decisions, and anything we've fixed or improved this week."
       },
       "performance_snapshot": {
         "label": "Performance Snapshot",
-        "prompts": [
-          "Episode downloads, social performance, content analysis",
-          "Highlight wins, lessons, outcomes (with screenshots if appropriate)"
-        ]
+        "prompt": "Episode downloads, social numbers, content performance. Any wins, lessons, or standout outcomes worth calling out?"
       },
       "video_ideation": {
         "label": "Video Ideation & Scripting",
-        "prompts": [
-          "New video ideas highlighted (titles, Notion links, rationale)"
-        ]
+        "prompt": "Any new video ideas on the board? Title, status, and why we think it'll work."
       },
       "creative_pipeline": {
         "label": "Creative & Operations Pipeline",
-        "prompts": [
-          "Episode timeline: what's going live, what's filmed, what still needs filming"
-        ]
+        "prompt": "Episode timeline. What's going live and when, what's filmed, what still needs filming. Episode name, date, status."
       },
       "next_steps": {
         "label": "Next Steps",
-        "prompts": [
-          "Critical decisions round-up",
-          "This week's strategic priorities"
-        ]
+        "prompt": "Critical decisions and action items for next week. What needs sign-off and what are the priorities?"
       }
     }
   }
