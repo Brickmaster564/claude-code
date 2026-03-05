@@ -3,10 +3,12 @@
 Slack tool for Nalu workspace (direct API, not MCP).
 
 Usage:
-    python3 tools/slack.py send --channel "#nalu-hub" --text "Hello from Nalu Bot"
-    python3 tools/slack.py send --channel "C01ABC123" --text "Message here"
+    python3 tools/slack.py send --channel "#nalu-hub" --text "Hello"
+    python3 tools/slack.py reply --channel "C08P14TTBA7" --thread-ts "1234.5678" --text "Reply here"
+    python3 tools/slack.py read-thread --channel "C08P14TTBA7" --thread-ts "1234.5678"
     python3 tools/slack.py list-channels
     python3 tools/slack.py find-channel --name "nalu-hub"
+    python3 tools/slack.py find-user --name "scott"
 
 Uses the Nalu bot token from config/api-keys.json (slack_nalu).
 """
@@ -61,20 +63,41 @@ def slack_request(method, endpoint, data=None):
     return result
 
 
-def send_message(channel, text):
-    """Send a message to a Slack channel. Channel can be an ID or #name."""
-    # If channel starts with #, resolve it to an ID first
+def resolve_channel(channel):
+    """Resolve a #name to a channel ID, or return the ID as-is."""
     if channel.startswith("#"):
-        channel_name = channel[1:]
-        found = find_channel(channel_name)
+        found = find_channel(channel[1:])
         if not found:
-            return {"ok": False, "error": f"Channel '{channel_name}' not found"}
-        channel = found["id"]
+            return None
+        return found["id"]
+    return channel
 
-    return slack_request("POST", "chat.postMessage", {
-        "channel": channel,
-        "text": text
+
+def send_message(channel, text, thread_ts=None):
+    """Send a message to a Slack channel, optionally in a thread."""
+    channel_id = resolve_channel(channel)
+    if not channel_id:
+        return {"ok": False, "error": f"Channel '{channel}' not found"}
+
+    payload = {"channel": channel_id, "text": text}
+    if thread_ts:
+        payload["thread_ts"] = thread_ts
+
+    return slack_request("POST", "chat.postMessage", payload)
+
+
+def read_thread(channel, thread_ts):
+    """Read all replies in a thread."""
+    channel_id = resolve_channel(channel)
+    if not channel_id:
+        return {"ok": False, "error": f"Channel '{channel}' not found"}
+
+    result = slack_request("GET", "conversations.replies", {
+        "channel": channel_id,
+        "ts": thread_ts,
+        "limit": "200"
     })
+    return result
 
 
 def list_channels():
@@ -112,6 +135,26 @@ def find_channel(name):
     return None
 
 
+def find_user(name):
+    """Find a user by name (partial match on real_name or display_name)."""
+    result = slack_request("GET", "users.list")
+    if not result.get("ok"):
+        return result
+
+    name_lower = name.lower()
+    matches = []
+    for m in result.get("members", []):
+        if m.get("deleted") or m.get("is_bot") or m.get("id") == "USLACKBOT":
+            continue
+        real = m.get("real_name", "").lower()
+        display = m.get("profile", {}).get("display_name", "").lower()
+        username = m.get("name", "").lower()
+        if name_lower in real or name_lower in display or name_lower in username:
+            matches.append(m)
+
+    return {"ok": True, "users": matches}
+
+
 def main():
     parser = argparse.ArgumentParser(description="Slack tool (Nalu workspace)")
     subparsers = parser.add_subparsers(dest="command")
@@ -121,18 +164,48 @@ def main():
     send_cmd.add_argument("--channel", required=True, help="Channel ID or #name")
     send_cmd.add_argument("--text", required=True, help="Message text")
 
+    # reply (send in a thread)
+    reply_cmd = subparsers.add_parser("reply", help="Reply in a thread")
+    reply_cmd.add_argument("--channel", required=True, help="Channel ID or #name")
+    reply_cmd.add_argument("--thread-ts", required=True, help="Thread timestamp of parent message")
+    reply_cmd.add_argument("--text", required=True, help="Reply text")
+
+    # read-thread
+    rt_cmd = subparsers.add_parser("read-thread", help="Read all replies in a thread")
+    rt_cmd.add_argument("--channel", required=True, help="Channel ID or #name")
+    rt_cmd.add_argument("--thread-ts", required=True, help="Thread timestamp of parent message")
+
     # list-channels
     subparsers.add_parser("list-channels", help="List all channels")
 
     # find-channel
-    find_cmd = subparsers.add_parser("find-channel", help="Find a channel by name")
-    find_cmd.add_argument("--name", required=True, help="Channel name (without #)")
+    find_ch_cmd = subparsers.add_parser("find-channel", help="Find a channel by name")
+    find_ch_cmd.add_argument("--name", required=True, help="Channel name (without #)")
+
+    # find-user
+    find_u_cmd = subparsers.add_parser("find-user", help="Find a user by name")
+    find_u_cmd.add_argument("--name", required=True, help="Name to search for")
 
     args = parser.parse_args()
+    result = None
 
     if args.command == "send":
         result = send_message(args.channel, args.text)
         print(json.dumps(result, indent=2))
+    elif args.command == "reply":
+        result = send_message(args.channel, args.text, thread_ts=args.thread_ts)
+        print(json.dumps(result, indent=2))
+    elif args.command == "read-thread":
+        result = read_thread(args.channel, args.thread_ts)
+        if result.get("ok"):
+            for msg in result.get("messages", []):
+                user = msg.get("user", "bot")
+                text = msg.get("text", "")
+                ts = msg.get("ts", "")
+                print(f"[{ts}] <{user}> {text}")
+            print(f"\n{len(result.get('messages', []))} messages in thread")
+        else:
+            print(json.dumps(result, indent=2))
     elif args.command == "list-channels":
         result = list_channels()
         if result.get("ok"):
@@ -148,11 +221,20 @@ def main():
         else:
             print(f"Channel '{args.name}' not found")
             sys.exit(1)
+    elif args.command == "find-user":
+        result = find_user(args.name)
+        if result.get("ok"):
+            for u in result["users"]:
+                print(f"  {u['id']}  {u.get('real_name', '?'):30s}  @{u.get('name', '?')}")
+            if not result["users"]:
+                print("No matching users found")
+        else:
+            print(json.dumps(result, indent=2))
     else:
         parser.print_help()
         sys.exit(1)
 
-    if args.command == "send" and isinstance(result, dict) and not result.get("ok"):
+    if result and isinstance(result, dict) and not result.get("ok"):
         sys.exit(1)
 
 
