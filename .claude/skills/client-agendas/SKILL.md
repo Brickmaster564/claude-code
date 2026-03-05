@@ -102,13 +102,7 @@ python3 tools/gdocs.py --account {google_account} batch-replace --doc-id "{new_d
 
 ### Step 6: Share for Review
 
-Share the doc with Scott (writer access) and post the link in the thread:
-
-```bash
-python3 tools/gdocs.py --account {google_account} share --doc-id "{new_doc_id}" --email "scott@nalupodcasts.com" --role "writer"
-```
-
-Then reply in the thread:
+Scott is signed into hello@nalupodcasts.com (the same account that owns the doc), so no sharing step is needed. Just post the link in the thread:
 
 ```bash
 python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --text "Draft ready for review: https://docs.google.com/document/d/{new_doc_id}/edit\n\nHave a look, tweak anything, add screenshots if needed. Let me know when it's good to go."
@@ -185,6 +179,6 @@ If there are more clients in the queue, go back to Step 2 and start a **new thre
 - **No em dashes.** Use periods, commas, colons, or restructure instead.
 - **Date format:** Use ordinal dates (10th March, not March 10). Week commencing = next Monday.
 - **Slack tool:** Uses `tools/slack.py` (direct API with Nalu bot token), not the MCP Slack integration (which is CN workspace only).
-- **Scott's email for doc sharing:** scott@nalupodcasts.com (writer access for review). Update if this changes.
+- **Doc access:** Scott is signed into hello@nalupodcasts.com (the Nalu account), so he has direct edit access to all docs created under that account. No sharing step needed for him.
 - **Async workflow:** This skill pauses at two points waiting for Scott: (1) after each section prompt for brain dumps, (2) after sharing the draft for review. Jasper tells Claude when to continue by saying things like "check thread", "he's replied", "good to go", etc.
 - **Multiple clients:** Each client gets a separate Slack thread. Run Dom first, then Jeremy, unless Jasper specifies otherwise.
