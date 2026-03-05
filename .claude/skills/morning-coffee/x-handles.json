@@ -1,0 +1,25 @@
+{
+  "handles": [
+    {
+      "handle": "sabrisuby",
+      "name": "Sabri Suby",
+      "focus": "Direct response, ad copy, scaling"
+    },
+    {
+      "handle": "TheJeremyHaynes",
+      "name": "Jeremy Haynes",
+      "focus": "Media buying, Facebook/Meta ads, agency"
+    },
+    {
+      "handle": "markbuildsbrands",
+      "name": "Mark",
+      "focus": "Brand building, marketing strategy"
+    },
+    {
+      "handle": "IAmAlenSultanic",
+      "name": "Alen Sultanic",
+      "focus": "Funnels, webinars, high-ticket"
+    }
+  ],
+  "notes": "Add new handles here. Jasper can request additions at any time. Keep focus field short - it helps filter for relevant tweets."
+}

@@ -42,6 +42,14 @@ Researches and builds the complete foundational resource library for a new Clien
 - **Outputs:** `resources/client-network/{vertical}/` (local) + Google Drive `Lead Gen Brands/{Vertical}/Foundational Docs/` (Google Docs)
 - **Dependencies:** WebSearch, WebFetch, Sabri Suby resources, existing vertical templates, Google Drive API
 
+### `/morning-coffee`
+Daily intelligence briefing covering copywriting wisdom, AI news, X/Twitter insights from tracked marketers, and BlackHatWorld gems. Runs as a 7:45 AM cron job or manually.
+
+- **Triggers:** "run morning coffee", "daily briefing", "morning intel"
+- **Outputs:** Slack DM (Nalu workspace) + `output/morning-coffee/YYYY-MM-DD.md`
+- **Dependencies:** WebSearch, WebFetch, Apify (X scraper), Slack MCP
+- **Cron:** `cron-morning-coffee.sh` at 7:45 AM daily
+
 ### `/youtube-transcript`
 Download transcripts from YouTube videos.
 
@@ -103,6 +111,10 @@ A workflow can invoke a skill as one of its steps. They're complementary, not co
    - Verify the fix
    - Update the workflow
    - Move on with a more robust system
+
+### Tracker Sheet
+
+When a new skill or workflow is created (or an existing one is significantly updated), update the **Tracker** sheet in the [Jasper OS Google Sheet](https://docs.google.com/spreadsheets/d/1bypUOLHBBG9E5X0Gxpx4tLT45pGbgIj5hEPfCSB36js). Columns: Name, Type (Skill/Workflow), Status, Description, Steps (checkmark-style workflow steps matching the Cron Jobs tab format). Use the Google OAuth credentials in `config/google-token.json`.
 
 ### File handling
 

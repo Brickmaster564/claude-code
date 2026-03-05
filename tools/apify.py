@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 """
-Apify LinkedIn scraper tools.
+Apify scraper tools (LinkedIn + X/Twitter).
 
 Usage:
     python3 tools/apify.py scrape-profiles --urls "https://linkedin.com/in/person1,https://linkedin.com/in/person2"
     python3 tools/apify.py scrape-comments --usernames "person1,person2"
+    python3 tools/apify.py scrape-tweets --handles "sabrisuby,TheJeremyHaynes" [--max-per-user 5]
 
 scrape-profiles: Runs dev_fusion/Linkedin-Profile-Scraper to get profile data
                  including recent posts (updates).
 scrape-comments: Runs apimaestro/linkedin-profile-comments to get comments
                  the user has made on other people's posts.
+scrape-tweets:   Runs apidojo/tweet-scraper to get recent tweets from X handles.
 
 Reads API key from config/api-keys.json.
 """
@@ -25,6 +27,7 @@ from pathlib import Path
 CONFIG_PATH = Path(__file__).parent.parent / "config" / "api-keys.json"
 ACTOR_PROFILE = "dev_fusion~Linkedin-Profile-Scraper"
 ACTOR_COMMENTS = "apimaestro~linkedin-profile-comments"
+ACTOR_TWEETS = "apidojo~tweet-scraper"
 API_BASE = "https://api.apify.com/v2"
 POLL_INTERVAL = 10  # seconds between status checks
 MAX_WAIT = 600  # max seconds to wait for actor run
@@ -217,8 +220,73 @@ def scrape_comments(token, usernames):
     return results
 
 
+def scrape_tweets(token, handles, max_per_user=5):
+    """Scrape recent tweets from X/Twitter handles."""
+    if not handles:
+        return {"error": "No handles provided"}
+
+    # Run the actor once with all handles
+    actor_input = {
+        "twitterHandles": handles,
+        "maxItems": max_per_user * len(handles),
+        "sort": "Latest"
+    }
+
+    raw = run_actor(token, ACTOR_TWEETS, actor_input,
+                    label=f"for {len(handles)} X handles")
+    if isinstance(raw, dict) and "error" in raw:
+        return raw
+
+    items = raw if isinstance(raw, list) else []
+
+    # Group tweets by author
+    by_author = {}
+    for tweet in items:
+        author = tweet.get("author", {})
+        handle = author.get("userName", "") or tweet.get("user", {}).get("screen_name", "")
+        if not handle:
+            # Try alternate field names
+            handle = tweet.get("username", "") or tweet.get("screen_name", "")
+        handle_lower = handle.lower()
+
+        if handle_lower not in by_author:
+            by_author[handle_lower] = {
+                "handle": handle,
+                "name": author.get("name", "") or tweet.get("user", {}).get("name", handle),
+                "tweets": []
+            }
+
+        text = tweet.get("text", "") or tweet.get("full_text", "") or tweet.get("tweetText", "")
+        created = tweet.get("createdAt", "") or tweet.get("created_at", "")
+        likes = tweet.get("likeCount", 0) or tweet.get("favorite_count", 0)
+        retweets = tweet.get("retweetCount", 0) or tweet.get("retweet_count", 0)
+        is_retweet = tweet.get("isRetweet", False)
+
+        if is_retweet:
+            continue
+
+        by_author[handle_lower]["tweets"].append({
+            "text": text[:500],
+            "created_at": created,
+            "likes": likes,
+            "retweets": retweets
+        })
+
+    # Limit tweets per user and sort by engagement
+    for handle_lower in by_author:
+        tweets = by_author[handle_lower]["tweets"]
+        tweets.sort(key=lambda t: t.get("likes", 0) + t.get("retweets", 0), reverse=True)
+        by_author[handle_lower]["tweets"] = tweets[:max_per_user]
+
+    return {
+        "total_handles": len(handles),
+        "handles_with_data": len(by_author),
+        "authors": by_author
+    }
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Apify LinkedIn scraper tools")
+    parser = argparse.ArgumentParser(description="Apify scraper tools (LinkedIn + X/Twitter)")
     subparsers = parser.add_subparsers(dest="command")
 
     scrape_cmd = subparsers.add_parser("scrape-profiles", help="Scrape LinkedIn profiles for posts")
@@ -226,6 +294,10 @@ def main():
 
     comments_cmd = subparsers.add_parser("scrape-comments", help="Scrape LinkedIn commenting activity")
     comments_cmd.add_argument("--usernames", required=True, help="Comma-separated LinkedIn usernames (slugs)")
+
+    tweets_cmd = subparsers.add_parser("scrape-tweets", help="Scrape recent tweets from X handles")
+    tweets_cmd.add_argument("--handles", required=True, help="Comma-separated X/Twitter handles (without @)")
+    tweets_cmd.add_argument("--max-per-user", type=int, default=5, help="Max tweets per user (default: 5)")
 
     args = parser.parse_args()
     token = load_api_key()
@@ -237,6 +309,11 @@ def main():
     elif args.command == "scrape-comments":
         usernames = [u.strip() for u in args.usernames.split(",") if u.strip()]
         result = scrape_comments(token, usernames)
+        print(json.dumps(result, indent=2))
+    elif args.command == "scrape-tweets":
+        handles = [h.strip().lstrip("@") for h in args.handles.split(",") if h.strip()]
+        max_per = args.max_per_user
+        result = scrape_tweets(token, handles, max_per)
         print(json.dumps(result, indent=2))
     else:
         parser.print_help()

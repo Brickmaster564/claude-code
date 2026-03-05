@@ -1,0 +1,192 @@
+---
+name: morning-coffee
+description: Use when someone asks to run morning coffee, get the daily briefing, run the morning intel, or get today's marketing insights.
+disable-model-invocation: true
+---
+
+## What This Skill Does
+
+Daily intelligence briefing that keeps Jasper sharp on copywriting, AI, and marketing. Researches live content across four domains, compiles a formatted briefing, saves it as a swipe file, and delivers it via Slack DM.
+
+Runs automatically at 7:45 AM daily via cron, or manually with `/morning-coffee`.
+
+## Output
+
+1. **Slack DM** in the Nalu workspace (formatted briefing)
+2. **Swipe file** saved to `output/morning-coffee/YYYY-MM-DD.md`
+
+---
+
+## Steps
+
+### Step 1: Copywriting Wisdom (3 nuggets)
+
+Search the web for 3 actionable copywriting insights. Pull from a broad, rotating pool of sources:
+
+**Classic masters:**
+- Gary Halbert (search thegaryhalbertletter.com and related content)
+- Dan Kennedy
+- David Ogilvy
+- Eugene Schwartz
+- Claude Hopkins
+
+**Modern practitioners:**
+- Sabri Suby
+- Jason Fladien
+- Rory Sutherland
+- Alex Hormozi
+- Russell Brunson
+
+Use WebSearch to find specific letters, frameworks, principles, or quotes. Rotate sources daily so it doesn't repeat the same people. Each nugget should be:
+- A specific, actionable insight (not vague motivation)
+- Attributed to the source
+- 2-4 sentences max. Include the core principle and why it matters.
+
+**Search strategy:** Vary your queries. Examples:
+- "Gary Halbert letter [topic]" (rotate topics: headlines, offers, urgency, storytelling, leads)
+- "Dan Kennedy direct response [concept]"
+- "Rory Sutherland behavioral economics marketing"
+- "Jason Fladien webinar copywriting secrets"
+- Don't just search for quotes. Search for frameworks, techniques, case studies.
+
+### Step 2: AI News (3-5 items)
+
+Use WebSearch to find the latest AI developments from the last 24-48 hours.
+
+**Filter for marketer relevance:** Only include news that affects how Jasper works. That means:
+- New AI tools for content creation, ad optimization, or automation
+- Platform updates (Meta, Google, TikTok AI features)
+- AI regulation that impacts advertising
+- New models or capabilities that change what's possible
+
+**Skip:** Academic papers, funding rounds (unless massive), developer-only updates, hardware news.
+
+Each item: 1-2 sentence summary of what happened + 1 sentence on why it matters for marketing/lead gen.
+
+### Step 3: X/Twitter Insights
+
+Scrape recent tweets from tracked marketers using Apify.
+
+**Current X handles** (stored in `x-handles.json` supporting file):
+See the supporting file for the current list. Read it before scraping.
+
+**Process:**
+1. Read `x-handles.json` from this skill's directory
+2. Run `python3 tools/apify.py scrape-tweets --handles [comma-separated handles] --max-per-user 5`
+3. From the results, extract the most insightful/actionable tweets from each person
+4. Skip promotional tweets, retweets with no commentary, and generic motivation
+5. For each person, pick the 1-2 best tweets and summarize the insight
+
+If Apify fails (credits exhausted, rate limit, etc.), fall back to WebSearch: search "[person name] site:x.com" for their recent activity. Note the fallback in the briefing.
+
+### Step 4: BlackHatWorld Marketing Insights
+
+Use WebSearch and WebFetch to find recent threads from BlackHatWorld's marketing sections.
+
+**Search for:**
+- "site:blackhatworld.com" + marketing terms (lead gen, Facebook ads, Google ads, SEO, funnels, cold email, automation)
+- Focus on threads from the last 7 days with active discussion
+- Look for unconventional tactics, case studies, split test results, and contrarian strategies
+
+**Extract 2-3 insights:**
+- What the tactic/insight is
+- Why it's interesting or contrarian
+- Any results or data shared
+
+Skip: spam threads, basic beginner questions, tool promotions.
+
+### Step 5: Format the Briefing
+
+Compile everything into the template below. The tone should be sharp, direct, no fluff. Written like a briefing from a trusted advisor, not a newsletter.
+
+### Step 6: Save Swipe File
+
+Save the full briefing as a markdown file:
+```
+output/morning-coffee/YYYY-MM-DD.md
+```
+
+Use today's date. If the file already exists (e.g., manual re-run), overwrite it.
+
+### Step 7: Send Slack DM
+
+Send the formatted briefing as a Slack DM to Jasper in the Nalu workspace.
+
+Use the Slack MCP tool `slack_send_message`. Send to Jasper's DM (search for Jasper's user in the Nalu workspace if needed on the first run, then note the user ID).
+
+If Slack delivery fails, flag the error but still save the swipe file.
+
+---
+
+## Briefing Template
+
+```
+Morning Coffee | [date]
+
+---
+
+COPYWRITING WISDOM
+
+1. [Source Name] - [Title/Topic]
+[2-4 sentence insight]
+
+2. [Source Name] - [Title/Topic]
+[2-4 sentence insight]
+
+3. [Source Name] - [Title/Topic]
+[2-4 sentence insight]
+
+---
+
+AI RADAR
+
+- [Headline]: [1-2 sentence summary]. Why it matters: [1 sentence].
+- [Headline]: [1-2 sentence summary]. Why it matters: [1 sentence].
+- [Headline]: [1-2 sentence summary]. Why it matters: [1 sentence].
+
+---
+
+X FEED
+
+[Person Name] (@handle)
+> [Tweet content or paraphrased insight]
+Takeaway: [Why this matters]
+
+[Person Name] (@handle)
+> [Tweet content or paraphrased insight]
+Takeaway: [Why this matters]
+
+...
+
+---
+
+FROM THE UNDERGROUND (BlackHatWorld)
+
+1. [Thread title / topic]
+[What the insight is + any data/results shared]
+
+2. [Thread title / topic]
+[What the insight is + any data/results shared]
+
+---
+
+End of briefing.
+```
+
+---
+
+## Supporting Files
+
+- **`x-handles.json`** - List of X/Twitter handles to scrape. Update this file when Jasper adds or removes people to track.
+
+---
+
+## Notes
+
+- **No em dashes.** Use periods, commas, colons, or restructure instead.
+- **Rotate copywriting sources.** Don't pull from the same person two days in a row. Mix classic and modern.
+- **Quality over quantity.** If a section has nothing good (e.g., no relevant AI news), say "Quiet day" rather than padding with garbage.
+- **Apify costs credits.** The X scrape is the only paid component. Keep it to the handles in x-handles.json only.
+- **If a section fails,** include what you got and note what failed. Never silently skip a section.
+- **BlackHatWorld is supplementary.** If nothing interesting surfaces, the section can be short. Don't force it.
+- **Swipe file is the archive.** Over time these build into a searchable knowledge base of insights.
