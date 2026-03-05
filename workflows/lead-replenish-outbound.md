@@ -1,6 +1,11 @@
 # Lead Replenish Outbound Workflow
 
-Automated weekly pipeline: scan Instantly campaigns for completed leads, identify their companies, find fresh contacts at those companies via Apollo, verify emails, load into Instantly, and route active LinkedIn posters to Lemlist.
+Automated weekly pipeline with two modes:
+
+1. **Replenish mode** (default): Scan Instantly campaigns for completed leads, identify their companies, find fresh contacts at those same companies via Apollo.
+2. **Fresh prospect mode** (fallback): If no completed leads exist, source entirely new leads from new companies using industry/keyword search in Apollo. Same as the prospector workflow's search logic.
+
+Both modes then verify emails, check LinkedIn activity, load into Instantly, and route active posters to Lemlist.
 
 ## Input
 
@@ -58,6 +63,7 @@ All data MUST be written to `.tmp/replenisher-run.json` and kept updated through
 ```json
 {
   "vertical": "",
+  "mode": "replenish|fresh_prospect",
   "config": {},
   "current_step": 1,
   "step_status": "in_progress",
@@ -130,49 +136,42 @@ Same as the prospector workflow. Search order matters: exhaust Primary before fa
 
 ## Steps
 
-### Step 1 -- Scan Instantly for Completed Leads
+### Steps 1-3 -- Scan Campaign + Decide Mode
 
-Pull all leads from the Instantly campaign with status "completed" (finished the sequence without replying):
+**Step 1:** Pull all leads from the Instantly campaign with status "completed" (finished the sequence without replying):
 
 ```bash
 python3 tools/instantly.py list-leads --campaign-id "CAMPAIGN_ID" --status "completed"
 ```
 
-This returns leads with their email, name, and company. Collect all of them.
-
-**Write checkpoint:** Save all completed leads to `.tmp/replenisher-run.json`.
-
-### Step 2 -- Identify Replied Companies (Exclusion List)
-
-Pull all leads with status "replied" from the same campaign:
+**Step 2:** Pull all leads with status "replied":
 
 ```bash
 python3 tools/instantly.py list-leads --campaign-id "CAMPAIGN_ID" --status "replied"
 ```
 
-Extract unique company names from replied leads. These companies are excluded from replenishment because someone there is already in conversation.
+Extract unique company names from replied leads. These companies are excluded from replenishment.
 
-**Write checkpoint:** Save replied company names to the working file.
+**Step 3 -- Mode decision:**
 
-### Step 3 -- Build Target Company List
+- If completed leads exist: extract unique company names, remove replied companies. Set `mode: "replenish"`. Proceed to **Step 4A**.
+- If NO completed leads exist (campaign is new or leads haven't finished sequences yet): set `mode: "fresh_prospect"`. Proceed to **Step 4B**.
 
-From the completed leads (Step 1), extract unique company names. Remove any company that appears in the replied exclusion list (Step 2).
+**Write checkpoint:** Save completed leads, replied companies, target companies, and mode to `.tmp/replenisher-run.json`.
 
-The result is the list of companies to replenish: leads went through the full sequence, nobody at that company replied.
+---
 
-**Write checkpoint:** Save target companies to the working file.
+### Step 4A -- Find New Contacts at Target Companies (Replenish Mode)
 
-### Step 4 -- Find New Contacts in Apollo (MCP)
-
-For each target company, search Apollo for new contacts:
+For each target company from Step 3, search Apollo for new contacts:
 
 1. Use `apollo_mixed_people_api_search` with:
-   - **Company name** as keyword
+   - **Company domain** (extract from the existing lead's email) or **company name** as keyword
    - **Titles** from Primary groups first (Marketing, Partnerships, BD)
    - If no Primary results, search **Secondary** titles (Operations, Sales)
    - **Seniority:** director, vp, c_suite, owner, founder, manager
 
-2. **Deduplicate against existing Apollo contacts.** Use `apollo_contacts_search` with the person's email or name + company to check if they already exist as a contact. If they do, skip them. This is simpler and more reliable than checking against specific list names, and catches contacts added through any workflow or manually.
+2. **Deduplicate against existing Apollo contacts.** Use `apollo_contacts_search` with the person's email or name + company to check if they already exist as a contact. If they do, skip them.
 
 3. **Cap per company:** max `max_per_company` new contacts per company (default 4).
 
@@ -181,6 +180,35 @@ For each target company, search Apollo for new contacts:
 5. If no contacts are found for a company at all (Primary + Secondary exhausted), skip that company.
 
 **Per-company checkpoint:** After processing each company, write results to the working file.
+
+---
+
+### Step 4B -- Fresh Prospect Search (Fresh Prospect Mode)
+
+When no completed leads exist, source entirely new leads using industry/keyword search. This mirrors the prospector workflow's search logic.
+
+Use `apollo_mixed_people_api_search` with:
+- **Titles:** Primary groups first (Marketing, Partnerships, BD), then Secondary if needed
+- **Seniority:** director, vp, c_suite, owner, founder, manager
+- **Industry + Keywords:** per the vertical search config below
+- **Company size:** minimum 10 employees
+- **Per page:** `per_page: 10`
+
+**Vertical Search Config:**
+
+| Vertical | Industry | Keywords |
+|---|---|---|
+| life-insurance | insurance, financial services | life insurance, final expense, term life, whole life, universal life, burial insurance, mortgage protection |
+| senior-care | home health care, elder care, healthcare | senior care, home care, elder care, assisted living, memory care, in-home care, senior living, aging in place |
+| home-security | security, home security | home security, alarm systems, security monitoring, home automation, smart home security, surveillance, burglar alarm |
+
+**Dedup, caps, and enrichment:** Same rules as Step 4A:
+- Deduplicate against existing Apollo contacts
+- Max `max_per_company` contacts per company (default 4)
+- Stop at `max_leads_per_run` total prospects (default 80)
+- Enrich via `apollo_people_bulk_match` to get emails and LinkedIn URLs
+
+**Per-page checkpoint:** After processing each page of results, write to the working file.
 
 ### Step 5 -- Email Verification (MillionVerifier)
 
@@ -277,6 +305,7 @@ REPLENISHER COMPLETE
 ====================
 
 Vertical:         {vertical}
+Mode:             {replenish | fresh_prospect}
 Campaign:         {instantly campaign name}
 Lemlist Campaign: {lemlist campaign name or "N/A"}
 
@@ -310,8 +339,8 @@ After reporting, delete `.tmp/replenisher-run.json`.
 
 ## Error Handling
 
-- **Instantly returns no completed leads:** Report "No completed leads found. Nothing to replenish." and stop.
-- **No target companies after exclusion:** Report "All completed companies have replied leads. Nothing to replenish." and stop.
+- **Instantly returns no completed leads:** Switch to fresh prospect mode (Step 4B). Do NOT stop.
+- **No target companies after exclusion (all replied):** Switch to fresh prospect mode (Step 4B). Do NOT stop.
 - **Apollo returns no new contacts for a company:** Skip that company, note in the report.
 - **Apify actor fails or times out:** Default those leads to "inactive" (Instantly only). Don't block the pipeline.
 - **Lemlist campaign ID not set:** Skip Lemlist loading entirely, note in the report.
