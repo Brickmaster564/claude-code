@@ -38,7 +38,9 @@ All prospect data MUST be written to `.tmp/prospector-run.json` and kept updated
   "discovered": {
     "apollo_list_label_id": "",
     "instantly_campaign_id": "",
-    "instantly_campaign_name": ""
+    "instantly_campaign_name": "",
+    "lemlist_campaign_id": "",
+    "lemlist_campaigns": {}
   },
   "current_step": 1,
   "step_status": "in_progress|completed",
@@ -50,7 +52,9 @@ All prospect data MUST be written to `.tmp/prospector-run.json` and kept updated
       "company": "",
       "email": "",
       "apollo_id": "",
-      "status": "found|enriched|no_email|duplicate|created|good|risky|bad|recovered|loaded"
+      "linkedin_url": "",
+      "linkedin_status": "active_poster|active_commenter|inactive|no_profile",
+      "status": "found|enriched|no_email|duplicate|created|good|risky|bad|recovered|loaded|loaded_lemlist"
     }
   ],
   "stats": {
@@ -62,7 +66,12 @@ All prospect data MUST be written to `.tmp/prospector-run.json` and kept updated
     "emails_risky": 0,
     "emails_bad": 0,
     "emails_recovered": 0,
-    "loaded_to_instantly": 0
+    "loaded_to_instantly": 0,
+    "loaded_to_lemlist": 0,
+    "linkedin_active_posters": 0,
+    "linkedin_active_commenters": 0,
+    "linkedin_inactive": 0,
+    "linkedin_no_profile": 0
   }
 }
 ```
@@ -72,7 +81,7 @@ All prospect data MUST be written to `.tmp/prospector-run.json` and kept updated
 - **Write after every individual operation** — not just after each step. After each Apollo create, each enrichment result, each verification result, update the prospect's status and write the file. This ensures no data is lost if context compacts mid-step.
 - Set `step_status` to `"in_progress"` when starting a step, `"completed"` when done.
 - Store discovered IDs (Apollo list label ID, Instantly campaign ID) as soon as they're found — these prevent redundant lookups after compaction.
-- Delete the file only after Step 7 (final report).
+- Delete the file only after Step 9 (final report).
 
 **Compaction recovery procedure:**
 
@@ -87,7 +96,9 @@ When context has been compacted mid-run, the FIRST action must be:
    - Step 2: skip prospects already at `enriched` or later
    - Step 3: skip prospects already at `created` or later — `run_dedupe` protects against re-creation
    - Steps 4-5: only verify prospects with status `created` (not yet verified)
-   - Step 6: only load prospects with status `good` or `recovered`
+   - Step 6: only check LinkedIn for prospects with status `good` or `recovered` that don't have a `linkedin_status` yet
+   - Step 7: only load prospects with status `good` or `recovered` that haven't been loaded yet
+   - Step 8: only load prospects flagged `active_poster` or `active_commenter` that haven't been loaded to Lemlist yet
 5. Resume the pipeline from the determined step
 
 ---
@@ -251,7 +262,37 @@ The script verifies emails concurrently and returns results categorised as `deli
 
 Update `.tmp/prospector-run.json` with BounceBan results.
 
-### Step 6 — Add Leads to Instantly Campaign (API)
+### Step 6 — LinkedIn Activity Check (Apify)
+
+Two-pass check for all verified leads (good + recovered) that have a LinkedIn URL from Apollo enrichment.
+
+**Pass 1: Profile scraper (posts)**
+
+```bash
+python3 tools/apify.py scrape-profiles --urls "https://linkedin.com/in/person1,https://linkedin.com/in/person2,..."
+```
+
+Runs `dev_fusion/Linkedin-Profile-Scraper`. If `updates/0/postText` exists and is non-empty, the lead is an **active poster**.
+
+**Pass 2: Comments scraper (engagement)**
+
+For leads that came back with NO recent posts in Pass 1, run the comments scraper:
+
+```bash
+python3 tools/apify.py scrape-comments --usernames "person1,person2,..."
+```
+
+Runs `apimaestro/linkedin-profile-comments`. Extract the username slug from the LinkedIn URL (the part after `/in/`). The scraper returns comments the user has made on other people's posts.
+
+**Classification (applied after both passes):**
+- **Active poster** = has recent posts from Pass 1. Route to Lemlist + Instantly.
+- **Active commenter** = no recent posts, BUT has commented on someone else's post within the last 9 months. Route to Lemlist + Instantly.
+- **Inactive** = no recent posts AND no comments within 9 months. Route to Instantly only.
+- **No profile** = no LinkedIn URL from Apollo. Treat as inactive, route to Instantly only.
+
+**Write checkpoint:** Update each prospect with their `linkedin_status`.
+
+### Step 7 — Add Leads to Instantly Campaign (API)
 
 First, find the campaign by name:
 
@@ -261,7 +302,7 @@ python3 tools/instantly.py list-campaigns --search "campaign name from input"
 
 This returns matching campaigns with their IDs. Fuzzy match the user's input to the closest campaign name. If ambiguous, confirm with Jasper. Store the campaign ID and name in the `discovered` object.
 
-Then add all verified leads (those with status `good` or `recovered`):
+Then add ALL verified leads (those with status `good` or `recovered`) regardless of LinkedIn status:
 
 ```bash
 python3 tools/instantly.py add-leads --campaign-id "CAMPAIGN_ID" --leads '[{"email":"...","first_name":"...","company_name":"..."},...]'
@@ -269,11 +310,31 @@ python3 tools/instantly.py add-leads --campaign-id "CAMPAIGN_ID" --leads '[{"ema
 
 The script uses the batch `POST /leads/add` endpoint which accepts `campaign_id` and a `leads` array in one call. The response includes `leads_uploaded`, `duplicated_leads`, `skipped_count`, and `invalid_email_count` for verification.
 
-**Important:** Do NOT use `POST /leads` (the single-lead create endpoint) for campaign adds — it creates orphan leads. Always use `POST /leads/add` (the batch endpoint) which properly associates leads with campaigns. The `instantly.py` script handles this correctly.
+**Important:** Do NOT use `POST /leads` (the single-lead create endpoint) for campaign adds. It creates orphan leads. Always use `POST /leads/add` (the batch endpoint) which properly associates leads with campaigns. The `instantly.py` script handles this correctly.
 
-Update `.tmp/prospector-run.json` — set status to `loaded` for each lead successfully added.
+Update `.tmp/prospector-run.json`. Set status to `loaded` for each lead successfully added.
 
-### Step 7 — Report
+### Step 8 — Load Active LinkedIn Users into Lemlist (API)
+
+For leads flagged as **active poster** or **active commenter** in Step 6, also add them to the Lemlist campaign for LinkedIn outreach.
+
+**Lemlist campaign config:** Read `config/replenisher.json` and look up the vertical. The config determines routing:
+
+- **Geo-keyed campaigns** (e.g., life-insurance has `lemlist_campaigns` object): Use the lead's country from Apollo to pick the correct campaign ID. Map: "United States" -> "US", "United Kingdom" -> "UK", "Canada" -> "CA", "Australia" -> "AU". If the lead's country doesn't match any key, skip Lemlist for that lead and note it in the report.
+- **Single campaign** (e.g., `lemlist_campaign_id` string): Use that for all leads.
+- **No config for this vertical:** Skip Lemlist entirely and note it in the report.
+
+```bash
+python3 tools/lemlist.py add-lead --campaign-id "LEMLIST_CAMPAIGN_ID" --email "..." --first-name "..." --last-name "..." --company "..." --title "..." --linkedin "..."
+```
+
+Run this for each active lead. The Lemlist API accepts one lead per call.
+
+Store discovered Lemlist campaign IDs in the `discovered` object for compaction recovery.
+
+**Write checkpoint:** Update Lemlist loaded status.
+
+### Step 9 — Report
 
 Read `.tmp/prospector-run.json` to compile the final summary, then present in chat:
 
@@ -284,19 +345,27 @@ PROSPECTOR COMPLETE
 Vertical:    {vertical}
 Apollo List: {list name}
 Campaign:    {instantly campaign name}
+Lemlist:     {lemlist campaign name or "N/A"}
 
 Found:       {X} prospects
 Enriched:    {X} with emails
 Duplicates:  {X} skipped
 Verified:    {X} good + {X} recovered from risky
 Discarded:   {X} bad/undeliverable
-Loaded:      {X} leads into Instantly
+
+LinkedIn Active Posters:    {X} (-> Instantly + Lemlist)
+LinkedIn Active Commenters: {X} (-> Instantly + Lemlist)
+LinkedIn Inactive:          {X} (-> Instantly only)
+No LinkedIn Profile:        {X} (-> Instantly only)
+
+Loaded to Instantly: {X}
+Loaded to Lemlist:   {X}
 
 LEADS ADDED:
-| Name | Title | Company | Email | Status |
-|------|-------|---------|-------|--------|
-| ...  | ...   | ...     | ...   | good   |
-| ...  | ...   | ...     | ...   | recovered |
+| Name | Title | Company | Email | LinkedIn | Status |
+|------|-------|---------|-------|----------|--------|
+| ...  | ...   | ...     | ...   | Active   | good   |
+| ...  | ...   | ...     | ...   | Inactive | recovered |
 ```
 
 After presenting the report, delete `.tmp/prospector-run.json`.
@@ -310,6 +379,9 @@ After presenting the report, delete `.tmp/prospector-run.json`.
 - **Apollo rejects contact as duplicate (`run_dedupe`):** Mark as `duplicate`, source a replacement if needed to maintain lead count.
 - **MillionVerifier or BounceBan API errors:** Report the error, retry once. If still failing, pause and ask Jasper.
 - **Instantly campaign not found:** Show available campaigns and ask Jasper to pick.
+- **Apify profile scraper fails or times out:** Default those leads to "inactive" (Instantly only). Don't block the pipeline.
+- **Apify comments scraper fails for a username:** Default that lead to "inactive". Don't block the pipeline.
+- **Lemlist campaign not configured for this vertical:** Skip Lemlist loading entirely, note in the report. Don't fail the run.
 - **Rate limits hit:** Back off and retry with a short delay.
 - **Context compacted mid-run:** Follow the compaction recovery procedure in the Working Data File section above. ALWAYS read `.tmp/prospector-run.json` before doing anything else — it contains all state needed to resume.
 
@@ -317,4 +389,6 @@ After presenting the report, delete `.tmp/prospector-run.json`.
 
 - Apollo enrichment uses credits. The workflow will always proceed with enrichment since it's required for email verification. If Jasper wants to skip enrichment for any reason, he'll say so.
 - All API keys are loaded from `config/api-keys.json` by the tool scripts.
+- Apify compute units are consumed during Step 6. Profile scraper + comments scraper combined cost ~$0.05 + $0.005 per lead. Budget accordingly.
+- Lemlist routing (Step 8) is optional. If the vertical isn't in `replenisher.json` or has no Lemlist campaign configured, leads still go to Instantly.
 - This workflow does NOT write outreach copy. That's a separate task — use `/copywriter` for sequence messaging.

@@ -5,8 +5,10 @@ Gmail send tool using Google OAuth credentials.
 Usage:
     python3 tools/gmail.py send --to "recipient@example.com" --subject "Subject" --body "Email body"
     python3 tools/gmail.py send --to "recipient@example.com" --subject "Subject" --body-file path/to/body.md
+    python3 tools/gmail.py send --to "recipient@example.com" --subject "Subject" --html-file path/to/email.html
 
 Sends email from hello@clientnetwork.io using OAuth credentials in config/google-token.json.
+Supports plain text (--body / --body-file) or HTML (--html-file) emails.
 """
 
 import argparse
@@ -74,12 +76,12 @@ def gmail_request(access_token, method, endpoint, data=None):
         return {"error": f"HTTP {e.code}: {e.reason}", "detail": error_body}
 
 
-def send_email(to, subject, body_text):
-    """Send an email via Gmail API."""
+def send_email(to, subject, body_text, content_type="plain"):
+    """Send an email via Gmail API. content_type can be 'plain' or 'html'."""
     token_data = load_token()
     access_token = token_data["token"]
 
-    msg = MIMEText(body_text, "plain", "utf-8")
+    msg = MIMEText(body_text, content_type, "utf-8")
     msg["to"] = to
     msg["subject"] = subject
 
@@ -104,21 +106,27 @@ def main():
     send_cmd = subparsers.add_parser("send", help="Send an email")
     send_cmd.add_argument("--to", required=True, help="Recipient email address")
     send_cmd.add_argument("--subject", required=True, help="Email subject line")
-    send_cmd.add_argument("--body", help="Email body text")
-    send_cmd.add_argument("--body-file", help="Path to file containing email body")
+    send_cmd.add_argument("--body", help="Email body text (plain text)")
+    send_cmd.add_argument("--body-file", help="Path to file containing plain text body")
+    send_cmd.add_argument("--html-file", help="Path to file containing HTML body")
 
     args = parser.parse_args()
 
     if args.command == "send":
-        if args.body_file:
+        if args.html_file:
+            body_text = Path(args.html_file).read_text()
+            content_type = "html"
+        elif args.body_file:
             body_text = Path(args.body_file).read_text()
+            content_type = "plain"
         elif args.body:
             body_text = args.body
+            content_type = "plain"
         else:
-            print("ERROR: Must provide --body or --body-file", file=sys.stderr)
+            print("ERROR: Must provide --body, --body-file, or --html-file", file=sys.stderr)
             sys.exit(1)
 
-        result = send_email(args.to, args.subject, body_text)
+        result = send_email(args.to, args.subject, body_text, content_type)
         print(json.dumps(result, indent=2))
 
         if isinstance(result, dict) and "error" in result:

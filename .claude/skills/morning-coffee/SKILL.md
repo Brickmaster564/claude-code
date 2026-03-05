@@ -76,6 +76,7 @@ See the supporting file for the current list. Read it before scraping.
 3. From the results, extract the most insightful/actionable tweets from each person
 4. Skip promotional tweets, retweets with no commentary, and generic motivation
 5. For each person, pick the 1-2 best tweets and summarize the insight
+6. **Group tweets by person.** Never repeat a person's name/handle as a separate block. List all their tweets under one heading.
 
 If Apify fails (credits exhausted, rate limit, etc.), fall back to WebSearch: search "[person name] site:x.com" for their recent activity. Note the fallback in the briefing.
 
@@ -97,32 +98,37 @@ Skip: spam threads, basic beginner questions, tool promotions.
 
 ### Step 5: Format the Briefing
 
-Compile everything into the template below. The tone should be sharp, direct, no fluff. Written like a briefing from a trusted advisor, not a newsletter.
+Compile everything into **two formats**:
+1. **Markdown** (swipe file archive) using the Markdown Template below
+2. **HTML** (email delivery) using the HTML Template below
 
-### Step 6: Save Swipe File
+The tone should be sharp, direct, no fluff. Written like a briefing from a trusted advisor, not a newsletter.
 
-Save the full briefing as a markdown file:
+### Step 6: Save Files
+
+Save both versions:
 ```
-output/morning-coffee/YYYY-MM-DD.md
+output/morning-coffee/YYYY-MM-DD.md    (markdown swipe file)
+output/morning-coffee/YYYY-MM-DD.html  (HTML email)
 ```
 
-Use today's date. If the file already exists (e.g., manual re-run), overwrite it.
+Use today's date. If files already exist (e.g., manual re-run), overwrite them.
 
-### Step 7: Send Email
+### Step 7: Send HTML Email
 
-Send the formatted briefing as an email from hello@clientnetwork.io to Jasperkilic10@gmail.com.
+Send the HTML briefing as a formatted email from hello@clientnetwork.io to Jasperkilic10@gmail.com.
 
 **Process:**
-1. Save the briefing to the swipe file first (Step 6)
-2. Run: `python3 tools/gmail.py send --to "Jasperkilic10@gmail.com" --subject "Morning Coffee | YYYY-MM-DD" --body-file "output/morning-coffee/YYYY-MM-DD.md"`
+1. Save both files first (Step 6)
+2. Run: `python3 tools/gmail.py send --to "Jasperkilic10@gmail.com" --subject "Morning Coffee | YYYY-MM-DD" --html-file "output/morning-coffee/YYYY-MM-DD.html"`
 
 The subject line should use today's date (e.g., "Morning Coffee | 2026-03-05").
 
-If email delivery fails, flag the error but still save the swipe file.
+If email delivery fails, flag the error but still save the swipe files.
 
 ---
 
-## Briefing Template
+## Markdown Template (swipe file)
 
 ```
 Morning Coffee | [date]
@@ -153,10 +159,13 @@ AI RADAR
 X FEED
 
 [Person Name] (@handle)
-> [Tweet content or paraphrased insight]
+> [Tweet 1 content or paraphrased insight]
 Takeaway: [Why this matters]
 
-[Person Name] (@handle)
+> [Tweet 2 content or paraphrased insight]
+Takeaway: [Why this matters]
+
+[Next Person Name] (@handle)
 > [Tweet content or paraphrased insight]
 Takeaway: [Why this matters]
 
@@ -176,6 +185,18 @@ FROM THE UNDERGROUND (BlackHatWorld)
 
 End of briefing.
 ```
+
+## HTML Template (email)
+
+Build a clean, readable HTML email using the structure in `email-template.html` (supporting file). The template uses inline CSS for email client compatibility. Populate it with the same content as the markdown version.
+
+Key design rules for the HTML email:
+- Dark background (#1a1a1a) with light text for a premium, focused feel
+- Section headers in accent color (#c0945c, warm gold)
+- Blockquotes styled with left border for tweet content
+- Clean sans-serif typography (system font stack)
+- Responsive: single column, max-width 640px
+- No images, no external resources. Everything inline.
 
 ---
 
