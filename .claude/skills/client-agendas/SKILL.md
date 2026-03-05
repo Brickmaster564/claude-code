@@ -144,21 +144,12 @@ python3 tools/slack.py read-thread --channel "#nalu-hub" --thread-ts "{thread_ts
 
 Look for Scott's confirmation message. Once confirmed, proceed to send.
 
-### Step 8: Send Email
+### Step 8: Preview Email with Scott
 
-Share the doc with the client (reader access), then send the email:
-
-```bash
-python3 tools/gdocs.py --account {google_account} share --doc-id "{new_doc_id}" --email "{email_to}" --role "reader"
-python3 tools/gdocs.py --account {google_account} share --doc-id "{new_doc_id}" --email "{email_cc}" --role "reader"
-```
+Draft the email body and post a preview in the Slack thread for Scott to review before sending:
 
 ```bash
-python3 tools/gmail.py --account {google_account} send \
-  --to "{email_to}" \
-  --cc "{email_cc}" \
-  --subject "{doc_title}" \
-  --body "{casual_email_body}"
+python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --text "Email preview for {display_name}:\n\n---\nTo: {email_to}\nCC: {email_cc}\nSubject: {doc_title}\n\n{email_body}\n---\n\nHappy with this? Any changes, or send it off?"
 ```
 
 **Email voice and tone:**
@@ -170,15 +161,34 @@ python3 tools/gmail.py --account {google_account} send \
 - No em dashes. Keep it short. 4-6 sentences max after the greeting.
 - The email should feel like a quick Friday message from someone who knows the client well, not a formal report delivery.
 
+**Now wait.** Scott will either suggest changes or confirm. If he suggests changes, redraft and preview again. Once he says "send it" / "good to go" / confirms, proceed.
+
+### Step 9: Send Email
+
+Share the doc with the client (reader access), then send the approved email:
+
+```bash
+python3 tools/gdocs.py --account {google_account} share --doc-id "{new_doc_id}" --email "{email_to}" --role "reader"
+python3 tools/gdocs.py --account {google_account} share --doc-id "{new_doc_id}" --email "{email_cc}" --role "reader"
+```
+
+```bash
+python3 tools/gmail.py --account {google_account} send \
+  --to "{email_to}" \
+  --cc "{email_cc}" \
+  --subject "{doc_title}" \
+  --body "{approved_email_body}"
+```
+
 Skip CC if `email_cc` is empty in the config.
 
-### Step 9: Move to Logged Folder
+### Step 10: Move to Logged Folder
 
 ```bash
 python3 tools/gdocs.py --account {google_account} move --doc-id "{new_doc_id}" --folder-id "{logged_folder_id}"
 ```
 
-### Step 10: Confirm in Thread
+### Step 11: Confirm in Thread
 
 Reply in the Slack thread:
 
@@ -190,7 +200,7 @@ Also confirm to Jasper in Claude Code:
 - Doc: {link} (shared, moved to Logged)
 - Email: sent to {email_to} (CC: {email_cc} or "none")
 
-### Step 11: Next Client
+### Step 12: Next Client
 
 If there are more clients in the queue, go back to Step 2 and start a **new thread** for the next client. Each client gets their own thread.
 
