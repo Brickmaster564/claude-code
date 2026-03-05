@@ -4,10 +4,10 @@ Gmail send tool using Google OAuth credentials.
 
 Usage:
     python3 tools/gmail.py send --to "recipient@example.com" --subject "Subject" --body "Email body"
-    python3 tools/gmail.py send --to "recipient@example.com" --subject "Subject" --body-file path/to/body.md
     python3 tools/gmail.py send --to "recipient@example.com" --subject "Subject" --html-file path/to/email.html
+    python3 tools/gmail.py --account nalu send --to "recipient@example.com" --subject "Subject" --body "Hello"
 
-Sends email from hello@clientnetwork.io using OAuth credentials in config/google-token.json.
+Accounts: cn (hello@clientnetwork.io, default), nalu.
 Supports plain text (--body / --body-file) or HTML (--html-file) emails.
 """
 
@@ -21,18 +21,32 @@ from email.mime.text import MIMEText
 from pathlib import Path
 
 CONFIG_DIR = Path(__file__).parent.parent / "config"
-CREDENTIALS_PATH = CONFIG_DIR / "google-credentials.json"
-TOKEN_PATH = CONFIG_DIR / "google-token.json"
 GMAIL_API = "https://gmail.googleapis.com/gmail/v1/users/me"
+
+ACCOUNTS = {
+    "cn": {"token": "google-token.json"},
+    "nalu": {"token": "google-token-nalu.json"},
+}
+
+_active_token_path = CONFIG_DIR / "google-token.json"
+
+
+def set_account(name):
+    global _active_token_path
+    account = ACCOUNTS.get(name)
+    if not account:
+        print(f"ERROR: Unknown account '{name}'. Available: {', '.join(ACCOUNTS.keys())}", file=sys.stderr)
+        sys.exit(1)
+    _active_token_path = CONFIG_DIR / account["token"]
 
 
 def load_token():
-    with open(TOKEN_PATH) as f:
+    with open(_active_token_path) as f:
         return json.load(f)
 
 
 def save_token(token_data):
-    with open(TOKEN_PATH, "w") as f:
+    with open(_active_token_path, "w") as f:
         json.dump(token_data, f, indent=2)
 
 
@@ -103,6 +117,9 @@ def main():
     parser = argparse.ArgumentParser(description="Gmail send tool")
     subparsers = parser.add_subparsers(dest="command")
 
+    parser.add_argument("--account", default="cn", choices=list(ACCOUNTS.keys()),
+                        help="Google account to use (default: cn)")
+
     send_cmd = subparsers.add_parser("send", help="Send an email")
     send_cmd.add_argument("--to", required=True, help="Recipient email address")
     send_cmd.add_argument("--subject", required=True, help="Email subject line")
@@ -111,6 +128,8 @@ def main():
     send_cmd.add_argument("--html-file", help="Path to file containing HTML body")
 
     args = parser.parse_args()
+
+    set_account(args.account)
 
     if args.command == "send":
         if args.html_file:
