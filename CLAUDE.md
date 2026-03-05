@@ -34,6 +34,14 @@ Analyzes a podcast transcript to extract 3-5 high-ceiling concepts (with micro s
 - **Triggers:** "package this episode", "find high-ceiling concepts", "create YouTube titles from transcript"
 - **Resources:** `resources/nalu/yt-headlines-swipe-file.md`, `resources/general/copywriting-resources/headline-performers.md`, `resources/general/copywriting-resources/headlines-swipe-file-dna.md`
 
+### `/niche-setup`
+Researches and builds the complete foundational resource library for a new Client Network lead gen vertical. Produces 10 source-of-truth documents matching the quality and structure of existing verticals, then uploads to Google Drive.
+
+- **Triggers:** "set up a new niche", "build resources for [vertical]", "research [vertical] for lead gen", "niche setup [vertical]"
+- **Phases:** Market Research > Audience & Competitor Deep Dive > Synthesis (review between each)
+- **Outputs:** `resources/client-network/{vertical}/` (local) + Google Drive `Lead Gen Brands/{Vertical}/Foundational Docs/` (Google Docs)
+- **Dependencies:** WebSearch, WebFetch, Sabri Suby resources, existing vertical templates, Google Drive API
+
 ### `/youtube-transcript`
 Download transcripts from YouTube videos.
 
