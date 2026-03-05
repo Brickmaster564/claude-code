@@ -20,7 +20,7 @@ import urllib.error
 from pathlib import Path
 
 CONFIG_PATH = Path(__file__).parent.parent / "config" / "api-keys.json"
-ACTOR_ID = "dev_fusion/Linkedin-Profile-Scraper"
+ACTOR_ID = "dev_fusion~Linkedin-Profile-Scraper"
 API_BASE = "https://api.apify.com/v2"
 POLL_INTERVAL = 10  # seconds between status checks
 MAX_WAIT = 600  # max seconds to wait for actor run
@@ -122,7 +122,10 @@ def parse_profiles(items):
         }
 
         # Check for recent posts (updates)
-        updates_0_text = item.get("updates/0/postText") or item.get("updates", [{}])[0].get("postText", "") if isinstance(item.get("updates"), list) else ""
+        updates = item.get("updates")
+        updates_0_text = ""
+        if isinstance(updates, list) and len(updates) > 0:
+            updates_0_text = item.get("updates/0/postText") or updates[0].get("postText", "")
         # Try flat CSV-style keys first (from Apify dataset)
         if not updates_0_text:
             for key in item:
