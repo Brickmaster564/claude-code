@@ -114,11 +114,15 @@ python3 tools/gdocs.py --account {google_account} move --doc-id "{new_doc_id}" -
 
 The `logged_folder_id` comes from the client config. This keeps the client's Drive folder clean, with only the template remaining at the top level.
 
-### Step 8: Post to Slack (if available)
+### Step 8: Post to Slack
 
-If the Slack channel is accessible, post a message to the client's Slack channel with the doc link and a brief summary.
+Post a summary to the client's Slack channel in the Nalu workspace using the direct Slack tool (not MCP):
 
-If the Slack workspace isn't connected (as is currently the case for Nalu), skip this step and note it was skipped.
+```bash
+python3 tools/slack.py send --channel "#{slack_channel}" --text "Agenda sent for W/C {next_monday_date}. Doc: https://docs.google.com/document/d/{new_doc_id}/edit"
+```
+
+The `slack_channel` comes from the client config. The bot must be invited to the channel first. If the send fails (channel not found or bot not invited), note it was skipped and move on.
 
 ### Step 9: Confirm
 
@@ -136,4 +140,4 @@ Tell Jasper:
 - **No em dashes.** Use periods, commas, colons, or restructure instead.
 - **Date format:** Use ordinal dates (10th March, not March 10). Week commencing = next Monday.
 - **Multiple clients:** The skill is designed to support multiple clients via `clients.json`. Each client has their own template, sections, and delivery config. Add new clients by adding entries to the config.
-- **Slack:** Currently blocked because the MCP is connected to the CN workspace, not Nalu. Once a second Slack workspace is connected, update the channel ID in the config.
+- **Slack:** Uses `tools/slack.py` (direct API with Nalu bot token), not the MCP Slack integration (which is CN only). The bot must be invited to each target channel.
