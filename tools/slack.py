@@ -78,12 +78,12 @@ def send_message(channel, text):
 
 
 def list_channels():
-    """List all public channels the bot can see."""
+    """List all channels (public and private) the bot can see."""
     all_channels = []
     cursor = None
 
     while True:
-        params = {"types": "public_channel", "limit": "200"}
+        params = {"types": "public_channel,private_channel", "limit": "200"}
         if cursor:
             params["cursor"] = cursor
 
