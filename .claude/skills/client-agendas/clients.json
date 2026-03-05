@@ -1,0 +1,52 @@
+{
+  "dominic-monkhouse": {
+    "display_name": "Dominic Monkhouse",
+    "short_name": "Dom",
+    "template_doc_id": "1nceseooW3wVi7eEWw_wbFo740-686i3QumrLdSlqDq0",
+    "google_account": "nalu",
+    "email_to": "dom@monkhouseandcompany.com",
+    "email_cc": "geri@monkhouseandcompany.com",
+    "slack_channel": "nalu-hub",
+    "sections": {
+      "performance_dm": {
+        "label": "Performance (Dominic Long-Form)",
+        "prompts": [
+          "Viewership/subscriber snapshot for Dominic's main YouTube channel this week",
+          "Any bottlenecks or issues, and proposed solutions"
+        ]
+      },
+      "performance_stw": {
+        "label": "Performance (Scale to Win)",
+        "prompts": [
+          "YouTube and audio/podcast performance snapshot for Scale to Win",
+          "Any bottlenecks or issues, and proposed solutions"
+        ]
+      },
+      "key_priorities": {
+        "label": "Key Priorities",
+        "prompts": [
+          "Top priorities for the coming week (guest pipeline, filming, promotions, etc.)"
+        ]
+      },
+      "video_ideation": {
+        "label": "DM: Video Ideation & Scripting",
+        "prompts": [
+          "New video ideas highlighted this week (titles, Notion links, status, rationale)"
+        ]
+      },
+      "creative_pipeline": {
+        "label": "Creative & Operations Pipeline",
+        "prompts": [
+          "Episode timeline: what's going live, what's filmed, what still needs filming"
+        ]
+      },
+      "next_steps": {
+        "label": "Next Steps",
+        "prompts": [
+          "Critical decisions that need Dom's input",
+          "This week's strategic priorities (action items with owners)"
+        ]
+      }
+    }
+  }
+}
