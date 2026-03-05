@@ -43,43 +43,33 @@ python3 tools/slack.py send --channel "#nalu-hub" --text "<@U07BL527UP8> - {disp
 
 **Store the `ts` from the response.** This is the thread ID. All subsequent messages for this client go in this thread using `reply`.
 
-### Step 3: Collect Brain Dumps (In-Thread)
+### Step 3: Collect Brain Dumps (In-Thread, One Section at a Time)
 
-Post **all section prompts at once** in a single thread reply. Each section has one `prompt` field in the config. Format them clearly so Scott can scan the lot and voice-dump his answers in whatever order he wants.
+Walk through sections **one by one**. Post a single section prompt, wait for Scott's brain dump, then move to the next.
+
+For each section in the client's `sections` config:
+
+1. Post the prompt:
 
 ```bash
-python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --text "{all_sections_formatted}"
+python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --text "*{section_label}*\n{prompt}"
 ```
 
-Format the message like:
+2. Tell Jasper (in Claude Code): "Waiting on Scott for {section_label}." Then pause.
 
-```
-*1. Performance (Dominic Long-Form)*
-Dominic long-form channel. How's viewership and subs looking this week? Any wins worth flagging? And is there anything blocking growth right now, and if so what's the fix?
-
-*2. Performance (Scale to Win)*
-Scale to Win. How's YouTube and audio/podcast performing? ...
-
-*3. Key Priorities*
-What are the top priorities for next week? ...
-
-(etc. for all sections)
-```
-
-**How Scott replies:**
-- He'll voice-dump via Whisper or type quick notes. Could be one massive message or several. Messy, stream-of-consciousness, no structure. That's fine.
-- He might answer sections out of order, skip section labels, or lump things together. Parse it all.
-
-**After Scott replies:**
-- When Jasper says Scott has replied (or says "check thread", "continue", etc.), read the thread:
+3. When Jasper says Scott has replied ("check thread", "continue", "next", etc.), read the thread:
 
 ```bash
 python3 tools/slack.py read-thread --channel "#nalu-hub" --thread-ts "{thread_ts}"
 ```
 
-- Extract the key data: numbers, names, dates, episode statuses, action items, decisions. Map each piece of info to the right section.
-- If something critical is missing or unclear, reply in the thread with a specific follow-up. Keep it short: "Got it. Quick one: what's the status on [X]? Filmed or still to do?"
-- Once you have enough for all sections, reply: "Got everything. Building the doc now."
+4. Parse Scott's brain dump. He'll voice-dump via Whisper or type quick messy notes. Stream-of-consciousness, no structure. Extract the key data: numbers, names, dates, statuses, action items.
+
+5. If something critical is missing or unclear, reply with a short follow-up: "Got it. Quick one: what's the status on [X]? Filmed or still to do?"
+
+6. Once you have what you need for that section, move to the next one. No need to confirm each section back to Scott unless clarifying.
+
+After all sections are done, reply in the thread: "Got everything. Building the doc now."
 
 ### Step 4: Duplicate the Template
 
@@ -105,12 +95,34 @@ Then fill in content using batch-replace (if placeholders exist) or insertText a
 python3 tools/gdocs.py --account {google_account} batch-replace --doc-id "{new_doc_id}" --replacements '{...}'
 ```
 
-**Content formatting rules:**
-- Structure Scott's brain dumps into clean, professional bullet points.
-- Performance sections: Snapshot first, then Bottleneck + Solution if applicable.
-- Episode timeline: Bold episode name, then date and status.
-- Next steps: Checkbox-style list of action items with owners.
-- Professional but direct tone. No em dashes.
+**Content formatting rules (match the finished agenda style exactly):**
+
+The doc must look like a polished, professional weekly agenda. Structure Scott's messy brain dumps into this exact format:
+
+- **Performance sections** (DM Long-Form, Scale to Win):
+  - **Snapshot** (or **Vid/Audio Snapshot** for STW): concise bullet points on viewership, subs, audio DL/streams. Short, factual sentences.
+  - **Bottleneck + Solution**: what's blocking growth + the proposed fix. Sub-bullets (italic) for caveats or notes.
+  - Screenshots get dropped in by Scott during review. Leave space for them.
+
+- **Key Priorities**: each priority is a bold heading with sub-bullets explaining what's happening. E.g.:
+  - **Guest pipeline extended for Scale To Win**
+    - Pat to report on outreach + continue to book in guests for next week
+    - Email outreach begins on Monday (with warmed inboxes)
+
+- **DM: Video Ideation & Scripting**:
+  - "New Video Ideas Highlighted:" heading
+  - Notion link if available
+  - Each idea: checkmark + **bold title** + sub-bullet with status/notes (e.g. "Script to be drafted this weekend." or "Info-gathering questions here")
+
+- **Creative & Operations Pipeline**:
+  - "Episode timeline:" heading
+  - Bullet list: **Bold episode name** - date (status). Statuses: "filmed", "link available [day]", "to be filmed", "TO BE FILMED" (caps for urgent)
+
+- **Next Steps**:
+  - "Critical Decisions Round-up:" heading
+  - Checkbox-style list (☐) of action items. Short, decisive.
+
+- **Tone**: professional but direct. Short sentences. No em dashes. No filler. Every bullet should convey information, not padding.
 
 ### Step 6: Share for Review
 
@@ -192,5 +204,5 @@ If there are more clients in the queue, go back to Step 2 and start a **new thre
 - **Date format:** Use ordinal dates (10th March, not March 10). Week commencing = next Monday.
 - **Slack tool:** Uses `tools/slack.py` (direct API with Nalu bot token), not the MCP Slack integration (which is CN workspace only).
 - **Doc access:** Scott is signed into hello@nalupodcasts.com (the Nalu account), so he has direct edit access to all docs created under that account. No sharing step needed for him.
-- **Async workflow:** This skill pauses at two points waiting for Scott: (1) after each section prompt for brain dumps, (2) after sharing the draft for review. Jasper tells Claude when to continue by saying things like "check thread", "he's replied", "good to go", etc.
+- **Async workflow:** This skill pauses multiple times waiting for Scott: once after each section prompt (one at a time), and once after sharing the draft for review. Jasper tells Claude when to continue by saying things like "check thread", "he's replied", "next", "good to go", etc.
 - **Multiple clients:** Each client gets a separate Slack thread. Run Dom first, then Jeremy, unless Jasper specifies otherwise.
