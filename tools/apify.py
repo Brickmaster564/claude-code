@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """
-Apify LinkedIn profile scraper tool.
+Apify LinkedIn scraper tools.
 
 Usage:
     python3 tools/apify.py scrape-profiles --urls "https://linkedin.com/in/person1,https://linkedin.com/in/person2"
+    python3 tools/apify.py scrape-comments --usernames "person1,person2"
 
-Runs the dev_fusion/Linkedin-Profile-Scraper actor on Apify and returns
-profile data including recent LinkedIn posts (updates).
+scrape-profiles: Runs dev_fusion/Linkedin-Profile-Scraper to get profile data
+                 including recent posts (updates).
+scrape-comments: Runs apimaestro/linkedin-profile-comments to get comments
+                 the user has made on other people's posts.
 
 Reads API key from config/api-keys.json.
 """
@@ -20,10 +23,12 @@ import urllib.error
 from pathlib import Path
 
 CONFIG_PATH = Path(__file__).parent.parent / "config" / "api-keys.json"
-ACTOR_ID = "dev_fusion~Linkedin-Profile-Scraper"
+ACTOR_PROFILE = "dev_fusion~Linkedin-Profile-Scraper"
+ACTOR_COMMENTS = "apimaestro~linkedin-profile-comments"
 API_BASE = "https://api.apify.com/v2"
 POLL_INTERVAL = 10  # seconds between status checks
 MAX_WAIT = 600  # max seconds to wait for actor run
+COMMENTS_ACTIVE_MONTHS = 9  # comments within this many months = active
 
 
 def load_api_key():
@@ -55,15 +60,10 @@ def api_request(token, method, endpoint, data=None):
         return {"error": str(e)}
 
 
-def run_actor(token, linkedin_urls):
-    """Start the LinkedIn Profile Scraper actor and wait for results."""
-    # Start the actor run
-    actor_input = {
-        "profileUrls": linkedin_urls
-    }
-
-    print(f"Starting Apify actor for {len(linkedin_urls)} profiles...", file=sys.stderr)
-    run_result = api_request(token, "POST", f"/acts/{ACTOR_ID}/runs", data=actor_input)
+def run_actor(token, actor_id, actor_input, label=""):
+    """Start an Apify actor and wait for results."""
+    print(f"Starting Apify actor {actor_id} {label}...", file=sys.stderr)
+    run_result = api_request(token, "POST", f"/acts/{actor_id}/runs", data=actor_input)
 
     if "error" in run_result:
         return {"error": run_result["error"], "detail": run_result.get("detail", "")}
@@ -96,12 +96,7 @@ def run_actor(token, linkedin_urls):
 
     # Fetch dataset results
     dataset_result = api_request(token, "GET", f"/datasets/{dataset_id}/items")
-    if isinstance(dataset_result, list):
-        return parse_profiles(dataset_result)
-    elif "error" in dataset_result:
-        return {"error": dataset_result["error"]}
-    else:
-        return parse_profiles(dataset_result.get("items", dataset_result))
+    return dataset_result if isinstance(dataset_result, list) else dataset_result.get("items", dataset_result)
 
 
 def parse_profiles(items):
@@ -151,19 +146,86 @@ def parse_profiles(items):
 
 
 def scrape_profiles(token, urls):
-    """Main entry point for scraping LinkedIn profiles."""
+    """Scrape LinkedIn profiles for post activity."""
     if not urls:
         return {"error": "No URLs provided"}
 
-    return run_actor(token, urls)
+    raw = run_actor(token, ACTOR_PROFILE, {"profileUrls": urls},
+                    label=f"for {len(urls)} profiles")
+    if isinstance(raw, dict) and "error" in raw:
+        return raw
+    return parse_profiles(raw)
+
+
+def scrape_comments(token, usernames):
+    """Scrape LinkedIn commenting activity for given usernames."""
+    if not usernames:
+        return {"error": "No usernames provided"}
+
+    results = {"total": 0, "active_commenters": 0, "inactive": 0, "profiles": []}
+
+    for username in usernames:
+        raw = run_actor(token, ACTOR_COMMENTS, {"username": username},
+                        label=f"comments for {username}")
+        if isinstance(raw, dict) and "error" in raw:
+            results["profiles"].append({
+                "username": username,
+                "has_recent_comments": False,
+                "comment_count": 0,
+                "most_recent_comment": None,
+                "error": raw["error"]
+            })
+            results["inactive"] += 1
+            results["total"] += 1
+            continue
+
+        comments = raw if isinstance(raw, list) else []
+        most_recent_ts = 0
+        most_recent_date = ""
+        most_recent_text = ""
+
+        for c in comments:
+            created = c.get("created_at", {})
+            ts = created.get("timestamp", 0)
+            if ts > most_recent_ts:
+                most_recent_ts = ts
+                most_recent_date = created.get("formatted", "")
+                most_recent_text = (c.get("comment_text") or "")[:200]
+
+        # Check if most recent comment is within the active window
+        has_recent = False
+        if most_recent_ts > 0:
+            import datetime
+            comment_date = datetime.datetime.fromtimestamp(most_recent_ts / 1000)
+            cutoff = datetime.datetime.now() - datetime.timedelta(days=COMMENTS_ACTIVE_MONTHS * 30)
+            has_recent = comment_date >= cutoff
+
+        profile = {
+            "username": username,
+            "has_recent_comments": has_recent,
+            "comment_count": len(comments),
+            "most_recent_comment": most_recent_date,
+            "most_recent_text": most_recent_text
+        }
+        results["profiles"].append(profile)
+        results["total"] += 1
+        if has_recent:
+            results["active_commenters"] += 1
+        else:
+            results["inactive"] += 1
+
+    return results
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Apify LinkedIn profile scraper")
+    parser = argparse.ArgumentParser(description="Apify LinkedIn scraper tools")
     subparsers = parser.add_subparsers(dest="command")
 
-    scrape_cmd = subparsers.add_parser("scrape-profiles", help="Scrape LinkedIn profiles")
+    scrape_cmd = subparsers.add_parser("scrape-profiles", help="Scrape LinkedIn profiles for posts")
     scrape_cmd.add_argument("--urls", required=True, help="Comma-separated LinkedIn profile URLs")
+
+    comments_cmd = subparsers.add_parser("scrape-comments", help="Scrape LinkedIn commenting activity")
+    comments_cmd.add_argument("--usernames", required=True, help="Comma-separated LinkedIn usernames (slugs)")
 
     args = parser.parse_args()
     token = load_api_key()
@@ -171,6 +233,10 @@ def main():
     if args.command == "scrape-profiles":
         urls = [u.strip() for u in args.urls.split(",") if u.strip()]
         result = scrape_profiles(token, urls)
+        print(json.dumps(result, indent=2))
+    elif args.command == "scrape-comments":
+        usernames = [u.strip() for u in args.usernames.split(",") if u.strip()]
+        result = scrape_comments(token, usernames)
         print(json.dumps(result, indent=2))
     else:
         parser.print_help()

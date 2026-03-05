@@ -5,7 +5,7 @@ Automated weekly pipeline with two modes:
 1. **Replenish mode** (default): Scan Instantly campaigns for completed leads, identify their companies, find fresh contacts at those same companies via Apollo.
 2. **Fresh prospect mode** (fallback): If no completed leads exist, source entirely new leads from new companies using industry/keyword search in Apollo. Same as the prospector workflow's search logic.
 
-Both modes then verify emails, check LinkedIn activity, load into Instantly, and route active posters to Lemlist.
+Both modes then verify emails, check LinkedIn activity (posts AND comments), load into Instantly, and route active LinkedIn users to Lemlist.
 
 ## Input
 
@@ -29,19 +29,19 @@ The config file contains everything else (campaign IDs, Apollo lists, Lemlist ca
   "life-insurance": {
     "instantly_campaign_id": "...",
     "lemlist_campaigns": { "US": "...", "UK": "...", "CA": "...", "AU": "..." },
-    "max_leads_per_run": 80,
+    "max_leads_per_run": 150,
     "max_per_company": 4
   },
   "home-security": {
     "instantly_campaign_id": "...",
     "lemlist_campaign_id": "...",
-    "max_leads_per_run": 80,
+    "max_leads_per_run": 150,
     "max_per_company": 4
   },
   "senior-care": {
     "instantly_campaign_id": "...",
     "lemlist_campaign_id": "...",
-    "max_leads_per_run": 80,
+    "max_leads_per_run": 150,
     "max_per_company": 4
   }
 }
@@ -82,7 +82,8 @@ All data MUST be written to `.tmp/replenisher-run.json` and kept updated through
     "emails_recovered": 0,
     "loaded_to_instantly": 0,
     "loaded_to_lemlist": 0,
-    "linkedin_active": 0,
+    "linkedin_active_posters": 0,
+    "linkedin_active_commenters": 0,
     "linkedin_inactive": 0,
     "linkedin_no_profile": 0
   }
@@ -175,7 +176,7 @@ For each target company from Step 3, search Apollo for new contacts:
 
 3. **Cap per company:** max `max_per_company` new contacts per company (default 4).
 
-4. **Cap per run:** stop once you hit `max_leads_per_run` total new prospects (default 80).
+4. **Cap per run:** stop once you hit `max_leads_per_run` total new prospects (default 150). Target ~100 new leads into Instantly after deduplication.
 
 5. If no contacts are found for a company at all (Primary + Secondary exhausted), skip that company.
 
@@ -205,7 +206,7 @@ Use `apollo_mixed_people_api_search` with:
 **Dedup, caps, and enrichment:** Same rules as Step 4A:
 - Deduplicate against existing Apollo contacts
 - Max `max_per_company` contacts per company (default 4)
-- Stop at `max_leads_per_run` total prospects (default 80)
+- Stop at `max_leads_per_run` total prospects (default 150)
 - Enrich via `apollo_people_bulk_match` to get emails and LinkedIn URLs
 
 **Per-page checkpoint:** After processing each page of results, write to the working file.
@@ -237,20 +238,35 @@ python3 tools/bounceban.py --emails "risky1@co.com,risky2@co.com,..."
 
 ### Step 6 -- LinkedIn Activity Check (Apify)
 
-For all verified leads (good + recovered) that have a LinkedIn URL from Apollo:
+Two-pass check for all verified leads (good + recovered) that have a LinkedIn URL from Apollo.
+
+**Pass 1: Profile scraper (posts)**
 
 ```bash
 python3 tools/apify.py scrape-profiles --urls "https://linkedin.com/in/person1,https://linkedin.com/in/person2,..."
 ```
 
-The script runs the `dev_fusion/Linkedin-Profile-Scraper` actor on Apify and returns profile data including recent posts.
+Runs `dev_fusion/Linkedin-Profile-Scraper`. If `updates/0/postText` exists and is non-empty, the lead is an **active poster**.
 
-**Classification:**
-- If `updates/0/postText` exists and is non-empty -> **active poster**
-- If `updates/0/postText` is empty or missing -> **inactive**
-- If no LinkedIn URL from Apollo -> **no profile** (treat as inactive)
+**Pass 2: Comments scraper (engagement)**
 
-**Write checkpoint:** Update each prospect with their LinkedIn activity status.
+For leads that came back with NO recent posts in Pass 1, run the comments scraper:
+
+```bash
+python3 tools/apify.py scrape-comments --usernames "person1,person2,..."
+```
+
+Runs `apimaestro/linkedin-profile-comments`. Extract the username slug from the LinkedIn URL (the part after `/in/`). The scraper returns all comments the user has made on other people's posts.
+
+**Classification (applied after both passes):**
+- **Active poster** = has recent posts from Pass 1 -> route to Lemlist + Instantly
+- **Active commenter** = no recent posts, BUT has commented on someone else's post within the last 9 months -> route to Lemlist + Instantly
+- **Inactive** = no recent posts AND no comments within 9 months -> route to Instantly only
+- **No profile** = no LinkedIn URL from Apollo -> treat as inactive, route to Instantly only
+
+The comments scraper costs ~$0.005 per profile ($5/1000), so running it on all non-posters is negligible.
+
+**Write checkpoint:** Update each prospect with their LinkedIn activity status (`active_poster`, `active_commenter`, or `inactive`).
 
 ### Step 7 -- Load into Instantly
 
@@ -264,9 +280,9 @@ Same batch endpoint as the prospector workflow.
 
 **Write checkpoint:** Update loaded status.
 
-### Step 8 -- Load Active Posters into Lemlist
+### Step 8 -- Load Active LinkedIn Users into Lemlist
 
-For leads flagged as **active posters** in Step 6, also add them to the Lemlist campaign.
+For leads flagged as **active poster** or **active commenter** in Step 6, also add them to the Lemlist campaign.
 
 **Geo-based routing (Life Insurance only):**
 If the vertical config has `lemlist_campaigns` (object), use the lead's country from Apollo to pick the correct campaign ID. Map common country values: "United States" -> "US", "United Kingdom" -> "UK", "Canada" -> "CA", "Australia" -> "AU". If the lead's country doesn't match any key, skip Lemlist for that lead and note it in the report.
@@ -317,7 +333,8 @@ New Prospects Found: {X}
 Verified: {X} good + {X} recovered
 Discarded: {X} bad/undeliverable
 
-LinkedIn Active: {X} (-> Instantly + Lemlist)
+LinkedIn Active Posters: {X} (-> Instantly + Lemlist)
+LinkedIn Active Commenters: {X} (-> Instantly + Lemlist)
 LinkedIn Inactive: {X} (-> Instantly only)
 No LinkedIn: {X} (-> Instantly only)
 
@@ -342,7 +359,8 @@ After reporting, delete `.tmp/replenisher-run.json`.
 - **Instantly returns no completed leads:** Switch to fresh prospect mode (Step 4B). Do NOT stop.
 - **No target companies after exclusion (all replied):** Switch to fresh prospect mode (Step 4B). Do NOT stop.
 - **Apollo returns no new contacts for a company:** Skip that company, note in the report.
-- **Apify actor fails or times out:** Default those leads to "inactive" (Instantly only). Don't block the pipeline.
+- **Apify profile scraper fails or times out:** Default those leads to "inactive" (Instantly only). Don't block the pipeline.
+- **Apify comments scraper fails for a username:** Default that lead to "inactive". Don't block the pipeline.
 - **Lemlist campaign ID not set:** Skip Lemlist loading entirely, note in the report.
 - **MillionVerifier or BounceBan API errors:** Retry once. If still failing, pause and ask Jasper.
 - **Rate limits:** Back off and retry with a short delay.
@@ -352,7 +370,7 @@ After reporting, delete `.tmp/replenisher-run.json`.
 
 - This workflow is designed to run weekly per vertical via cron job.
 - Apollo enrichment credits are consumed during Step 4. The workflow proceeds automatically since finding contacts is the core purpose.
-- Apify compute units are consumed during Step 6. Costs are small per profile but scale with lead volume.
+- Apify compute units are consumed during Step 6. Profile scraper + comments scraper combined cost ~$0.05 + $0.005 per lead. At 150 leads, expect ~$8-9 total for LinkedIn checks.
 - The Lemlist routing (Step 8) is optional. If no Lemlist campaign is configured, leads still go to Instantly.
 - This workflow does NOT write outreach copy. Use `/copywriter` for that.
 - All API keys are loaded from `config/api-keys.json` by the tool scripts.
