@@ -57,10 +57,6 @@
         "label": "Performance Snapshot",
         "prompt": "Episode downloads, social numbers, content performance. Any wins, lessons, or standout outcomes worth calling out?"
       },
-      "video_ideation": {
-        "label": "Video Ideation & Scripting",
-        "prompt": "Any new video ideas on the board? Title, status, and why we think it'll work."
-      },
       "creative_pipeline": {
         "label": "Creative & Operations Pipeline",
         "prompt": "Episode timeline. What's going live and when, what's filmed, what still needs filming. Episode name, date, status."
