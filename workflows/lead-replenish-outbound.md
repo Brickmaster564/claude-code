@@ -348,7 +348,7 @@ LEADS ADDED:
 | ...  | ...   | ...     | ...   | Active   | good   |
 ```
 
-Send this summary to Slack using the Slack MCP integration, then present it in chat.
+Send this summary to #client-network-hub using the Slack MCP integration, then present it in chat.
 
 After reporting, delete `.tmp/replenisher-run.json`.
 
