@@ -17,6 +17,11 @@ echo "$(date): Starting Scale to Win (Dominic Munkhouse) guest pipeline" >> "$LO
 
 cd "$WORKDIR"
 
+# Notify Slack that the cron job has started
+python3 tools/slack.py send --channel "C089HSD8US1" \
+  --text "Cron started: Guest Pipeline (Scale to Win / Dominic). Running full pipeline now..." \
+  >> "$LOGFILE" 2>&1
+
 /Users/jasper/.local/bin/claude \
   --print \
   --dangerously-skip-permissions \

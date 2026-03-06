@@ -17,6 +17,11 @@ echo "$(date): Starting client agendas" >> "$LOGFILE"
 
 cd "$WORKDIR"
 
+# Notify Slack that the cron job has started
+python3 tools/slack.py send --channel "C08P14TTBA7" \
+  --text "Cron started: Client Agendas. Preparing weekly agendas for all clients now..." \
+  >> "$LOGFILE" 2>&1
+
 /Users/jasper/.local/bin/claude \
   --print \
   --dangerously-skip-permissions \

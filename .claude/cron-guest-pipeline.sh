@@ -17,6 +17,11 @@ echo "$(date): Starting FTT guest pipeline" >> "$LOGFILE"
 
 cd "$WORKDIR"
 
+# Notify Slack that the cron job has started
+python3 tools/slack.py send --channel "C089HSD8US1" \
+  --text "Cron started: Guest Pipeline (FTT). Running full 30-candidate pipeline now..." \
+  >> "$LOGFILE" 2>&1
+
 /Users/jasper/.local/bin/claude \
   --print \
   --dangerously-skip-permissions \

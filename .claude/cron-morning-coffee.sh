@@ -17,6 +17,11 @@ echo "$(date): Starting morning coffee briefing" >> "$LOGFILE"
 
 cd "$WORKDIR"
 
+# Notify Slack that the cron job has started
+python3 tools/slack.py send --channel "C08P14TTBA7" \
+  --text "Cron started: Morning Coffee. Compiling daily briefing now..." \
+  >> "$LOGFILE" 2>&1
+
 /Users/jasper/.local/bin/claude \
   --print \
   --dangerously-skip-permissions \
