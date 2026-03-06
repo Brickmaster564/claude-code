@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """
-Slack tool for Nalu workspace (direct API, not MCP).
+Slack tool for Nalu and Client Network workspaces (direct API, not MCP).
 
 Usage:
     python3 tools/slack.py send --channel "#nalu-hub" --text "Hello"
+    python3 tools/slack.py send --workspace cn --channel "#client-network-hub" --text "Hello"
     python3 tools/slack.py reply --channel "C08P14TTBA7" --thread-ts "1234.5678" --text "Reply here"
     python3 tools/slack.py read-thread --channel "C08P14TTBA7" --thread-ts "1234.5678"
     python3 tools/slack.py list-channels
     python3 tools/slack.py find-channel --name "nalu-hub"
     python3 tools/slack.py find-user --name "scott"
 
-Uses the Nalu bot token from config/api-keys.json (slack_nalu).
+Defaults to Nalu workspace (slack_nalu). Use --workspace cn for Client Network (slack_cn).
 """
 
 import argparse
@@ -24,12 +25,21 @@ CONFIG_DIR = Path(__file__).parent.parent / "config"
 SLACK_API = "https://slack.com/api"
 
 
+WORKSPACE_KEYS = {
+    "nalu": "slack_nalu",
+    "cn": "slack_cn",
+}
+
+_active_workspace = "nalu"
+
+
 def load_token():
     with open(CONFIG_DIR / "api-keys.json") as f:
         keys = json.load(f)
-    token = keys.get("slack_nalu")
+    key_name = WORKSPACE_KEYS[_active_workspace]
+    token = keys.get(key_name)
     if not token:
-        print("ERROR: slack_nalu token not found in config/api-keys.json", file=sys.stderr)
+        print(f"ERROR: {key_name} token not found in config/api-keys.json", file=sys.stderr)
         sys.exit(1)
     return token
 
@@ -156,7 +166,9 @@ def find_user(name):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Slack tool (Nalu workspace)")
+    parser = argparse.ArgumentParser(description="Slack tool (Nalu / CN workspace)")
+    parser.add_argument("--workspace", choices=["nalu", "cn"], default="nalu",
+                        help="Workspace to use: nalu (default) or cn (Client Network)")
     subparsers = parser.add_subparsers(dest="command")
 
     # send
@@ -187,6 +199,8 @@ def main():
     find_u_cmd.add_argument("--name", required=True, help="Name to search for")
 
     args = parser.parse_args()
+    global _active_workspace
+    _active_workspace = args.workspace
     result = None
 
     if args.command == "send":

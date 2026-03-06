@@ -348,7 +348,7 @@ LEADS ADDED:
 | ...  | ...   | ...     | ...   | Active   | good   |
 ```
 
-Send this summary to #client-network-hub using the Slack MCP integration, then present it in chat.
+Send this summary to #client-network-hub using `python3 tools/slack.py --workspace cn send --channel "#client-network-hub" --text "..."`. Do NOT use Slack MCP for this (it posts as Jasper, not the bot).
 
 After reporting, delete `.tmp/replenisher-run.json`.
 
