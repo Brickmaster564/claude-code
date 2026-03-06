@@ -53,6 +53,15 @@ Daily intelligence briefing covering copywriting wisdom, AI news, X/Twitter insi
 ### `/youtube-transcript`
 Download transcripts from YouTube videos.
 
+### `/guest-pipeline`
+Automated guest discovery pipeline for Nalu podcast clients. Runs 5 research methods (competitor podcast scraping, seed-based lookalikes, Instagram discovery, listicle mining, book/media trending), deduplicates against Airtable, enforces diversity quotas, and writes 30 qualified candidates per run.
+
+- **Triggers:** "find new podcast guests", "run guest pipeline", "guest research for [client]", "refresh guest list"
+- **Clients:** FTT (Mike Thurston), Scale to Win (Dominic Munkhouse), Jeremy Harbour
+- **Outputs:** Records in client's Airtable guest tracker + Slack summary to #nalu-hub + `output/guest-pipeline/YYYY-MM-DD.json`
+- **Dependencies:** WebSearch, WebFetch, Apify (Instagram), Airtable MCP, `tools/apify.py`, `tools/slack.py`
+- **Cron:** `cron-guest-pipeline.sh` Monday + Thursday 10 AM
+
 ## Available Workflows
 
 ### Prospector (`workflows/prospector.md`)

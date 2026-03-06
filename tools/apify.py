@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 """
-Apify scraper tools (LinkedIn + X/Twitter).
+Apify scraper tools (LinkedIn + X/Twitter + Instagram).
 
 Usage:
     python3 tools/apify.py scrape-profiles --urls "https://linkedin.com/in/person1,https://linkedin.com/in/person2"
     python3 tools/apify.py scrape-comments --usernames "person1,person2"
     python3 tools/apify.py scrape-tweets --handles "sabrisuby,TheJeremyHaynes" [--max-per-user 5]
+    python3 tools/apify.py scrape-instagram-related --handles "mikethurstonfitness,lewishowes" [--min-followers 100000]
+    python3 tools/apify.py scrape-instagram-profile --handles "mikethurstonfitness,lewishowes"
 
-scrape-profiles: Runs dev_fusion/Linkedin-Profile-Scraper to get profile data
-                 including recent posts (updates).
-scrape-comments: Runs apimaestro/linkedin-profile-comments to get comments
-                 the user has made on other people's posts.
-scrape-tweets:   Runs apidojo/tweet-scraper to get recent tweets from X handles.
+scrape-profiles:          LinkedIn profile data including recent posts.
+scrape-comments:          LinkedIn commenting activity.
+scrape-tweets:            Recent tweets from X handles.
+scrape-instagram-related: Suggested/related Instagram profiles (filtered by follower count).
+scrape-instagram-profile: Instagram profile details (followers, bio, verified status).
 
 Reads API key from config/api-keys.json.
 """
@@ -28,6 +30,8 @@ CONFIG_PATH = Path(__file__).parent.parent / "config" / "api-keys.json"
 ACTOR_PROFILE = "dev_fusion~Linkedin-Profile-Scraper"
 ACTOR_COMMENTS = "apimaestro~linkedin-profile-comments"
 ACTOR_TWEETS = "apidojo~tweet-scraper"
+ACTOR_INSTAGRAM_RELATED = "scrapio~instagram-related-person-scraper"
+ACTOR_INSTAGRAM_PROFILE = "shu8hvrXbJbY3Eb9W"
 API_BASE = "https://api.apify.com/v2"
 POLL_INTERVAL = 10  # seconds between status checks
 MAX_WAIT = 600  # max seconds to wait for actor run
@@ -285,8 +289,86 @@ def scrape_tweets(token, handles, max_per_user=5):
     }
 
 
+def scrape_instagram_related(token, handles, min_followers=100000):
+    """Scrape Instagram suggested/related profiles for given handles."""
+    if not handles:
+        return {"error": "No handles provided"}
+
+    # Build profile URLs from handles
+    profile_urls = [f"https://www.instagram.com/{h.strip('/')}/" for h in handles]
+
+    actor_input = {
+        "profiles": profile_urls,
+        "resultsLimit": 50
+    }
+
+    raw = run_actor(token, ACTOR_INSTAGRAM_RELATED, actor_input,
+                    label=f"related profiles for {len(handles)} handles")
+    if isinstance(raw, dict) and "error" in raw:
+        return raw
+
+    items = raw if isinstance(raw, list) else []
+
+    profiles = []
+    for item in items:
+        followers = item.get("followersCount", 0) or item.get("followers", 0) or 0
+        profile = {
+            "username": item.get("username", "") or item.get("userName", ""),
+            "full_name": item.get("fullName", "") or item.get("full_name", ""),
+            "bio": (item.get("biography", "") or item.get("bio", "") or "")[:200],
+            "followers": followers,
+            "profile_url": f"https://www.instagram.com/{item.get('username', '')}/"
+        }
+        profiles.append(profile)
+
+    filtered = [p for p in profiles if p["followers"] >= min_followers]
+
+    return {
+        "total_found": len(profiles),
+        "filtered_by_followers": len(filtered),
+        "min_followers_threshold": min_followers,
+        "profiles": filtered
+    }
+
+
+def scrape_instagram_profile(token, handles):
+    """Scrape Instagram profile details for given handles."""
+    if not handles:
+        return {"error": "No handles provided"}
+
+    actor_input = {
+        "usernames": handles,
+        "resultsType": "details"
+    }
+
+    raw = run_actor(token, ACTOR_INSTAGRAM_PROFILE, actor_input,
+                    label=f"profiles for {len(handles)} handles")
+    if isinstance(raw, dict) and "error" in raw:
+        return raw
+
+    items = raw if isinstance(raw, list) else []
+
+    profiles = []
+    for item in items:
+        profiles.append({
+            "username": item.get("username", "") or item.get("userName", ""),
+            "full_name": item.get("fullName", "") or item.get("full_name", ""),
+            "bio": (item.get("biography", "") or item.get("bio", "") or "")[:200],
+            "followers": item.get("followersCount", 0) or item.get("followers", 0) or 0,
+            "following": item.get("followingCount", 0) or item.get("following", 0) or 0,
+            "posts": item.get("postsCount", 0) or item.get("posts", 0) or 0,
+            "verified": item.get("verified", False) or item.get("isVerified", False),
+            "profile_url": f"https://www.instagram.com/{item.get('username', '')}/"
+        })
+
+    return {
+        "total": len(profiles),
+        "profiles": profiles
+    }
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Apify scraper tools (LinkedIn + X/Twitter)")
+    parser = argparse.ArgumentParser(description="Apify scraper tools (LinkedIn + X/Twitter + Instagram)")
     subparsers = parser.add_subparsers(dest="command")
 
     scrape_cmd = subparsers.add_parser("scrape-profiles", help="Scrape LinkedIn profiles for posts")
@@ -298,6 +380,13 @@ def main():
     tweets_cmd = subparsers.add_parser("scrape-tweets", help="Scrape recent tweets from X handles")
     tweets_cmd.add_argument("--handles", required=True, help="Comma-separated X/Twitter handles (without @)")
     tweets_cmd.add_argument("--max-per-user", type=int, default=5, help="Max tweets per user (default: 5)")
+
+    ig_related_cmd = subparsers.add_parser("scrape-instagram-related", help="Scrape Instagram suggested/related profiles")
+    ig_related_cmd.add_argument("--handles", required=True, help="Comma-separated Instagram handles (without @)")
+    ig_related_cmd.add_argument("--min-followers", type=int, default=100000, help="Min followers to include (default: 100000)")
+
+    ig_profile_cmd = subparsers.add_parser("scrape-instagram-profile", help="Scrape Instagram profile details")
+    ig_profile_cmd.add_argument("--handles", required=True, help="Comma-separated Instagram handles (without @)")
 
     args = parser.parse_args()
     token = load_api_key()
@@ -314,6 +403,14 @@ def main():
         handles = [h.strip().lstrip("@") for h in args.handles.split(",") if h.strip()]
         max_per = args.max_per_user
         result = scrape_tweets(token, handles, max_per)
+        print(json.dumps(result, indent=2))
+    elif args.command == "scrape-instagram-related":
+        handles = [h.strip().lstrip("@") for h in args.handles.split(",") if h.strip()]
+        result = scrape_instagram_related(token, handles, args.min_followers)
+        print(json.dumps(result, indent=2))
+    elif args.command == "scrape-instagram-profile":
+        handles = [h.strip().lstrip("@") for h in args.handles.split(",") if h.strip()]
+        result = scrape_instagram_profile(token, handles)
         print(json.dumps(result, indent=2))
     else:
         parser.print_help()
