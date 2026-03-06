@@ -278,6 +278,21 @@ Delete the `.tmp/guest-pipeline-run.json` checkpoint file after the run log is s
 | <15 candidates after dedup + selection | Post warning to Slack: "Low yield run. [X] candidates added. Consider manual top-up." |
 | Airtable write fails after retry | Save pending to `.tmp/guest-pipeline-pending.json`. Post warning to Slack. |
 
+## Progress Updates
+
+Post progress updates to #guest-research-and-comms during execution so the team knows the pipeline is working. Use `python3 tools/slack.py send --channel "C089HSD8US1" --text "MESSAGE"` via Bash.
+
+**For targeted searches (similar-to / company lookup):**
+1. After dedup setup: "Researching [count] candidates similar to [Seed Name] for [Show Name]. Pulling existing guests for dedup..."
+2. After research complete, before writing: "Found [X] qualified candidates. Writing to Airtable now..."
+3. Final report (already defined in steps above)
+
+**For full pipeline (cron):**
+1. After Step 1 (dedup): "Guest pipeline started for [Show Name]. [X] existing guests loaded for dedup. Running 5 research methods..."
+2. After Step 2 (all methods done): "Research complete. [X] raw candidates found across 5 methods. Applying diversity selection..."
+3. After Step 3 (selection): "Selected [X] candidates. Writing to Airtable..."
+4. Final report (Step 5)
+
 ## Notes
 
 - Keep analysis LEAN during methods. Store only name + profile + source + category + 1 sentence context. Do not write essays about each candidate. This prevents context window overflow.
