@@ -73,6 +73,9 @@ def add_lead(api_key, campaign_id, email, first_name=None, last_name=None,
     if linkedin:
         payload["linkedinUrl"] = linkedin
 
+    # Lemlist requires cam_ prefix on campaign IDs
+    if not campaign_id.startswith("cam_"):
+        campaign_id = f"cam_{campaign_id}"
     result = api_request(api_key, "POST", f"/campaigns/{campaign_id}/leads/", data=payload)
     return result
 

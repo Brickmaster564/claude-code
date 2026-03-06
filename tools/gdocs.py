@@ -154,6 +154,37 @@ def batch_replace_text(doc_id, replacements):
     return api_request_with_refresh("POST", url, body)
 
 
+def write_at(doc_id, operations):
+    """Write text at specific indices. Each operation: {start, end, text}.
+    Deletes content in [start, end) then inserts text at start.
+    Operations are processed bottom-to-top to preserve indices."""
+    url = f"https://docs.googleapis.com/v1/documents/{doc_id}:batchUpdate"
+    # Sort operations by start index descending to avoid index shifts
+    sorted_ops = sorted(operations, key=lambda o: o["start"], reverse=True)
+    requests = []
+    for op in sorted_ops:
+        # Delete existing content if range is non-empty
+        if op["end"] > op["start"]:
+            requests.append({
+                "deleteContentRange": {
+                    "range": {
+                        "startIndex": op["start"],
+                        "endIndex": op["end"]
+                    }
+                }
+            })
+        # Insert new text
+        if op.get("text"):
+            requests.append({
+                "insertText": {
+                    "location": {"index": op["start"]},
+                    "text": op["text"]
+                }
+            })
+    body = {"requests": requests}
+    return api_request_with_refresh("POST", url, body)
+
+
 def share_doc(doc_id, email, role="reader"):
     """Share a document with a specific email address."""
     url = f"https://www.googleapis.com/drive/v3/files/{doc_id}/permissions"
@@ -208,6 +239,12 @@ def main():
     brep_cmd.add_argument("--doc-id", required=True, help="Google Doc ID")
     brep_cmd.add_argument("--replacements", required=True, help="JSON object of placeholder:value pairs")
 
+    # write-at
+    wat_cmd = subparsers.add_parser("write-at", help="Write text at specific indices")
+    wat_cmd.add_argument("--doc-id", required=True, help="Google Doc ID")
+    wat_cmd.add_argument("--operations", required=True,
+                         help='JSON array of {start, end, text} objects')
+
     # share
     share_cmd = subparsers.add_parser("share", help="Share document with a user")
     share_cmd.add_argument("--doc-id", required=True, help="Google Doc ID")
@@ -235,6 +272,10 @@ def main():
     elif args.command == "batch-replace":
         replacements = json.loads(args.replacements)
         result = batch_replace_text(args.doc_id, replacements)
+        print(json.dumps(result, indent=2))
+    elif args.command == "write-at":
+        operations = json.loads(args.operations)
+        result = write_at(args.doc_id, operations)
         print(json.dumps(result, indent=2))
     elif args.command == "share":
         result = share_doc(args.doc_id, args.email, args.role)

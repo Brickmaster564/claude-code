@@ -60,7 +60,7 @@ app = App(token=BOT_TOKEN)
 
 
 def spawn_claude(skill_name, prompt, event, say):
-    """Acknowledge in Slack and spawn Claude CLI for a skill."""
+    """Acknowledge in Slack and spawn Claude CLI via shell (matches cron execution)."""
     user = event.get("user", "unknown")
     thread_ts = event.get("ts", "")
     text = event.get("text", "").strip()
@@ -78,14 +78,19 @@ def spawn_claude(skill_name, prompt, event, say):
     from datetime import datetime
     log_file = log_dir / f"{datetime.now().strftime('%Y%m%d-%H%M%S')}.log"
 
-    cmd = [
-        "/Users/jasper/.local/bin/claude",
-        "--print",
-        "--dangerously-skip-permissions",
-        prompt,
-    ]
+    # Run via shell to match cron environment exactly
+    escaped_prompt = prompt.replace("'", "'\\''")
+    shell_cmd = (
+        f'cd "{WORKDIR}" && '
+        f'/Users/jasper/.local/bin/claude '
+        f'--print '
+        f'--dangerously-skip-permissions '
+        f'--max-budget-usd 10 '
+        f"'{escaped_prompt}' "
+        f'>> "{log_file}" 2>&1'
+    )
 
-    log.info(f"Spawning Claude CLI, logging to {log_file}")
+    log.info(f"Spawning Claude CLI via shell, logging to {log_file}")
 
     try:
         with open(log_file, "w") as lf:
@@ -93,12 +98,10 @@ def spawn_claude(skill_name, prompt, event, say):
             lf.write(f"Message: {text}\n")
             lf.write(f"---\n")
 
-        lf = open(log_file, "a")
         process = subprocess.Popen(
-            cmd,
-            cwd=str(WORKDIR),
-            stdout=lf,
-            stderr=subprocess.STDOUT,
+            shell_cmd,
+            shell=True,
+            env={**os.environ, "HOME": "/Users/jasper"},
         )
 
         log.info(f"Claude CLI spawned with PID {process.pid}")
@@ -155,7 +158,9 @@ def handle_message(event, say):
     elif channel == NALU_HUB_CHANNEL and is_client_agendas_trigger(text):
         prompt = (
             f'Run /client-agendas with this Slack request: "{text}". '
-            f"Follow the skill instructions exactly."
+            f"Follow the skill instructions exactly. Poll the Slack thread "
+            f"for Scott's replies - wait 60 seconds between polls. "
+            f"Process Dom first, then Jeremy unless a specific client is requested."
         )
         spawn_claude("client-agendas", prompt, event, say)
 

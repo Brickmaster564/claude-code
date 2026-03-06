@@ -88,7 +88,7 @@ python3 tools/gdocs.py --account {google_account} batch-replace --doc-id "{new_d
 
 6. **Move to the next section.** No need to confirm each section back to Scott unless clarifying.
 
-After all sections are done, reply in the thread: "All sections done. Doc's updated. Have a look, make any changes you need, and confirm once you're happy. I'll draft the email."
+After all sections are done, reply in the thread: "All sections done. Doc's updated. Have a look and let me know if you want anything changed in any section. Once you're happy, say 'good to go' and I'll draft the email."
 
 ---
 
@@ -184,17 +184,35 @@ Executive Summary                         ← Heading
 - **Executive Summary** (Jeremy only): Fill each bullet (Performance, Key Priorities, Key Decisions, Fixes/Improvements) with a 1-line summary of that area.
 - Screenshots get dropped in by Scott during review. Leave space for them.
 
-### Step 5: Wait for Doc Approval
+### Step 5: Revision Loop
 
-Scott will review the doc directly (he's signed into hello@nalupodcasts.com, the account that owns it). He'll tweak wording, add screenshots, tighten things up.
+After all sections are filled, Scott may want to update, add to, or correct specific sections. This step loops until he's satisfied.
 
-Wait for Scott to confirm in the thread. Poll every 60 seconds (`sleep 60` then read-thread) until Scott replies:
+Poll the thread every 60 seconds (`sleep 60` then `read-thread`) until Scott replies:
 
 ```bash
 python3 tools/slack.py read-thread --channel "#nalu-hub" --thread-ts "{thread_ts}"
 ```
 
-Look for confirmation ("good to go", "looks good", "done", etc.). Once confirmed, move to the email. This may take several minutes as Scott reviews and edits the doc. Keep polling.
+When Scott replies, check what he said:
+
+1. **Confirmation** ("good to go", "looks good", "happy", "send it", "done", "all good", etc.) → Move to Step 6 (email preview).
+
+2. **Revision request** (anything else: "update performance with...", "add to next steps...", "the pipeline section needs...", "I forgot to mention...", etc.) → This is a section update. Parse his message to identify:
+   - Which section he's referring to (match against section labels from `clients.json`)
+   - What content to add or change
+
+   Then update the doc:
+   ```bash
+   python3 tools/gdocs.py --account {google_account} get --doc-id "{new_doc_id}"
+   python3 tools/gdocs.py --account {google_account} batch-replace --doc-id "{new_doc_id}" --replacements '{...}'
+   ```
+
+   After updating, reply in the thread: "Done, updated {section_label}. Anything else, or good to go?"
+
+   Then **loop back** and poll again for Scott's next reply. Keep looping until he confirms.
+
+Scott can request as many revisions as he needs. Each revision updates the doc immediately. Only move to Step 6 when he explicitly confirms he's happy.
 
 ### Step 6: Preview Email with Scott
 
