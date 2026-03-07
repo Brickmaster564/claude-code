@@ -92,8 +92,8 @@ def list_leads(api_key, campaign_id, status=None, limit=100):
     Uses POST /leads/list with campaign_id filter.
     Paginates automatically to collect all matching leads.
 
-    Status filtering is done client-side because the Instantly v2 API
-    ignores server-side filter params. Supported status values:
+    Both campaign and status filtering are done client-side because the
+    Instantly v2 API ignores server-side filter params. Supported status values:
       - "completed": status == 3 and email_reply_count == 0
       - "replied": email_reply_count > 0
       - "bounced": status == -1
@@ -103,7 +103,7 @@ def list_leads(api_key, campaign_id, status=None, limit=100):
 
     while True:
         payload = {
-            "campaign_id": campaign_id,
+            "campaign": campaign_id,
             "limit": 100,
         }
         if starting_after:

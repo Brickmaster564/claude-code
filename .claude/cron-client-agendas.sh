@@ -7,6 +7,13 @@
 
 set -euo pipefail
 
+# Ensure tools are on PATH (cron runs with minimal env)
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+export PATH="/Users/jasper/.local/bin:$PATH"
+
+# Prevent nested Claude session errors
+unset CLAUDECODE 2>/dev/null || true
+
 WORKDIR="/Users/jasper/Library/Application Support/Claude/Jasper OS - CC Hub"
 LOGDIR="/tmp/claude-client-agendas"
 LOGFILE="${LOGDIR}/$(date +%Y%m%d-%H%M).log"
@@ -20,9 +27,9 @@ cd "$WORKDIR"
 # Notify Slack that the cron job has started
 python3 tools/slack.py send --channel "C08P14TTBA7" \
   --text "Cron started: Client Agendas. Preparing weekly agendas for all clients now..." \
-  >> "$LOGFILE" 2>&1
+  >> "$LOGFILE" 2>&1 || true
 
-/Users/jasper/.local/bin/claude \
+claude \
   --print \
   --dangerously-skip-permissions \
   --max-budget-usd 10 \

@@ -1,0 +1,43 @@
+{
+  "clients": {
+    "ftt": {
+      "name": "First Things THRST",
+      "host": "Mike Thurston",
+      "instantly_campaign_id": "36f7308b-daf0-4564-8eaa-3745f1e598ad",
+      "airtable_base_id": "appiowT0T5O07BfYB",
+      "airtable_table_id": "tbltDNojUS6gREZ2E",
+      "airtable_fields": {
+        "name": "fld97Poj7xvycfK9f",
+        "status": "fldd2ZMHVcs8tsQcl",
+        "location": "fldvyH3otkZMI5vGt",
+        "profile": "fldfEvfcIOT9zvmRd"
+      },
+      "retarget_values": {
+        "location": "General / Retargeting",
+        "status": "Retarget / find new contacts"
+      }
+    },
+    "hy": {
+      "name": "Hack You",
+      "host": "Mike Thurston & Vadim Fedotov",
+      "instantly_campaign_id": "2e676535-90f4-41fe-ae3a-6cc53357ced2",
+      "airtable_base_id": "apptwbxnUum6b0fv4",
+      "airtable_table_id": "tblDgQFIg9c02D4SH",
+      "airtable_fields": {
+        "name": "fldjKSFItOBinePZi",
+        "status": "fldnF236htySErV2o",
+        "location": "fld0OYHJBhkJmry5P",
+        "profile": "fldk2K96B7Vc6mPrH"
+      },
+      "retarget_values": {
+        "location": "General / Retargeting",
+        "status": ""
+      }
+    }
+  },
+
+  "slack": {
+    "tool": "tools/slack.py",
+    "channel": "C089HSD8US1"
+  }
+}

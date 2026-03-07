@@ -12,7 +12,7 @@ The user triggers this workflow with a message like:
 - **Vertical/industry** — the lead gen vertical (e.g. life-insurance, tax-relief, senior-care, home-security)
 - **Location** — country/region (e.g. US, UK, Australia, Canada)
 - **Lead count** — how many prospects to find
-- **Apollo list name** — the Apollo list/label to add contacts to
+- **Apollo list name** — auto-generated each run as `{Location} {Vertical} - DD/MM/YY` using today's date (e.g. "UK Life Insurance - 07/03/26"). Do NOT reuse existing lists.
 - **Company size** — employee count range (minimum 10 employees, always)
 - **Instantly campaign name** — the Instantly campaign to load verified leads into
 
@@ -210,16 +210,7 @@ Source replacements for any duplicates if needed to maintain the requested lead 
 2. Update status to `created` or `duplicate` accordingly, store the `apollo_id`
 3. Write the working file to disk immediately (before processing the next contact)
 
-If the list label ID isn't known, search existing contacts in that list to discover it, or ask Jasper. Store it in the `discovered` object as soon as found.
-
-**Known list label IDs:**
-| List Name | Label ID |
-|---|---|
-| US - Tax Debt - 25/02 | 699f28b1debd6d0021a38df2 |
-| UK Life Insurance - 13/02/26 | 698f18d2d26f580019fdc98f |
-| Senior Care - US - 04/03/26 | 69a80086e76fc400157a32f7 |
-
-Update this table as new lists are discovered.
+Apollo auto-creates the list when a new `label_names` value is passed to `apollo_contacts_create`. No need to pre-create the list. Store the label ID from the first create response in the `discovered` object.
 
 **Known Instantly campaign IDs:**
 | Campaign Name | Campaign ID |

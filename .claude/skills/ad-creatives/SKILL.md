@@ -84,17 +84,33 @@ The user sends an ad (image or description) and wants messaging variants. No ima
    - Use the copywriting bible for messaging pillars
    - Use awareness playbook for stage-appropriate messaging
 
-3. **Produce 3-5 copy variants.** For each variant:
-   - **Awareness stage** (label it)
-   - **Angle** (what approach: fear, relief, social proof, authority, urgency)
-   - **Headline/hook**
-   - **Body copy** (in-ad text)
-   - **CTA**
-   - **Why this works** (one sentence hypothesis)
+3. **Produce 5-10 in-ad copy variants.** These are the exact text elements that go ON the ad image, not Facebook body copy. Each variant uses this structure:
 
-4. If the user specifies an awareness stage, write for that stage. Otherwise, produce variants across 2-3 different stages.
+   ```
+   ### OPTION [N]: [ANGLE NAME]
+   **HEADLINE:**
+   [2-4 words per line, max 2 lines, all caps]
 
-5. Apply humanizer pass: no corporate tone, no jargon, read like a real person wrote it.
+   **SUBHEAD:**
+   [1-2 short sentences, sentence case]
+
+   **VALUE PROP:**
+   [Coverage amount + price anchor, formatted for visual badge/pill]
+
+   **CTA:** [Button text]
+   ```
+
+   Important: This is in-ad copy, not paragraph copy. Headlines are punchy and short (designed for large text on an image). Subheads are one breath. Value props are formatted as visual elements (pill, badge, shield).
+
+4. After the variants, include:
+   - **VISUAL NOTES:** Suggestions for imagery, colors, layout changes vs the original
+   - **DISCLAIMER:** If price points are used, include the standard disclaimer text
+
+5. If the user specifies an awareness stage, write for that stage. Otherwise, produce variants across 2-3 different stages.
+
+6. Apply humanizer pass: no corporate tone, no jargon, read like a real person wrote it.
+
+7. The user may then pick a variant and ask to generate the actual ad. This transitions to Full Ad Creative mode (Step 4).
 
 ---
 

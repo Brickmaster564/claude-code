@@ -90,29 +90,38 @@ def gmail_request(access_token, method, endpoint, data=None):
         return {"error": f"HTTP {e.code}: {e.reason}", "detail": error_body}
 
 
-def send_email(to, subject, body_text, content_type="plain", cc=None):
-    """Send an email via Gmail API. content_type can be 'plain' or 'html'."""
-    token_data = load_token()
-    access_token = token_data["token"]
-
+def _build_message(to, subject, body_text, content_type="plain", cc=None):
+    """Build a MIME message and return the base64url-encoded raw string."""
     msg = MIMEText(body_text, content_type, "utf-8")
     msg["to"] = to
     msg["subject"] = subject
     if cc:
         msg["cc"] = cc
+    return base64.urlsafe_b64encode(msg.as_bytes()).decode()
 
-    raw = base64.urlsafe_b64encode(msg.as_bytes()).decode()
-    payload = {"raw": raw}
 
-    result = gmail_request(access_token, "POST", "/messages/send", payload)
-
-    # If token expired, refresh and retry once
+def _api_call_with_refresh(endpoint, payload, method="POST"):
+    """Make a Gmail API call, refreshing the token once on 401."""
+    token_data = load_token()
+    access_token = token_data["token"]
+    result = gmail_request(access_token, method, endpoint, payload)
     if isinstance(result, dict) and "error" in result and "401" in str(result.get("error", "")):
         print("Access token expired, refreshing...", file=sys.stderr)
         access_token = refresh_access_token(token_data)
-        result = gmail_request(access_token, "POST", "/messages/send", payload)
-
+        result = gmail_request(access_token, method, endpoint, payload)
     return result
+
+
+def send_email(to, subject, body_text, content_type="plain", cc=None):
+    """Send an email via Gmail API. content_type can be 'plain' or 'html'."""
+    raw = _build_message(to, subject, body_text, content_type, cc)
+    return _api_call_with_refresh("/messages/send", {"raw": raw})
+
+
+def create_draft(to, subject, body_text, content_type="plain", cc=None):
+    """Create a draft email via Gmail API."""
+    raw = _build_message(to, subject, body_text, content_type, cc)
+    return _api_call_with_refresh("/drafts", {"message": {"raw": raw}})
 
 
 def main():
@@ -122,19 +131,21 @@ def main():
     parser.add_argument("--account", default="cn", choices=list(ACCOUNTS.keys()),
                         help="Google account to use (default: cn)")
 
-    send_cmd = subparsers.add_parser("send", help="Send an email")
-    send_cmd.add_argument("--to", required=True, help="Recipient email address")
-    send_cmd.add_argument("--subject", required=True, help="Email subject line")
-    send_cmd.add_argument("--body", help="Email body text (plain text)")
-    send_cmd.add_argument("--body-file", help="Path to file containing plain text body")
-    send_cmd.add_argument("--html-file", help="Path to file containing HTML body")
-    send_cmd.add_argument("--cc", help="CC email address(es), comma-separated")
+    # Shared email arguments
+    for cmd_name, cmd_help in [("send", "Send an email"), ("create-draft", "Create an email draft")]:
+        cmd = subparsers.add_parser(cmd_name, help=cmd_help)
+        cmd.add_argument("--to", required=True, help="Recipient email address(es), comma-separated")
+        cmd.add_argument("--subject", required=True, help="Email subject line")
+        cmd.add_argument("--body", help="Email body text (plain text)")
+        cmd.add_argument("--body-file", help="Path to file containing plain text body")
+        cmd.add_argument("--html-file", help="Path to file containing HTML body")
+        cmd.add_argument("--cc", help="CC email address(es), comma-separated")
 
     args = parser.parse_args()
 
     set_account(args.account)
 
-    if args.command == "send":
+    if args.command in ("send", "create-draft"):
         if args.html_file:
             body_text = Path(args.html_file).read_text()
             content_type = "html"
@@ -148,7 +159,11 @@ def main():
             print("ERROR: Must provide --body, --body-file, or --html-file", file=sys.stderr)
             sys.exit(1)
 
-        result = send_email(args.to, args.subject, body_text, content_type, cc=args.cc)
+        if args.command == "send":
+            result = send_email(args.to, args.subject, body_text, content_type, cc=args.cc)
+        else:
+            result = create_draft(args.to, args.subject, body_text, content_type, cc=args.cc)
+
         print(json.dumps(result, indent=2))
 
         if isinstance(result, dict) and "error" in result:
