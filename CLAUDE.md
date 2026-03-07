@@ -62,6 +62,24 @@ Automated guest discovery pipeline for Nalu podcast clients. Runs 5 research met
 - **Dependencies:** WebSearch, WebFetch, Apify (Instagram), Airtable MCP, `tools/apify.py`, `tools/slack.py`
 - **Cron:** `cron-guest-pipeline.sh` Monday + Thursday 10 AM
 
+### `/ad-creatives`
+Universal ad creative workshop for Client Network. Four modes: copy rehash, full ad creative generation, UGC AI characters, and video script rehash. Conversational and interactive. Loads vertical-specific resources and copywriting frameworks automatically.
+
+- **Triggers:** "create ads for...", "rehash this ad", "generate ad images", "create a UGC character", "rewrite this video script for..."
+- **Modes:** Copy-Only, Full Ad Creative, UGC AI Character, Video Script Rehash
+- **Dependencies:** `tools/higgsfield.py` (Kie.ai API), copywriter resources, vertical resources
+- **Image Gen:** Nano Banana Pro via Kie.ai (2 variants per run, 2K default)
+
+### `/outreach-retarget`
+Weekly scan of Instantly outreach campaigns for podcast clients. Finds contacts who completed the sequence without responding, matches them to Airtable guest tracker records, and updates location/status to move them into a retargeting pool.
+
+- **Triggers:** "run outreach retarget", "retarget completed guests", "check who never responded"
+- **Clients:** FTT (more clients to be added)
+- **Config:** `.claude/skills/outreach-retarget/config.json`
+- **Outputs:** Airtable updates + Slack summary to #guest-research-and-comms + `output/outreach-retarget/YYYY-MM-DD-[client].json`
+- **Dependencies:** `tools/instantly.py`, Airtable MCP, `tools/slack.py`
+- **Cron:** `cron-outreach-retarget.sh` Sunday 9 AM UK (FTT)
+
 ## Available Workflows
 
 ### Prospector (`workflows/prospector.md`)
