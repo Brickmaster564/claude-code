@@ -50,6 +50,14 @@ Daily intelligence briefing covering copywriting wisdom, AI news, X/Twitter insi
 - **Dependencies:** WebSearch, WebFetch, Apify (X scraper), `tools/gmail.py`
 - **Cron:** `cron-morning-coffee.sh` at 7:45 AM daily
 
+### `/bhw-intel`
+Scans BlackHatWorld's Facebook and paid advertising subforums for Meta bulletproofing tactics and ad performance insights. Tuned to Jasper's setup (aged US accounts, AdsPower profiles, BM sharing).
+
+- **Triggers:** "run bhw intel", "black hat world scan", "meta underground"
+- **Outputs:** Email (hello@clientnetwork.io → Jasperkilic10@gmail.com) + `output/bhw-intel/YYYY-MM-DD.md`
+- **Dependencies:** WebSearch, WebFetch, `tools/gmail.py`
+- **Cron:** `cron-bhw-intel.sh` Mon / Thu / Sun 9 AM
+
 ### `/youtube-transcript`
 Download transcripts from YouTube videos.
 
@@ -132,7 +140,9 @@ A workflow can invoke a skill as one of its steps. They're complementary, not co
 
 3. **Keep workflows current.** When I find better methods, discover constraints, or hit recurring issues, update the workflow. But never create or overwrite workflows without asking unless explicitly told to.
 
-4. **Self-improvement loop.** Every failure makes the system stronger:
+4. **Update the Tracker after every creation or significant update.** When a new skill, workflow, or automation is created (or an existing one is significantly updated), add/update a row in the [Tracker sheet](https://docs.google.com/spreadsheets/d/1bypUOLHBBG9E5X0Gxpx4tLT45pGbgIj5hEPfCSB36js) (gid=924376767). Columns: Name, Type (Skill/Workflow), Status, Description, Steps. This is mandatory, not optional. Use the Google Sheets API with `config/google-token.json` credentials to append/update rows.
+
+5. **Self-improvement loop.** Every failure makes the system stronger:
    - Identify what broke
    - Fix the tool
    - Verify the fix
