@@ -42,7 +42,10 @@
         "AI researcher",
         "Silicon Valley leader",
         "ivory tower academic",
-        "niche sport celebrity"
+        "niche sport celebrity",
+        "generic health doctor",
+        "academic psychologist",
+        "mainstream marketing guru"
       ],
 
       "diversity_categories": {
@@ -60,11 +63,11 @@
         },
         "psychology_identity": {
           "quota_min": 3,
-          "search_terms": ["psychologist Instagram", "relationship therapist social media", "mindset coach", "dating coach men", "identity expert podcast", "behavioral expert YouTube"]
+          "search_terms": ["relationship coach men YouTube", "body language expert", "performance psychologist athletes", "dating dynamics coach", "confidence coach men Instagram", "masculinity therapist podcast"]
         },
         "health_biohacking": {
-          "quota_min": 3,
-          "search_terms": ["biohacker", "longevity influencer", "nutrition scientist Instagram", "functional medicine doctor social media", "peak performance doctor YouTube", "carnivore diet doctor"]
+          "quota_min": 2,
+          "search_terms": ["extreme biohacker", "carnivore diet doctor", "testosterone optimization doctor", "athlete performance doctor", "controversial health influencer", "peptides longevity influencer"]
         },
         "authors_speakers": {
           "quota_min": 3,
