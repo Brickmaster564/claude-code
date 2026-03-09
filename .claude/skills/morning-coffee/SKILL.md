@@ -72,7 +72,7 @@ See the supporting file for the current list. Read it before scraping.
 
 **Process:**
 1. Read `x-handles.json` from this skill's directory
-2. Run `python3 tools/apify.py scrape-tweets --handles [comma-separated handles] --max-per-user 5`
+2. Run `python3 tools/apify.py scrape-tweets --handles [comma-separated handles] --max-per-user 3`
 3. From the results, extract the most insightful/actionable tweets from each person
 4. Skip promotional tweets, retweets with no commentary, and generic motivation
 5. For each person, pick the 1-2 best tweets and summarize the insight

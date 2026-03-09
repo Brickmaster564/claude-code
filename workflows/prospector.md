@@ -270,10 +270,10 @@ Runs `dev_fusion/Linkedin-Profile-Scraper`. If `updates/0/postText` exists and i
 For leads that came back with NO recent posts in Pass 1, run the comments scraper:
 
 ```bash
-python3 tools/apify.py scrape-comments --usernames "person1,person2,..."
+python3 tools/apify.py scrape-comments --usernames "person1,person2,..." --results-per-profile 2
 ```
 
-Runs `apimaestro/linkedin-profile-comments`. Extract the username slug from the LinkedIn URL (the part after `/in/`). The scraper returns comments the user has made on other people's posts.
+Runs `apimaestro/linkedin-profile-comments`. Extract the username slug from the LinkedIn URL (the part after `/in/`). The scraper batches up to 5 usernames per actor run and returns up to 2 comments per profile (enough to determine activity). Always use `--results-per-profile 2` to minimise Apify costs.
 
 **Classification (applied after both passes):**
 - **Active poster** = has recent posts from Pass 1. Route to Lemlist + Instantly.
@@ -380,6 +380,6 @@ After presenting the report, delete `.tmp/prospector-run.json`.
 
 - Apollo enrichment uses credits. The workflow will always proceed with enrichment since it's required for email verification. If Jasper wants to skip enrichment for any reason, he'll say so.
 - All API keys are loaded from `config/api-keys.json` by the tool scripts.
-- Apify compute units are consumed during Step 6. Profile scraper + comments scraper combined cost ~$0.05 + $0.005 per lead. Budget accordingly.
+- Apify compute units are consumed during Step 6. Comments scraper is batched (5 per run, 2 results per profile) so costs are minimal. Profile scraper runs as a single batch.
 - Lemlist routing (Step 8) is optional. If the vertical isn't in `replenisher.json` or has no Lemlist campaign configured, leads still go to Instantly.
 - This workflow does NOT write outreach copy. That's a separate task — use `/copywriter` for sequence messaging.

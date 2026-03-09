@@ -164,29 +164,43 @@ def scrape_profiles(token, urls):
     return parse_profiles(raw)
 
 
-def scrape_comments(token, usernames):
-    """Scrape LinkedIn commenting activity for given usernames."""
+def scrape_comments(token, usernames, results_per_profile=1):
+    """Scrape LinkedIn commenting activity for given usernames (batched, max 5 per run)."""
     if not usernames:
         return {"error": "No usernames provided"}
+
+    BATCH_SIZE = 30
+    all_items = []
+
+    for i in range(0, len(usernames), BATCH_SIZE):
+        batch = usernames[i:i + BATCH_SIZE]
+        actor_input = {
+            "usernames": batch,
+            "limit": results_per_profile
+        }
+        raw = run_actor(token, ACTOR_COMMENTS, actor_input,
+                        label=f"comments batch {i // BATCH_SIZE + 1} ({len(batch)} profiles)")
+        if isinstance(raw, dict) and "error" in raw:
+            print(f"Warning: batch {i // BATCH_SIZE + 1} failed: {raw['error']}", file=sys.stderr)
+            continue
+        batch_items = raw if isinstance(raw, list) else []
+        all_items.extend(batch_items)
+
+    items = all_items
+
+    # Group comments by profile username
+    import datetime
+    by_user = {u.lower(): [] for u in usernames}
+    for c in items:
+        profile_id = (c.get("source_profile", "") or c.get("profileUsername", "")
+                      or c.get("username", "")).lower()
+        if profile_id in by_user:
+            by_user[profile_id].append(c)
 
     results = {"total": 0, "active_commenters": 0, "inactive": 0, "profiles": []}
 
     for username in usernames:
-        raw = run_actor(token, ACTOR_COMMENTS, {"username": username},
-                        label=f"comments for {username}")
-        if isinstance(raw, dict) and "error" in raw:
-            results["profiles"].append({
-                "username": username,
-                "has_recent_comments": False,
-                "comment_count": 0,
-                "most_recent_comment": None,
-                "error": raw["error"]
-            })
-            results["inactive"] += 1
-            results["total"] += 1
-            continue
-
-        comments = raw if isinstance(raw, list) else []
+        comments = by_user.get(username.lower(), [])
         most_recent_ts = 0
         most_recent_date = ""
         most_recent_text = ""
@@ -199,10 +213,8 @@ def scrape_comments(token, usernames):
                 most_recent_date = created.get("formatted", "")
                 most_recent_text = (c.get("comment_text") or "")[:200]
 
-        # Check if most recent comment is within the active window
         has_recent = False
         if most_recent_ts > 0:
-            import datetime
             comment_date = datetime.datetime.fromtimestamp(most_recent_ts / 1000)
             cutoff = datetime.datetime.now() - datetime.timedelta(days=COMMENTS_ACTIVE_MONTHS * 30)
             has_recent = comment_date >= cutoff
@@ -224,7 +236,7 @@ def scrape_comments(token, usernames):
     return results
 
 
-def scrape_tweets(token, handles, max_per_user=5):
+def scrape_tweets(token, handles, max_per_user=3):
     """Scrape recent tweets from X/Twitter handles."""
     if not handles:
         return {"error": "No handles provided"}
@@ -299,7 +311,7 @@ def scrape_instagram_related(token, handles, min_followers=100000):
 
     actor_input = {
         "profiles": profile_urls,
-        "resultsLimit": 50
+        "resultsLimit": 20
     }
 
     raw = run_actor(token, ACTOR_INSTAGRAM_RELATED, actor_input,
@@ -376,10 +388,11 @@ def main():
 
     comments_cmd = subparsers.add_parser("scrape-comments", help="Scrape LinkedIn commenting activity")
     comments_cmd.add_argument("--usernames", required=True, help="Comma-separated LinkedIn usernames (slugs)")
+    comments_cmd.add_argument("--results-per-profile", type=int, default=1, help="Max comments per profile (default: 1)")
 
     tweets_cmd = subparsers.add_parser("scrape-tweets", help="Scrape recent tweets from X handles")
     tweets_cmd.add_argument("--handles", required=True, help="Comma-separated X/Twitter handles (without @)")
-    tweets_cmd.add_argument("--max-per-user", type=int, default=5, help="Max tweets per user (default: 5)")
+    tweets_cmd.add_argument("--max-per-user", type=int, default=3, help="Max tweets per user (default: 3)")
 
     ig_related_cmd = subparsers.add_parser("scrape-instagram-related", help="Scrape Instagram suggested/related profiles")
     ig_related_cmd.add_argument("--handles", required=True, help="Comma-separated Instagram handles (without @)")
@@ -397,7 +410,7 @@ def main():
         print(json.dumps(result, indent=2))
     elif args.command == "scrape-comments":
         usernames = [u.strip() for u in args.usernames.split(",") if u.strip()]
-        result = scrape_comments(token, usernames)
+        result = scrape_comments(token, usernames, args.results_per_profile)
         print(json.dumps(result, indent=2))
     elif args.command == "scrape-tweets":
         handles = [h.strip().lstrip("@") for h in args.handles.split(",") if h.strip()]

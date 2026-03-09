@@ -37,42 +37,46 @@
         "comedian",
         "food vlogger",
         "generic lifestyle influencer",
-        "fitness-only influencer",
-        "beauty influencer"
+        "beauty influencer",
+        "corporate tech CEO",
+        "AI researcher",
+        "Silicon Valley leader",
+        "ivory tower academic",
+        "niche sport celebrity"
       ],
 
       "diversity_categories": {
-        "wealth_builders": {
+        "fitness_physique": {
           "quota_min": 4,
-          "search_terms": ["entrepreneur", "founder", "CEO", "wealth builder", "investor", "venture capitalist"]
+          "search_terms": ["bodybuilder influencer", "fitness YouTuber", "physique competitor", "gym influencer", "fitness entrepreneur", "Mr Olympia competitor", "science-based fitness"]
+        },
+        "entrepreneurs": {
+          "quota_min": 4,
+          "search_terms": ["young entrepreneur podcast guest", "creator economy founder", "e-commerce entrepreneur influencer", "agency owner social media", "marketing entrepreneur", "online business founder"]
         },
         "performance_discipline": {
-          "quota_min": 4,
-          "search_terms": ["performance coach", "discipline", "elite athlete", "Navy SEAL", "special forces", "Olympic athlete"]
+          "quota_min": 3,
+          "search_terms": ["performance coach", "discipline", "elite athlete podcast guest", "Navy SEAL author", "special forces entrepreneur", "endurance athlete influencer"]
         },
         "psychology_identity": {
-          "quota_min": 4,
-          "search_terms": ["psychologist", "therapist", "neuroscience", "behavioral scientist", "identity expert", "mindset coach"]
-        },
-        "ai_tech": {
           "quota_min": 3,
-          "search_terms": ["AI founder", "tech entrepreneur", "AI researcher", "crypto founder", "Web3", "deeptech"]
-        },
-        "high_status_operators": {
-          "quota_min": 3,
-          "search_terms": ["billionaire", "luxury brand founder", "Dubai entrepreneur", "real estate mogul", "private equity"]
+          "search_terms": ["psychologist Instagram", "relationship therapist social media", "mindset coach", "dating coach men", "identity expert podcast", "behavioral expert YouTube"]
         },
         "health_biohacking": {
           "quota_min": 3,
-          "search_terms": ["biohacker", "longevity researcher", "nutrition scientist", "functional medicine", "peak performance doctor"]
+          "search_terms": ["biohacker", "longevity influencer", "nutrition scientist Instagram", "functional medicine doctor social media", "peak performance doctor YouTube", "carnivore diet doctor"]
+        },
+        "authors_speakers": {
+          "quota_min": 3,
+          "search_terms": ["self-improvement author podcast guest", "bestselling author young men", "stoicism author", "productivity author YouTube", "business author social media", "motivational author podcast circuit"]
         },
         "conspiracy_alternative": {
           "quota_min": 2,
-          "search_terms": ["conspiracy researcher", "UFO researcher", "geopolitics analyst", "alternative historian", "whistleblower"]
+          "search_terms": ["UFO researcher podcast", "conspiracy documentary filmmaker", "geopolitics YouTuber", "alternative historian podcast", "whistleblower interview", "paranormal researcher"]
         },
         "wildcard": {
           "quota_min": 2,
-          "search_terms": ["adventurer", "ex-convict turned entrepreneur", "cult survivor", "extreme sport athlete", "world record holder"]
+          "search_terms": ["adventurer influencer", "ex-convict turned entrepreneur", "world record holder social media", "Dubai entrepreneur influencer", "transformation story podcast", "unconventional success story"]
         }
       }
     },
