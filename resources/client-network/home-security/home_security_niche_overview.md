@@ -1,7 +1,7 @@
 # Home Security Niche Overview
 
 **Author:** Claude AI\
-**Date:** March 2, 2026
+**Date:** March 2, 2026 | **Updated:** March 2026
 
 ------------------------------------------------------------------------
 
@@ -101,48 +101,36 @@ Agreement committing customer to monthly monitoring fees for a set term (typical
 
 ------------------------------------------------------------------------
 
-# 5. The Lead Buyers
+# 5. The Lead Buyers: The Dealership Ecosystem
 
-Primary buyers seek homeowners interested in purchasing or upgrading a security system — ideally homeowners (not renters), with household income above $50K, and families with children.
+The home security industry operates on a **manufacturer-dealership model**, similar to the automotive industry. Understanding this structure is fundamental to operating in this space.
 
-## Categories
+## Manufacturers vs Dealerships
 
-### National Security Companies & Their Dealer Networks
+**Manufacturers** (ADT, Vivint, Brinks) build the monitoring infrastructure, own the brand, and collect recurring monthly revenue from customers. They do NOT buy leads directly at scale. Instead, they authorize independent **dealerships** to sell, install, and activate systems under their brand.
 
-The largest buyers of home security leads. They operate authorized dealer programs where independent contractors sell and install under the brand.
+**Dealerships** (Safe Haven, SafeStreets, Alert 360, Guardian, etc.) are the actual lead buyers. They employ sales teams, close homeowners, install systems, and activate monitoring contracts. They then sell completed accounts to the manufacturer at a multiple of the monthly RMR (Recurring Monthly Revenue), typically ~35x. A $45/month account = $1,575 upfront to the dealer.
 
-Examples:
-- **ADT** — Largest player (~14% market share). Extensive authorized dealer network.
-- **Vivint** — Premium smart home security. Direct sales force + dealer channel.
-- **Brinks Home Security** — Dealer-driven model.
-- **Safe Haven** — Largest ADT authorized dealer.
+This is why dealerships can afford $60-$120 per lead. A 15% close rate on $90 leads costs $600 per deal against a $1,575 account sale. 2.6x ROI.
 
-### Regional / Independent Alarm Companies
+## Key Players
 
-Local and regional installers building their customer base. Often buy leads from aggregators or run local SEO/PPC.
+**Manufacturers:** ADT (7M+ customers, ~200 authorized dealers), Vivint (2M+ customers, acquired by NRG for $2.8B), Brinks (900K+ customers, dealer-driven via JNA program)
 
-### DIY Security Brands
+**Top Dealerships (your primary buyers):** Safe Haven Security (largest independent ADT dealer, 105 offices, 43 states), SafeStreets USA (ADT's oldest dealer, ~$90M revenue), Alert 360 (nationwide, own brand), Guardian Protection (Eastern US, actively growing), CPI Security (Southeast), Bay Alarm (California)
 
-SimpliSafe, Ring, Cove — primarily acquire customers through direct-to-consumer digital marketing rather than buying third-party leads, but some use affiliate/lead-gen partnerships.
+**Long Tail:** ~66,000+ security alarm businesses in the US (82% with <10 employees), 7,000-10,000+ Alarm.com service providers, 2,000+ NSI/SSAIB approved installers in the UK
 
-### Lead Aggregators & Brokers
+## Why This Market is Underserved for PPL
 
-Companies that generate and sell leads to the above buyers.
+Home security PPL is a structural opportunity:
 
-Examples:
-- Payperlead.com (3,000+ calls and 4,000+ web leads per day)
-- Exclusive Leads Agency
-- 33 Mile Radius
-- DOPPCALL (pay-per-call model)
-- Marketcall
-- Billy.com
+1. **Low competition:** PPL operators chase legal ($600+/lead), insurance, solar, and education. Home security doesn't appear on any major "top PPL niche" list. Only ~15-20 small lead gen shops serve the entire US market.
+2. **Lead-constrained:** Dealers complain about lead quality from existing vendors (HomeAdvisor/Angi widely criticized). Most still rely on D2D canvassing and referrals because digital lead sources are insufficient.
+3. **D2D is declining:** Historically the #1 channel (Vivint spent $300M on D2D commissions in 2022), but privacy concerns and e-commerce culture are pushing dealers toward digital alternatives.
+4. **No dominant marketplace:** Unlike LendingTree (financial) or Martindale (legal), no platform owns the home security lead market. First-mover advantage is available.
 
-Buyers track:
-- CPL (Cost Per Lead) — Home services average ~$92; home security likely $75–$150 depending on lead type and exclusivity
-- CPA (Cost Per Acquisition)
-- ROAS (Return on Ad Spend)
-- Appointment rate (~25% average from lead providers)
-- One provider claims $2,000 revenue per $100 ad spend over time
+See [Lead Buyers doc](home-security-lead-buyers.md) for the full 79-company buyer list and go-to-market strategy.
 
 ------------------------------------------------------------------------
 

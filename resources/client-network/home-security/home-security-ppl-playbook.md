@@ -1,19 +1,21 @@
 # Home Security PPL Economics & Lead Gen Playbook
 
-**Author:** Jasper Crocker  
-**Date:** March 1, 2026
+**Author:** Jasper Crocker
+**Date:** March 1, 2026 | **Updated:** March 2026
 
 ---
 
 ## Contents
 
 1. [Introduction to PPL Economics in Home Security](#1-introduction-to-ppl-economics-in-home-security)
-2. [CPL & Cost-Per-Deal by Platform](#2-cpl--cost-per-deal-by-platform)
-3. [Lead Selling Prices & Unit Economics](#3-lead-selling-prices--unit-economics)
-4. [Lead Generation & Delivery Mechanics](#4-lead-generation--delivery-mechanics)
-5. [Lead Qualification & Buyer Expectations](#5-lead-qualification--buyer-expectations)
-6. [Seasonality in Home Security Lead Gen](#6-seasonality-in-home-security-lead-gen)
-7. [References](#references)
+2. [Why Home Security is a Premium PPL Vertical](#2-why-home-security-is-a-premium-ppl-vertical)
+3. [The Full Lead Lifecycle](#3-the-full-lead-lifecycle)
+4. [CPL & Cost-Per-Deal by Platform](#4-cpl--cost-per-deal-by-platform)
+5. [Lead Selling Prices & Unit Economics](#5-lead-selling-prices--unit-economics)
+6. [Lead Generation & Delivery Mechanics](#6-lead-generation--delivery-mechanics)
+7. [Lead Qualification & Buyer Expectations](#7-lead-qualification--buyer-expectations)
+8. [Seasonality in Home Security Lead Gen](#8-seasonality-in-home-security-lead-gen)
+9. [References](#references)
 
 ---
 
@@ -27,7 +29,112 @@ This playbook breaks down the practical economics and strategies required to bui
 
 ---
 
-## 2. CPL & Cost-Per-Deal by Platform
+## 2. Why Home Security is a Premium PPL Vertical
+
+Home security hits all four criteria of a perfect PPL niche. Understanding this is critical for confidence in the business model.
+
+### The Four Criteria
+
+**1. Lead-Constrained (Demand >> Supply)**
+
+The market has ~66,000+ security alarm businesses in the US, growing at 7-15% annually. Only ~15-20 small lead gen shops serve the entire national market. There is no dominant marketplace (no "LendingTree for home security"). Dealers in forums complain about lead quality from existing vendors and still rely heavily on door-to-door canvassing and referrals because digital lead sources are genuinely insufficient.
+
+Compare this to insurance or legal, where hundreds of sophisticated lead gen companies compete for the same buyers. In home security, the supply gap is real.
+
+**2. High Lifetime Gross Profit (LTGP)**
+
+A single converted customer is worth $1,400-$2,000+ to the dealership on day one (35x RMR multiple on a $40-$55/month monitoring contract). The monitoring company that buys the account then collects recurring revenue for 3-7+ years. ADT reports 93% of revenue is recurring (monitoring subscriptions). This high downstream value means dealerships can comfortably absorb $60-$120 CPLs and still achieve 2-3x ROI per closed deal.
+
+**3. High Volume**
+
+The addressable market is enormous: nearly 747,000 burglaries per year in the US, 50% of homes still lack any security system, and every new homeowner is a potential buyer. The $72B market (2025) is projected to reach $109B by 2030. There is no volume ceiling.
+
+**4. Low Competition**
+
+PPL operators chase legal (PI leads at $600+), insurance (Medicare, life), solar, and education. Home security doesn't appear on any major "top PPL niches" list. Operators avoid it because they perceive it as "local" (installation requires a technician in the homeowner's area) and the CPL ($25-$95) looks small compared to a $600 legal lead.
+
+What they miss: the fragmented buyer side (66,000+ businesses) means no single buyer dominates, which looks unattractive to operators who want to sell 10,000 leads/month to one buyer. But for a lean operation selling 200-1,000 exclusive leads/month across 3-5 direct dealer relationships, this is an advantage. Less competition, more pricing power, stickier relationships.
+
+### The Bottom Line
+
+Home security PPL combines: underserved demand, high buyer willingness to pay, massive market volume, and low operator competition. This is a structural edge, not a temporary arbitrage.
+
+---
+
+## 3. The Full Lead Lifecycle
+
+Understanding the complete journey from ad impression to dealer payout is essential for building a quality operation and communicating value to buyers.
+
+### Step-by-Step Flow
+
+```
+Your Ad (Facebook/Google/Bing/YouTube)
+    |
+    v
+Homeowner clicks, lands on quiz funnel or landing page
+    |
+    v
+Homeowner completes form (name, phone, email, address, homeowner status, property type)
+    |
+    v
+Real-time qualification (verify homeowner, valid phone, geography match, no existing contract)
+    |
+    v
+Exclusive lead delivered to dealership (API/CRM push or phone call transfer)
+    |
+    v
+Dealership sales team calls homeowner within minutes (speed-to-lead is critical)
+    |
+    v
+Consultation booked, technician visits home
+    |
+    v
+System installed (sensors, cameras, panel, monitoring connection)
+    |
+    v
+Homeowner signs 36-month monitoring contract ($25-$60/month RMR)
+    |
+    v
+Dealership sells completed account to manufacturer (ADT/Vivint/Brinks) at ~35x RMR multiple
+    |
+    v
+Dealership receives upfront cash ($1,400-$2,000+ per account)
+    |
+    v
+Manufacturer collects monthly monitoring payments for the life of the customer
+```
+
+### The Unit Economics (Full Chain)
+
+| Step | Your Side | Dealer Side |
+|---|---|---|
+| Lead generation cost (Bing Ads) | $55 CPL | -- |
+| Lead selling price (exclusive) | $90 per lead | $90 per lead |
+| **Your gross margin** | **$35 per lead** | -- |
+| Dealer close rate | -- | 15% |
+| Dealer cost per deal | -- | $600 (= $90 / 0.15) |
+| Account value (35x on $45/mo) | -- | $1,575 |
+| **Dealer ROI per deal** | -- | **2.6x** ($1,575 / $600) |
+
+At 100 leads/month: you earn $3,500 gross margin. The dealer closes 15 accounts worth $23,625 in account value for a cost of $9,000. Everyone wins.
+
+### Delivery Preferences (What Dealers Want)
+
+Dealers strongly prefer leads that arrive fast and in a format their sales team can act on immediately.
+
+| Delivery Method | Conversion Rate | Dealer Preference |
+|---|---|---|
+| **Live phone transfer** | 25-40% | Highest (but requires call infrastructure) |
+| **Inbound phone call** | 25-40% | Very high |
+| **Real-time CRM push** (SecurityTrax, WorkHorse, FillQuick) | 10-20% | High (professional standard) |
+| **Email + SMS notification** | 5-10% | Acceptable for smaller dealers |
+| **Aged web form** | 1-2% | Low (last resort) |
+
+Speed-to-lead is the #1 factor. Industry data shows the first company to call a lead wins 35-50% of the time. Dealers with sales teams expect sub-5-minute delivery.
+
+---
+
+## 4. CPL & Cost-Per-Deal by Platform
 
 Different advertising platforms attract users with varying levels of intent, which directly impacts lead cost, quality, and close rates. The following data synthesizes industry benchmarks from WordStream, LocaliQ, WebFX, and home security lead generation providers to establish realistic expectations for each major platform. The key is to analyze the final **Cost Per Deal** to determine a platform's true profitability.
 
@@ -55,9 +162,11 @@ Different advertising platforms attract users with varying levels of intent, whi
 
 ---
 
-## 3. Lead Selling Prices & Unit Economics
+## 5. Lead Selling Prices & Unit Economics
 
-The price a lead generation agency can command depends on the lead's quality, exclusivity, and delivery method. Understanding these prices is crucial for calculating potential margins. Home security lead prices are benchmarked against the downstream account value: a $45/month RMR customer on a 36-month contract is worth **$1,620** at the monitoring company level, which supports premium lead pricing.
+The price a lead generation agency can command depends on the lead's quality, exclusivity, and delivery method. Understanding these prices is crucial for calculating potential margins. Home security lead prices are benchmarked against the downstream account value: a $45/month RMR customer on a 36-month contract is worth **$1,575+** at the dealership level (35x multiple), which supports premium lead pricing.
+
+**Strategic note:** Your primary selling channel should be **direct to authorized dealerships** (Safe Haven, SafeStreets, Alert 360, Guardian, etc.). Sell to networks (Aragon, Modernize, PayPerLead.com) only for initial CPL testing and surplus overflow. See the [Lead Buyers doc](home-security-lead-buyers.md#12-go-to-market-hierarchy) for the full go-to-market hierarchy.
 
 | Lead Type | Typical Selling Price | Description |
 |---|---|---|
@@ -79,7 +188,7 @@ In this scenario, the lead buyer pays $90 for the lead. With a 15% close rate, t
 
 ---
 
-## 4. Lead Generation & Delivery Mechanics
+## 6. Lead Generation & Delivery Mechanics
 
 ### Funnel Structures That Work
 
@@ -102,7 +211,7 @@ This system allows for the real-time, automated sale of leads at market-driven p
 
 ---
 
-## 5. Lead Qualification & Buyer Expectations
+## 7. Lead Qualification & Buyer Expectations
 
 Lead buyers in the home security space are sophisticated and have strict criteria. ADT dealers, Brinks channel partners, and independent monitoring companies all require leads that meet specific thresholds. Meeting these expectations is crucial for a successful PPL business and maintaining buyer relationships.
 
@@ -131,7 +240,7 @@ A standard lead form or quiz funnel will collect the following data points to en
 
 ---
 
-## 6. Seasonality in Home Security Lead Gen
+## 8. Seasonality in Home Security Lead Gen
 
 Demand for home security is not uniform throughout the year. Understanding the seasonal ebb and flow is key to managing ad spend, adjusting CPL bids, and maximizing profitability. Burglary statistics from the Bureau of Justice Statistics and the Insurance Information Institute confirm that break-ins are **11% more common in summer than winter**, directly driving seasonal demand for alarm systems.
 
