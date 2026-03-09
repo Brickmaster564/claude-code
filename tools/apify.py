@@ -165,11 +165,11 @@ def scrape_profiles(token, urls):
 
 
 def scrape_comments(token, usernames, results_per_profile=1):
-    """Scrape LinkedIn commenting activity for given usernames (batched, max 5 per run)."""
+    """Scrape LinkedIn commenting activity for given usernames (batched, up to 50 per run)."""
     if not usernames:
         return {"error": "No usernames provided"}
 
-    BATCH_SIZE = 30
+    BATCH_SIZE = 50
     all_items = []
 
     for i in range(0, len(usernames), BATCH_SIZE):

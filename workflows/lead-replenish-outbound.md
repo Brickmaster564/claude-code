@@ -368,7 +368,7 @@ After reporting, delete `.tmp/replenisher-run.json`.
 
 - This workflow is designed to run weekly per vertical via cron job.
 - Apollo enrichment credits are consumed during Step 4. The workflow proceeds automatically since finding contacts is the core purpose.
-- Apify compute units are consumed during Step 6. Profile scraper + comments scraper combined cost ~$0.05 + $0.005 per lead. At 150 leads, expect ~$8-9 total for LinkedIn checks.
+- Apify compute units are consumed during Step 6. Profile scraper runs per-lead (~$0.05 each). Comments scraper batches 30 usernames per actor run at 1 comment each, so cost is minimal. At 150 leads, expect ~$1-2 total for LinkedIn checks.
 - The Lemlist routing (Step 8) is optional. If no Lemlist campaign is configured, leads still go to Instantly.
 - This workflow does NOT write outreach copy. Use `/copywriter` for that.
 - All API keys are loaded from `config/api-keys.json` by the tool scripts.

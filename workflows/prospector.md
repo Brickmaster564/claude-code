@@ -380,6 +380,6 @@ After presenting the report, delete `.tmp/prospector-run.json`.
 
 - Apollo enrichment uses credits. The workflow will always proceed with enrichment since it's required for email verification. If Jasper wants to skip enrichment for any reason, he'll say so.
 - All API keys are loaded from `config/api-keys.json` by the tool scripts.
-- Apify compute units are consumed during Step 6. Comments scraper is batched (5 per run, 2 results per profile) so costs are minimal. Profile scraper runs as a single batch.
+- Apify compute units are consumed during Step 6. Comments scraper is batched (30 per run, 1 result per profile) so costs are minimal. Profile scraper runs as a single batch.
 - Lemlist routing (Step 8) is optional. If the vertical isn't in `replenisher.json` or has no Lemlist campaign configured, leads still go to Instantly.
 - This workflow does NOT write outreach copy. That's a separate task — use `/copywriter` for sequence messaging.
