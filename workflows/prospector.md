@@ -270,10 +270,10 @@ Runs `dev_fusion/Linkedin-Profile-Scraper`. If `updates/0/postText` exists and i
 For leads that came back with NO recent posts in Pass 1, run the comments scraper:
 
 ```bash
-python3 tools/apify.py scrape-comments --usernames "person1,person2,..." --results-per-profile 2
+python3 tools/apify.py scrape-comments --usernames "person1,person2,..."
 ```
 
-Runs `apimaestro/linkedin-profile-comments`. Extract the username slug from the LinkedIn URL (the part after `/in/`). The scraper batches up to 5 usernames per actor run and returns up to 2 comments per profile (enough to determine activity). Always use `--results-per-profile 2` to minimise Apify costs.
+Runs `apimaestro/linkedin-profile-comments`. Extract the username slug from the LinkedIn URL (the part after `/in/`). The tool automatically batches up to 30 usernames per actor run and defaults to 1 comment per profile (enough to determine activity). Do NOT override `--results-per-profile` unless you have a specific reason.
 
 **Classification (applied after both passes):**
 - **Active poster** = has recent posts from Pass 1. Route to Lemlist + Instantly.
