@@ -86,6 +86,41 @@ def list_campaigns(api_key):
     return result
 
 
+def list_leads(api_key, campaign_id):
+    """List all leads in a Lemlist campaign with their status.
+
+    Paginates automatically. Returns lead details including step status.
+    """
+    if not campaign_id.startswith("cam_"):
+        campaign_id = f"cam_{campaign_id}"
+
+    all_leads = []
+    offset = 0
+    limit = 100
+
+    while True:
+        result = api_request(api_key, "GET", f"/campaigns/{campaign_id}/leads?offset={offset}&limit={limit}")
+
+        if isinstance(result, dict) and "error" in result:
+            return {"error": result["error"], "leads": all_leads}
+
+        if not result or (isinstance(result, list) and len(result) == 0):
+            break
+
+        items = result if isinstance(result, list) else result.get("leads", result.get("data", []))
+        if not items:
+            break
+
+        all_leads.extend(items)
+
+        if len(items) < limit:
+            break
+
+        offset += limit
+
+    return {"total": len(all_leads), "leads": all_leads}
+
+
 def main():
     parser = argparse.ArgumentParser(description="Lemlist campaign tools")
     subparsers = parser.add_subparsers(dest="command")
@@ -103,6 +138,10 @@ def main():
     # list-campaigns
     subparsers.add_parser("list-campaigns", help="List all campaigns")
 
+    # list-leads
+    ll_cmd = subparsers.add_parser("list-leads", help="List leads in a campaign")
+    ll_cmd.add_argument("--campaign-id", required=True, help="Lemlist campaign ID")
+
     args = parser.parse_args()
     api_key = load_api_key()
 
@@ -116,6 +155,10 @@ def main():
 
     elif args.command == "list-campaigns":
         result = list_campaigns(api_key)
+        print(json.dumps(result, indent=2))
+
+    elif args.command == "list-leads":
+        result = list_leads(api_key, args.campaign_id)
         print(json.dumps(result, indent=2))
 
     else:

@@ -60,6 +60,40 @@ The gold IRA lead generation landscape is a high-margin, heavily contested verti
 | 25 | Stansberry Research | stansberryresearch.com | Newsletter/Email Lead Gen | Very High |
 | 26 | Agora Financial | agorafinancial.com | Newsletter/Email Lead Gen | Very High |
 | 27 | BPTrends / BestGoldIRA | bestgoldira.us.com | Affiliate/Lead Gen | Medium |
+| 28 | **Retirement Living** | retirementliving.com | **Lead Gen Matching (owns the lead)** | Very High (authority retirement brand) |
+| 29 | **Gold IRA Rankings** | goldirarankings.com | **Lead Gen Matching (owns the lead)** | Unknown (quiz funnel, Google Ads) |
+
+---
+
+### Key Competitor: Gold IRA Rankings (Lead Gen Matching Model)
+
+**URL:** goldirarankings.com/quiz/
+**Model:** Lead gen matching via quiz funnel. Same model as Retirement Living. Captures leads on own form, routes to dealers.
+
+**Evidence from URL tracking parameters (March 2026):**
+- Google Ads campaign: "GoldIRARankings-NonBranded" (campaign ID: 23280951011)
+- Bidding on "best gold ira investment companies" (non-branded keywords)
+- Paid search traffic to /quiz/ endpoint
+
+**Why this matters:** Second confirmed operator running this exact model. The "NonBranded" campaign name confirms they're buying generic gold IRA search traffic, not just defending their own brand name. They're competing directly with Retirement Living for the same high-intent keywords at $100+ CPC. Two operators spending real money on the same model = validated playbook.
+
+---
+
+### Key Competitor: Retirement Living (Lead Gen Matching Model)
+
+**URL:** retirementliving.com/gold/get-matched/
+**Model:** This is the closest competitor to what Client Network would build. NOT an affiliate redirect site. RetirementLiving.com runs Google Ads on high-intent keywords ("best gold IRA", exact match), captures leads on their own "Get Matched" landing page, and routes/sells those leads to dealers.
+
+**Evidence from URL tracking parameters (March 2026):**
+- Google Ads campaign ID: 22716666157
+- Bidding on "best gold IRA" (exact match)
+- Own affiliate tag: "rl" (RetirementLiving)
+- Google Ads account: 366-135-1017
+- "Get Matched" landing page with own lead capture form
+
+**Why this matters:** This is a LendingTree/QuoteWizard-style matching model applied to gold IRAs. They own the lead data and sell/route it to dealers. The "Get Matched" framing positions the form as a consumer service rather than a lead sale. They're bidding on $100+ CPC keywords, which means their lead sell price must be high enough to support that cost. This validates the $200-$600+ per qualified lead pricing from operator intel.
+
+**Implication for CN:** This proves the model works. CN would run the same structure but through Meta ads (cheaper traffic) instead of Google Search (expensive but high intent). The landing page framing of "get matched with a specialist" or "see if you qualify" is proven and should be adopted.
 
 ---
 

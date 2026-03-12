@@ -84,17 +84,17 @@ The precious metals IRA industry is projected to reach **$22.6 billion by 2027**
 ### Google Search Ads
 
 **Estimated CPC Ranges:**
-- "gold IRA": $15-$50+ per click (extremely competitive, financial services tier)
-- "rollover 401k to gold": $20-$45 per click
-- "best gold IRA companies": $25-$60 per click
-- "gold IRA rollover": $15-$40 per click
-- "precious metals IRA": $10-$30 per click
-- "buy gold for retirement": $8-$25 per click
-- Long-tail variants ("is a gold IRA a good idea", "gold IRA tax rules"): $5-$15 per click
+- "gold IRA": $50-$100+ per click
+- "rollover 401k to gold": $40-$80 per click
+- "best gold IRA companies": $60-$100+ per click
+- "gold IRA rollover": $40-$75 per click
+- "precious metals IRA": $25-$60 per click
+- "buy gold for retirement": $20-$50 per click
+- Long-tail variants ("is a gold IRA a good idea", "gold IRA tax rules"): $10-$30 per click
 
-**CPL Range:** $75-$250+ depending on keyword intent and landing page conversion rate
+**CPL Range:** $200-$1,000+ depending on keyword intent and landing page conversion rate
 
-**Context:** Financial services is one of the most expensive Google Ads categories. Legal services keywords reach $137 CPC; insurance averages $68. Gold IRA keywords sit in the $15-$60 CPC range, making them expensive but not the ceiling for finance. With landing page conversion rates of 5-15%, CPLs typically range from $75 for broad-match informational queries to $250+ for high-intent "best gold IRA company" searches.
+**Context (updated March 2026 from operator intel):** Google CPCs in gold IRA are significantly higher than initial estimates. Active operators report $100+ CPCs on core keywords. At a 10% landing page conversion rate, that puts CPL at $1,000+ per qualified lead on search alone. This makes Google Search viable only for high-ticket qualified leads ($200-$600 sell price) or as a retargeting channel. Facebook/Meta and native ads remain the primary volume play due to dramatically lower CPCs ($1-$5 range), even though the leads require more qualification work.
 
 **What Works:**
 - Dedicated landing pages per keyword cluster (rollover-focused, comparison-focused, educational)
@@ -201,14 +201,15 @@ The precious metals IRA industry is projected to reach **$22.6 billion by 2027**
 
 | Lead Type | Price Range | Description |
 |-----------|------------|-------------|
-| **Exclusive fresh lead** | $40-$75 | Real-time delivery, single buyer, name/email/phone, expressed interest in gold IRA |
-| **Qualified exclusive lead** | $100-$200 | Verified by phone, confirmed IRA/401k balance $25K+, ready to speak with advisor |
+| **Qualified exclusive lead** | **$200-$600** | Verified by phone, confirmed IRA/401k balance, meets dealer minimum, ready to speak with advisor. This is the standard for serious buyers. |
+| **Qualified exclusive + commission** | **$200/lead + 8% on rollover** | Confirmed deal structure from active buyer (March 2026). $200 upfront per qualified lead plus 8% of total rollover amount on funded accounts. |
+| **Exclusive fresh lead (unqualified)** | $40-$75 | Real-time delivery, single buyer, name/email/phone, expressed interest but not phone-verified |
 | **Shared lead** | $15-$35 | Sold to 2-4 buyers, lower conversion but lower cost |
-| **Live transfer** | $150-$350 | Prospect is on the phone, pre-screened by call center agent, transferred directly to sales rep. Highest conversion rate. |
+| **Live transfer** | $150-$350+ | Prospect is on the phone, pre-screened by call center agent, transferred directly to sales rep. Highest conversion rate. |
 | **Aged leads (30-90 days)** | $5-$20 | Previously generated leads that went unworked or unconverted. Lower conversion but can be profitable at volume. |
 | **Data lists (compiled)** | $0.07-$0.18/name | Investor profile data (not opt-in leads). Filtered by net worth, income, age, geography. Used for direct mail and cold outreach. |
 
-**Key insight:** GoldIRALeads.com advertises exclusive verified leads at $40-$45 per lead. This appears to be the market baseline for fresh exclusive leads with basic validation (phone + email + intent scoring).
+**Key insight (updated March 2026 from operator intel):** Qualified leads that meet broker quality standards sell for $200-$600+ plus commission. The catch is that generating leads at this quality bar is expensive. Operators report CPCs of $100+ on Google (not CPL, just per click), which means CPLs on search can easily hit $500-$1,000+ for truly qualified leads. The margin is real but only if your funnel is dialed in and your qualification process is tight. GoldIRALeads.com advertises exclusive verified leads at $40-$45, but these are lower-tier leads that haven't been phone-verified to broker standards.
 
 ### Revenue Per Funded Account
 
@@ -244,31 +245,54 @@ Goldco alone pays out **$150,000+ in affiliate commissions per month**, confirmi
 
 ### Unit Economics: Margin Analysis
 
-**Scenario: Facebook lead gen at $60 CPL, selling exclusive leads at $150**
+**IMPORTANT REALITY CHECK (March 2026 operator intel):** Leads that meet broker quality standards are very expensive to generate. Operators report $100+ CPCs on Google (not CPL, just per click). Facebook is cheaper per click ($1-$5) but conversion to a truly qualified lead (phone-verified, confirmed assets, meets minimum) is low. The numbers below reflect this reality.
+
+**Scenario 1: Facebook/Meta lead gen, selling qualified exclusives at $300**
 
 | Metric | Value |
 |--------|-------|
-| Cost to generate lead (CPL) | $60 |
-| Sale price (exclusive qualified lead) | $150 |
-| Gross margin per lead | $90 (60%) |
-| Leads per day (moderate scale) | 50 |
-| Daily gross profit | $4,500 |
-| Monthly gross profit | $135,000 |
+| Ad spend | $5,000 |
+| Raw CPL (form fills) | $50 |
+| Raw leads generated | 100 |
+| Qualification rate (phone-verified, meets minimum) | 20% |
+| Qualified leads | 20 |
+| True cost per qualified lead | $250 |
+| Sale price (qualified exclusive) | $300 |
+| Gross margin per qualified lead | $50 (17%) |
+| Monthly gross profit | $1,000 |
 
-**Scenario: Native ads at $35 CPL, running own affiliate program at 8% rev share**
+Thin margins on pure lead arbitrage. This is why the commission layer matters.
+
+**Scenario 2: Facebook/Meta + commission hybrid ($200/lead + 8% rev share)**
 
 | Metric | Value |
 |--------|-------|
-| Cost to generate lead (CPL) | $35 |
-| Leads generated per month | 1,000 |
-| Monthly ad spend | $35,000 |
-| Leads converting to funded accounts (3%) | 30 |
-| Average account size | $75,000 |
-| Revenue per account at 8% | $6,000 |
-| Monthly revenue from conversions | $180,000 |
-| Monthly profit | $145,000 |
+| Ad spend | $5,000 |
+| Qualified leads delivered | 20 |
+| Upfront revenue ($200 x 20) | $4,000 |
+| Leads converting to funded accounts (3% of 100 raw) | 3 |
+| Average rollover amount | $100,000 |
+| Commission per funded account (8%) | $8,000 |
+| Total commission revenue | $24,000 |
+| **Total revenue (upfront + commission)** | **$28,000** |
+| **Monthly profit** | **$23,000** |
 
-The economics are heavily in favor of operating on the affiliate side (generating leads and earning commission on funded accounts) rather than pure lead arbitrage, if you can absorb the longer cash conversion cycle.
+The commission on funded accounts is where the real money is. The per-lead payment covers your ad spend. The rev share is profit.
+
+**Scenario 3: Scaled operation ($20K/mo ad spend)**
+
+| Metric | Value |
+|--------|-------|
+| Ad spend | $20,000 |
+| Raw leads | 400 |
+| Qualified leads (20%) | 80 |
+| Upfront revenue ($200 x 80) | $16,000 |
+| Funded accounts (3% of 400) | 12 |
+| Commission revenue (12 x $8,000) | $96,000 |
+| **Total revenue** | **$112,000** |
+| **Monthly profit** | **$92,000** |
+
+**The takeaway:** Pure lead arbitrage (buy leads cheap, sell leads at markup) is tight in this vertical because qualified leads are expensive to generate. The real play is $200/lead upfront to cover costs, plus 8% rev share on funded accounts for profit. This is the deal structure active operators are using.
 
 ---
 

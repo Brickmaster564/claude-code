@@ -1,7 +1,8 @@
 # Gold IRA Lead Buyers
 
 **Author:** Claude AI
-**Date:** March 9, 2026
+**Last Updated:** March 12, 2026
+**Research Status:** Validated and expanded with live web research
 
 ---
 
@@ -36,12 +37,15 @@ These are the biggest players. They spend millions on advertising (TV, radio, di
 | **Employees** | 51-200 |
 | **Precious Metals Placed** | $3B+ cumulative |
 | **Celebrity Endorsements** | Sean Hannity, Chuck Norris, Dennis Quaid |
-| **Minimum Investment** | $25,000 (IRA), $10,000 (direct purchase) |
-| **BBB Rating** | A+ (accredited since 2011) |
-| **Lead Buying Likelihood** | **High** |
+| **Minimum Investment** | $25,000 (IRA), $3,500 (direct purchase) |
+| **BBB Rating** | A+ (4.8/5 stars, 1,100+ reviews) |
+| **Affiliate/Partner Program** | Yes. $165-$200 per qualified lead + 8% rev share on closed sales (10% for high-volume affiliates). Pays $150K+/month in affiliate commissions. Lifetime commissions on repeat purchases. Hosted on in-house tracking. Selective approval process. |
+| **Actively Buying Third-Party Leads** | **Yes** (confirmed). Formal affiliate program, heavy affiliate commission payouts. |
+| **Outreach Angle** | Apply through their affiliate program first. For a direct PPL deal, reach out to their affiliate manager. Emphasize lead quality and volume capacity. They are selective, so having proof of qualified lead generation in the financial/retirement space is essential. |
+| **Priority Score** | **10/10** |
 | **Website** | [goldco.com](https://goldco.com) |
 
-**Why they'd buy leads:** Goldco is the largest gold IRA company in the US. They've appeared on the Inc. 5000 list ten times and pay affiliates up to $200 per qualified lead plus 8% of account value on conversions (climbing to 10% for high-volume partners). They pay out over $150,000/month in affiliate commissions. Their scale means they have an insatiable appetite for qualified leads.
+**Status (March 2026):** Active and dominant. A+ BBB with 1,100+ reviews. 61 BBB complaints in 3 years (15 resolved). One past lawsuit (2023 TCPA case for unsolicited marketing calls, not fraud). Some consumer complaints about high markups (up to 162% on silver, 81% on gold coins) and slow buyback responses. Still the largest gold IRA company in the US with Inc. 5000 recognition ten times.
 
 ---
 
@@ -55,11 +59,14 @@ These are the biggest players. They spend millions on advertising (TV, radio, di
 | **Employees** | ~22 |
 | **Celebrity Endorsements** | Joe Montana (paid brand ambassador) |
 | **Minimum Investment** | $50,000 |
-| **BBB Rating** | A+ (zero complaints since founding) |
-| **Lead Buying Likelihood** | **High** |
+| **BBB Rating** | A+ (4.92/5 stars, 86 reviews, zero complaints since founding) |
+| **Affiliate/Partner Program** | Yes. Up to $200 per qualified lead + 8-10% rev share on funded accounts. 90-day cookie window. VIP affiliates earn on bullion purchases. Selective approval: must show proven traffic source. Provides landing pages, guides, videos, dedicated 800 numbers. |
+| **Actively Buying Third-Party Leads** | **Yes** (confirmed). Well-established affiliate program with high payouts. |
+| **Outreach Angle** | High-quality leads only. Their $50K minimum means they want affluent, high-intent retirement savers. Pitch CN's ability to deliver pre-qualified leads with verified investment intent above $50K. The zero-complaint BBB record means they convert well, so they can afford premium pricing. |
+| **Priority Score** | **9/10** |
 | **Website** | [augustapreciousmetals.com](https://www.augustapreciousmetals.com) |
 
-**Why they'd buy leads:** Augusta's $50K minimum means each converted lead is extremely valuable. Their affiliate program pays $500 per qualified lead plus lifetime commission on premium products. Zero BBB complaints signals a company that converts and retains well, meaning they can afford premium lead pricing. Smaller team size suggests they rely on external lead sources rather than massive in-house marketing.
+**Status (March 2026):** Active and thriving. Ranked #1 gold IRA company by multiple outlets for February and March 2026. Zero BBB complaints since 2012. Education-first approach with one-on-one economic training for each customer. Smaller team (22 employees) but very high conversion rates justify premium lead pricing. $50K minimum filters for quality.
 
 ---
 
@@ -73,11 +80,14 @@ These are the biggest players. They spend millions on advertising (TV, radio, di
 | **Employees** | 51-68 |
 | **Celebrity Endorsements** | Ben Shapiro (since 2016) |
 | **Minimum Investment** | $10,000 |
-| **BBB Rating** | A+ (4.5/5 stars, 197 reviews) |
-| **Lead Buying Likelihood** | **High** |
+| **BBB Rating** | A (not A+; 4.5/5 stars, 197 reviews) |
+| **Affiliate/Partner Program** | Yes. $25 per qualified lead + tiered rev share: 2% under $10K, 3% for $10K-$50K, 4% for $50K-$250K, 5% for $250K+. 90-day cookie. Lifetime commissions on all future customer purchases. Highly selective: fewer than 200 partners accepted in 18 years. |
+| **Actively Buying Third-Party Leads** | **Yes** (confirmed). Formal affiliate program with defined tiers. |
+| **Outreach Angle** | Lower per-lead payout ($25) but the rev share tiers make large conversions lucrative. Their selectivity means they value quality over volume. Pitch consistent, high-intent leads from the conservative/retirement demographic that aligns with their Ben Shapiro audience. |
+| **Priority Score** | **7/10** |
 | **Website** | [birchgold.com](https://www.birchgold.com) |
 
-**Why they'd buy leads:** One of the oldest gold IRA companies (20+ years). Their affiliate program pays $25 per qualified lead plus 2-5% revenue share on closed sales. The Ben Shapiro partnership drives conservative media traffic, but they need diversified lead sources. Low $10K minimum means a broader prospect pool.
+**Status (March 2026):** Active. 20+ years in business. Named best overall gold IRA company for 2026 by CNBC Select. The Ben Shapiro partnership continues driving conservative media traffic. Low $10K minimum means a broader prospect pool. BBB rating is A (not A+), so slightly below the top tier in accreditation.
 
 ---
 
@@ -88,37 +98,22 @@ These are the biggest players. They spend millions on advertising (TV, radio, di
 | **HQ** | Los Angeles, CA (offices in Woodland Hills, CA & West Palm Beach, FL) |
 | **Founded** | 2015 |
 | **Est. Revenue** | $100M-$250M |
-| **Employees** | 200+ |
-| **Precious Metals Placed** | $2B+ cumulative |
+| **Employees** | 200+ (some sources report 94 full-time across 2 continents) |
+| **Precious Metals Placed** | $4B+ cumulative (milestone announced January 28, 2026) |
 | **Celebrity Endorsements** | Bill O'Reilly, Mike Huckabee, Rick Harrison |
 | **Minimum Investment** | $10,000 (IRA), $5,000 (cash purchase) |
 | **BBB Rating** | A+ (94% five-star reviews) |
-| **Lead Buying Likelihood** | **High** |
+| **Affiliate/Partner Program** | Yes. Two options: CPQL (pay per qualified lead) or revenue share model. Starts at 3% CPA commission on closed sales, negotiable upward with volume. Provides landing pages and dedicated 800 numbers for tracking. |
+| **Actively Buying Third-Party Leads** | **Yes** (confirmed). Active affiliate program, heavy media partnerships. |
+| **Outreach Angle** | Family-owned with a massive sales floor. They need constant lead supply. Pitch volume capacity and geographic diversity of leads. Their low minimums ($10K) and broad celebrity partnerships suggest they'll take a wide range of lead quality tiers. New CIO (Jeremy Fuchs, Feb 2026) and CFO (Robert Leff, Feb 2026) suggest organizational growth. |
+| **Priority Score** | **9/10** |
 | **Website** | [americanhartfordgold.com](https://www.americanhartfordgold.com) |
 
-**Why they'd buy leads:** Explosive growth: five consecutive Inc. 5000 appearances, $2B+ in metals delivered in just a decade. Family-owned company with 200+ employees and a massive sales floor. Their low minimums and broad celebrity partnerships (conservative media) indicate aggressive customer acquisition. Revenue of $100M-$250M shows they can handle high lead volume.
+**Status (March 2026):** Explosive growth continues. $4B+ in precious metals delivered (up from $2B previously noted). Five consecutive Inc. 5000 appearances. New C-suite hires in February 2026 signal continued scaling. Featured on Newsmax, Fox News, and The Epoch Times. No setup or transfer fees, frequent promotions waiving storage fees for 2-3 years.
 
 ---
 
-### 5. Noble Gold Investments
-
-| Detail | Info |
-|--------|------|
-| **HQ** | Pasadena, CA |
-| **Founded** | 2016 |
-| **Est. Revenue** | <$5M |
-| **Employees** | ~5-15 |
-| **Celebrity Endorsements** | None known |
-| **Minimum Investment** | $20,000 (IRA), $2,000 (direct purchase) |
-| **BBB Rating** | A+ |
-| **Lead Buying Likelihood** | **Medium** |
-| **Website** | [noblegoldinvestments.com](https://noblegoldinvestments.com) |
-
-**Why they'd buy leads:** Smaller company that would benefit significantly from external lead generation. Their affiliate program offers both flat commissions and revenue sharing options. Being newer (2016) and smaller, they're in growth mode and more likely to test new lead sources. However, smaller budget limits volume capacity.
-
----
-
-### 6. Lear Capital
+### 5. Lear Capital
 
 | Detail | Info |
 |--------|------|
@@ -126,18 +121,21 @@ These are the biggest players. They spend millions on advertising (TV, radio, di
 | **Founded** | 1997 |
 | **Est. Revenue** | $39.9M |
 | **Employees** | ~115 |
-| **Total Transactions** | $3B+ in precious metals managed |
+| **Total Transactions** | $3B+ in precious metals, 100K+ investors |
 | **Celebrity Endorsements** | Glenn Beck, Judge Andrew Napolitano, George Noory |
 | **Minimum Investment** | $10,000 |
 | **BBB Rating** | A+ (4.63/5 stars) |
-| **Lead Buying Likelihood** | **High** |
+| **Affiliate/Partner Program** | Yes. Tiered structure hosted on Everflow: Tier 1: $150 CPQL + 5% rev share. Tier 2: $175 CPQL + 6% rev share. Tier 3: $200 CPQL + 7% rev share. Additional bonuses beyond Tier 3 for top performers. 2nd-tier referral: 1% on all sales from referred affiliates, for life. 90-day cookie. Free to join, no earnings cap, monthly payouts. |
+| **Actively Buying Third-Party Leads** | **Yes** (confirmed). Detailed, well-structured affiliate program. |
+| **Outreach Angle** | One of the best-structured affiliate programs in the industry. Clear tier progression rewards consistent quality. Pitch a trial period to demonstrate lead quality and move up tiers quickly. Their 25+ year track record and 100K+ investor base means they know how to close leads. |
+| **Priority Score** | **9/10** |
 | **Website** | [learcapital.com](https://www.learcapital.com) |
 
-**Why they'd buy leads:** One of the oldest companies in the space (since 1997) with $3B+ in transactions. Their affiliate program offers negotiable compensation based on traffic quality. Conservative media endorsements (Glenn Beck, Napolitano) drive politically-aligned traffic, but they need broader demographic coverage. 115 employees suggests a substantial sales operation that needs consistent lead flow.
+**Status (March 2026):** Named Best Overall Gold IRA Company by ConsumerAffairs (March 10, 2026). Ranked #2 among best-rated gold IRA companies. 25+ years operating. Offers Lear Advantage IRA with a 24-hour risk-free purchase guarantee and waived storage fees for qualifying investments. Strong and stable.
 
 ---
 
-### 7. Rosland Capital
+### 6. Rosland Capital
 
 | Detail | Info |
 |--------|------|
@@ -148,11 +146,35 @@ These are the biggest players. They spend millions on advertising (TV, radio, di
 | **International Offices** | London, Paris, Munich |
 | **Celebrity Endorsements** | William Devane (long-running TV campaigns) |
 | **Minimum Investment** | $2,000 (direct), $10,000 (IRA) |
-| **BBB Rating** | A+ (though low customer review scores at 1.25/5) |
-| **Lead Buying Likelihood** | **Medium-High** |
+| **BBB Rating** | A+ (4.5/5 stars, 1,678 reviews) |
+| **Affiliate/Partner Program** | No formal public affiliate program found. |
+| **Actively Buying Third-Party Leads** | **Likely**. Heavy TV advertiser, but no confirmed affiliate program. May buy leads through direct deals rather than affiliate structures. |
+| **Outreach Angle** | Direct outreach to their marketing team. Rosland is a heavy TV spender (William Devane campaigns). They likely need supplemental digital leads. However, industry criticism of opaque pricing and customer complaints about premium product steering suggest conversion challenges. Approach with a pilot deal. |
+| **Priority Score** | **6/10** |
 | **Website** | [roslandcapital.com](https://www.roslandcapital.com) |
 
-**Why they'd buy leads:** Heavy TV advertiser (William Devane campaigns run constantly). International presence signals ambition. Low $2K entry point casts a wide net. The gap between their A+ BBB accreditation and low customer review scores suggests conversion challenges, which makes quality leads even more valuable to them. They likely need external lead sources to supplement their TV-driven pipeline.
+**Status (March 2026):** Active but receiving mixed reviews. Running a July 2025-June 2026 promotion. Above-average fee structure (est. $450 first-year all-in cost, $1,950 over five years). No published pricing on website. Customer complaints about being steered toward premium/limited-mintage products with significant markups. BBB rating improved to 4.5/5 with 1,678 reviews.
+
+---
+
+### 7. Noble Gold Investments
+
+| Detail | Info |
+|--------|------|
+| **HQ** | Pasadena, CA |
+| **Founded** | 2016 |
+| **Est. Revenue** | <$5M |
+| **Employees** | ~5-15 |
+| **Celebrity Endorsements** | None known |
+| **Minimum Investment** | $20,000 (IRA), $2,000 (direct purchase) |
+| **BBB Rating** | A+ (4.9/5 on Google) |
+| **Affiliate/Partner Program** | Yes, but limited. Does not pay per qualified lead. Revenue share only, on the lower end. Flexible commission structures (flat fees or rev share). Open to digital marketers, content creators, financial advisors, podcast hosts. |
+| **Actively Buying Third-Party Leads** | **Likely but limited budget**. Has affiliate program but lower payouts and smaller scale. |
+| **Outreach Angle** | Good for a starter relationship. Smaller company that would benefit from consistent lead flow but can't compete on per-lead pricing with Goldco or Augusta. Offer a small test batch at competitive rates. Featured in Forbes, Business Insider, MSN, Yahoo. |
+| **Priority Score** | **5/10** |
+| **Website** | [noblegoldinvestments.com](https://noblegoldinvestments.com) |
+
+**Status (March 2026):** Active. A+ BBB, 4.9/5 Google average. Small team limits capacity. No per-lead payments makes this less attractive for a pure PPL model, but could work on a rev share basis if CN can negotiate reasonable terms.
 
 ---
 
@@ -167,10 +189,13 @@ These are the biggest players. They spend millions on advertising (TV, radio, di
 | **Celebrity Endorsements** | None known |
 | **Minimum Investment** | $25,000 (IRA rollover), $10,000 (cash) |
 | **BBB Rating** | A+ |
-| **Lead Buying Likelihood** | **Medium** |
+| **Affiliate/Partner Program** | No formal public affiliate program found. |
+| **Actively Buying Third-Party Leads** | **Unknown**. No affiliate program visible. May buy leads through direct deals. |
+| **Outreach Angle** | Cold outreach to their marketing/sales team. The "Patriot" branding targets the conservative demographic. LED by CEO Jack Hanney. Pitch lead quality aligned with their target audience. Mid-size company that may be open to testing a PPL arrangement. |
+| **Priority Score** | **5/10** |
 | **Website** | [patriotgoldgroup.com](https://www.patriotgoldgroup.com) |
 
-**Why they'd buy leads:** Mid-size company in growth mode. Higher $25K minimum means each lead is worth more when it converts. Smaller team with limited marketing budget makes external lead sources attractive. The "Patriot" branding aligns with conservative demographics, similar target audience as other gold IRA companies.
+**Status (March 2026):** Active. A+ BBB. No major news, lawsuits, or complaints surfaced. Stable mid-tier player.
 
 ---
 
@@ -180,7 +205,46 @@ These companies are established but smaller than the Tier 1 players. They're oft
 
 ---
 
-### 1. Advantage Gold
+### 1. GoldenCrest Metals
+
+| Detail | Info |
+|--------|------|
+| **HQ** | Calabasas, CA |
+| **Founded** | 2023 |
+| **Employees** | Small team |
+| **Celebrity Endorsements** | Kevin Harrington (Shark Tank), Michael Savage (conservative radio) |
+| **Minimum Investment** | $10,000 (IRA) |
+| **BBB Rating** | Accredited (100% five-star reviews on BBB, Yelp, Trustpilot) |
+| **Affiliate/Partner Program** | Yes. Named #1 gold and silver affiliate program of the year. VIP affiliates earn up to 13% commission on premium coins, 8% on bullion. 2-tier affiliate structure (earn on sub-affiliates). Hosted on Everflow. Dedicated affiliate manager (Nicole). Featured on NewsMax, Bloomberg, Fox Business. |
+| **Actively Buying Third-Party Leads** | **Yes** (confirmed). Aggressively building their affiliate network as a growth-stage company. |
+| **Outreach Angle** | Easiest first conversation on this list. New company (2023), aggressive on payouts, actively seeking lead partners. Contact affiliate manager Nicole directly. CEO Rich Jacoby and team bring 20+ years of combined experience. Lower $10K minimum broadens the prospect pool. Ground-floor opportunity. |
+| **Priority Score** | **9/10** |
+| **Website** | [goldencrestmetals.com](https://goldencrestmetals.com) |
+
+**Status (March 2026):** Active and growing aggressively. Less saturated affiliate program compared to Goldco or Augusta. Highest commission structure in the industry for VIP affiliates (13% on premium coins). Being newer means less competition among lead providers.
+
+---
+
+### 2. Preserve Gold
+
+| Detail | Info |
+|--------|------|
+| **HQ** | Woodland Hills, CA |
+| **Founded** | 2022 |
+| **Employees** | Small (family-owned) |
+| **BBB Rating** | Accredited (since Sept 2022). 5-star reviews on TrustPilot, Google, Consumer Affairs. |
+| **Minimum Investment** | Varies |
+| **Affiliate/Partner Program** | Yes. Multiple pay structures: CPQL + revenue share, negotiable based on traffic quality and volume. 1% Tier 2 commission on sales from referred sub-affiliates. Marketing team does consultation calls to customize deal structures. |
+| **Actively Buying Third-Party Leads** | **Yes** (confirmed). Built-out affiliate infrastructure, actively seeking partners. |
+| **Outreach Angle** | Founded by Daniel Boston (ex-Senior Account Executive at Lear Capital, 30+ years industry experience). Affiliate infrastructure described as a "well-oiled machine." Ranked #4 in March 2026 gold IRA rankings. Negotiable terms mean CN can structure a deal that works for both sides. |
+| **Priority Score** | **8/10** |
+| **Website** | [preservegold.com](https://preservegold.com) |
+
+**Status (March 2026):** Active and gaining traction fast. Popular with beginner investors. Executive team has 30+ years combined industry experience. Ranked #4 among best gold IRA companies for March 2026.
+
+---
+
+### 3. Advantage Gold
 
 | Detail | Info |
 |--------|------|
@@ -188,44 +252,14 @@ These companies are established but smaller than the Tier 1 players. They're oft
 | **Founded** | 2014 |
 | **Employees** | ~35-42 |
 | **BBB Rating** | A+ |
-| **Minimum Investment** | Varies by product |
-| **Lead Buying Likelihood** | **Medium-High** |
+| **Minimum Investment** | ~$5,000 |
+| **Affiliate/Partner Program** | No formal public affiliate program found. |
+| **Actively Buying Third-Party Leads** | **Likely**. Mid-size company with limited marketing reach. No affiliate program visible, but their scale suggests they need external lead sources. |
+| **Outreach Angle** | Founded by Adam Baratta, Larry Levin, and CEO Kirill Zagalsky (all with backgrounds at major precious metals dealers affiliated with the US Mint). Recognized as America's #1 Trusted Gold IRA Company by TrustLink 8 consecutive years. 1,780+ TrustPilot reviews (98% five-star). Uses STRATA Trust and Equity Trust as custodians. Direct approach to marketing team. |
+| **Priority Score** | **6/10** |
 | **Website** | [advantagegold.com](https://www.advantagegold.com) |
 
-Founded by Adam Baratta, Larry Levin, and Kirill Zagalsky, all with backgrounds at major precious metals dealers affiliated with the US Mint. 1,780 TrustPilot reviews with 98% five-star ratings. Uses STRATA Trust and Equity Trust as custodians. Solid mid-tier player that would benefit from consistent lead flow.
-
----
-
-### 2. Oxford Gold Group
-
-| Detail | Info |
-|--------|------|
-| **HQ** | Beverly Hills, CA (9100 Wilshire Blvd) |
-| **Founded** | 2017 |
-| **Employees** | 1-10 |
-| **BBB Rating** | Strong reviews |
-| **Minimum Investment** | $7,500-$25,000 (IRA) |
-| **Lead Buying Likelihood** | **Medium** |
-| **Website** | [oxfordgoldgroup.com](https://oxfordgoldgroup.com) |
-
-Owner-operated company with 20+ years of precious metals experience among founders. Known for excellent customer service. Small team means limited capacity but also limited marketing reach. They offer storage fee rebates for up to 5 years depending on IRA size.
-
----
-
-### 3. Orion Metal Exchange
-
-| Detail | Info |
-|--------|------|
-| **HQ** | Los Angeles, CA (12301 Wilshire Blvd) |
-| **Founded** | 2017 |
-| **Employees** | 2-10 |
-| **Est. Revenue** | $5M |
-| **BBB Rating** | A+ (5-star Google and TrustPilot) |
-| **Minimum Investment** | $5,000 (IRA), $10,000 (for promos) |
-| **Lead Buying Likelihood** | **Medium** |
-| **Website** | [orionmetalexchange.com](https://orionmetalexchange.com) |
-
-Consumer Affairs top-rated gold IRA dealer. One of the few companies offering a dedicated Precious Metals IRA division. Flat $190/year for combined custody, storage, and insurance on accounts up to $500K. Small but growing.
+**Status (March 2026):** Active. Strong customer ratings. Publishing 2026 market content. Annual fees of $175-$225 storage + $75-$300 maintenance. No major news or complaints.
 
 ---
 
@@ -236,12 +270,15 @@ Consumer Affairs top-rated gold IRA dealer. One of the few companies offering a 
 | **HQ** | Los Angeles, CA (12301 Wilshire Blvd) |
 | **Founded** | 2009 |
 | **Employees** | ~15 |
-| **BBB Rating** | A+ |
-| **Minimum Investment** | Varies |
-| **Lead Buying Likelihood** | **Medium-High** |
+| **BBB Rating** | A+ (4.4/5 on TrustPilot) |
+| **Minimum Investment** | $10,000+ |
+| **Affiliate/Partner Program** | Yes. $30 per qualified lead + 2-3% of total investment amount on qualified sales over $10,000. Average sale is $35,000, making typical affiliate earnings $1,000+ per conversion. |
+| **Actively Buying Third-Party Leads** | **Yes** (confirmed). Structured lead-buying program with defined payouts. |
+| **Outreach Angle** | Easiest onboarding in mid-tier. Already has defined per-lead pricing ($30) plus rev share. Founded by Orkan Ozkan and Nevtan Akcora (40+ combined years in gold brokering). Small team (15) means they rely on external lead generation. Fast conversation to partnership. |
+| **Priority Score** | **7/10** |
 | **Website** | [americanbullion.com](https://www.americanbullion.com) |
 
-Has a formal affiliate program: $30 per qualified lead plus 3% of qualified sales over $10,000. Founded by Orkan Ozkan and Nevtan Akcora with 40+ combined years in gold brokering. The fact that they already have an affiliate program with defined payouts makes them an easy conversation for PPL partnerships.
+**Status (March 2026):** Active. A+ BBB. Structured affiliate program confirms lead-buying operations. Lower per-lead payout ($30) than Tier 1 companies but still viable for volume deals.
 
 ---
 
@@ -252,48 +289,79 @@ Has a formal affiliate program: $30 per qualified lead plus 3% of qualified sale
 | **HQ** | Woodland Hills, CA |
 | **Founded** | 2000 |
 | **Employees** | 25-50 |
-| **BBB Rating** | A+ |
+| **Celebrity Endorsements** | David Harris Jr., Mark Levin |
+| **BBB Rating** | A+ (4.7/5 TrustPilot, 4.9/5 Consumer Affairs) |
 | **Minimum Investment** | $10,000 |
-| **Lead Buying Likelihood** | **Medium-High** |
+| **Affiliate/Partner Program** | No formal public affiliate program found. Direct dealer model. |
+| **Actively Buying Third-Party Leads** | **Likely**. 25+ years in business, direct dealer model (higher margins to afford leads), but no public affiliate program. Contact directly. |
+| **Outreach Angle** | Direct dealer model means no third-party markups, which means higher margins, which means they can afford to pay more per lead. Free shipping and educational workshops for new clients. Conservative media endorsements (Mark Levin, David Harris Jr.) suggest alignment with CN's target demographic. Approach their marketing team directly with a pilot proposal. |
+| **Priority Score** | **7/10** |
 | **Website** | [monetarygold.com](https://www.monetarygold.com) |
 
-Direct dealer (no third-party markups). 4.7/5 on TrustPilot, 4.9/5 on Consumer Affairs. New clients get free shipping and access to free educational workshops. 25+ years in business provides stability. Direct dealer model means higher margins, which means they can afford to pay more per lead.
+**Status (March 2026):** Active. 25+ years operating. Strong review profile across platforms. Direct dealer positioning is a differentiator.
 
 ---
 
-### 6. GoldenCrest Metals
+### 6. Allegiance Gold
 
 | Detail | Info |
 |--------|------|
-| **HQ** | Calabasas, CA |
-| **Founded** | 2023 |
-| **Employees** | Small team |
-| **BBB Rating** | Accredited |
-| **Minimum Investment** | $25,000 (IRA) |
-| **Lead Buying Likelihood** | **High** |
-| **Website** | [goldencrestmetals.com](https://goldencrestmetals.com) |
-
-Named the #1 gold and silver affiliate program of the year. VIP affiliates earn up to 13% commission on premium coins, 8% on bullion. CEO Rich Jacoby and team bring 20+ years of combined experience. Offers a 2-tier affiliate structure (earn on sub-affiliates). Being newer (2023) and aggressive on affiliate payouts, they are actively buying leads and would be an easy early customer.
-
----
-
-### 7. Preserve Gold
-
-| Detail | Info |
-|--------|------|
-| **HQ** | Woodland Hills, CA |
-| **Founded** | 2022 |
-| **Employees** | Small (family-owned) |
-| **BBB Rating** | Accredited (since Sept 2022) |
+| **HQ** | Calabasas, CA (27001 Agoura Rd) |
+| **Founded** | 2016 |
+| **Employees** | Expanding (exact count not public, but Inc. 5000 listed) |
+| **BBB Rating** | A+ (accredited since Jan 2018, flawless five-star consumer rating) |
 | **Minimum Investment** | Varies |
-| **Lead Buying Likelihood** | **High** |
-| **Website** | [preservegold.com](https://preservegold.com) |
+| **Affiliate/Partner Program** | No formal public affiliate program found. |
+| **Actively Buying Third-Party Leads** | **Likely**. Inc. 5000 ranked (#2187 in 2024), actively growing, soft-sell approach noted in reviews. |
+| **Outreach Angle** | More substantial than originally classified. Inc. 5000 appearance signals growth trajectory. 9 years in business. Reviewers praise knowledgeable staff and patience. No affiliate program means CN could be first to propose a structured lead deal. |
+| **Priority Score** | **7/10** |
+| **Website** | [allegiancegold.com](https://allegiancegold.com) |
 
-Founded by Daniel Boston, previously a Senior Account Executive at Lear Capital. Has a built-out affiliate program page on their website with marketing technology ensuring leads are contacted quickly. Newer company in aggressive growth mode. Their emphasis on affiliate infrastructure signals they are actively seeking lead partnerships.
+**Status (March 2026):** Active and growing. Upgraded from Tier 3 to Tier 2 based on Inc. 5000 performance and operational maturity. A+ BBB with perfect consumer rating.
 
 ---
 
-### 8. Reagan Gold Group
+### 7. Priority Gold
+
+| Detail | Info |
+|--------|------|
+| **HQ** | Dallas, TX |
+| **Founded** | 2001 |
+| **Employees** | Not publicly disclosed |
+| **BBB Rating** | Accredited |
+| **Minimum Investment** | $20,000 (per comparison sites) |
+| **Celebrity Endorsements** | Todd Starnes, Robert Kiyosaki (Rich Dad) |
+| **Affiliate/Partner Program** | No formal public affiliate program found. |
+| **Actively Buying Third-Party Leads** | **Likely**. Heavy PR investment, celebrity endorsements (Kiyosaki), and $10K free silver offer suggest aggressive customer acquisition. |
+| **Outreach Angle** | Named preferred Gold IRA provider by Better Business Advice (Feb 2026). Recognized by Forbes as Most Trusted Gold Company (2025). Fastest-growing Gold IRA company on Inc. 5000. Dallas-based, differentiating from LA-concentrated competition. Robert Kiyosaki endorsement signals serious budget. Offering up to $10K in free silver per customer. A company this actively pursuing growth likely needs lead sources. |
+| **Priority Score** | **8/10** |
+| **Website** | [prioritygold.com](https://prioritygold.com) |
+
+**Status (March 2026):** Active and surging. Multiple 2026 industry awards. Inc. 5000 recognition. Strong PR presence with PRNewswire releases. No public affiliate program, but their growth trajectory makes them a strong candidate for a direct PPL deal.
+
+---
+
+### 8. Hamilton Gold Group
+
+| Detail | Info |
+|--------|------|
+| **HQ** | Sacramento, CA |
+| **Founded** | Unknown (claims 100+ years combined experience) |
+| **Employees** | Small team |
+| **BBB Rating** | A |
+| **Minimum Investment** | $75,000 (IRA), based on comparison site listings |
+| **Celebrity Endorsements** | None confirmed. Media logos (Fox, Newsmax, Forbes) displayed. |
+| **Affiliate/Partner Program** | **Yes.** Everflow SDK integration confirmed on their site. Affiliate tracking parameters (affiliate_id, affid, sub1-5, oid) present. Active affiliate program. |
+| **Actively Buying Third-Party Leads** | **Yes.** Everflow integration is proof. They are running performance marketing with external lead sources. |
+| **Outreach Angle** | High minimum ($75K) means they want quality, high-net-worth leads. Everflow-based program means they have infrastructure to receive and track leads. Sacramento HQ differentiates from the LA cluster. Positioned #4 on major comparison sites with $15K bonus silver offer, suggesting aggressive customer acquisition spend. |
+| **Priority Score** | **8/10** |
+| **Website** | [hamiltongoldgroup.com](https://hamiltongoldgroup.com) |
+
+**Status (March 2026):** Active and advertising aggressively. Ranking #4 on major comparison sites. $75K minimum and $15K silver bonus suggest high LTV per customer and willingness to pay well for qualified leads. Everflow integration confirms they're already buying from affiliates. Strong candidate for CN.
+
+---
+
+### 9. Reagan Gold Group
 
 | Detail | Info |
 |--------|------|
@@ -302,44 +370,37 @@ Founded by Daniel Boston, previously a Senior Account Executive at Lear Capital.
 | **Employees** | Small team |
 | **BBB Rating** | A+ |
 | **Minimum Investment** | $25,000 (IRA rollover), $10,000 (cash) |
-| **Lead Buying Likelihood** | **Medium** |
+| **Affiliate/Partner Program** | No formal public affiliate program found. |
+| **Actively Buying Third-Party Leads** | **Unknown**. No affiliate program visible. |
+| **Outreach Angle** | The "Reagan" branding targets the conservative/patriotic demographic. Storage at Delaware Depository (insured by Lloyd's of London). Partners with US Mint and Royal Canadian Mint. 24-48 hour account opening. Small team likely needs external lead sources. |
+| **Priority Score** | **5/10** |
 | **Website** | [reagangoldgroup.com](https://www.reagangoldgroup.com) |
 
-Specializes in gold and silver IRAs with storage at Delaware Depository (insured by Lloyd's of London). The "Reagan" branding targets the conservative/patriotic demographic. Member of the Business-Consumer Alliance.
+**Status (March 2026):** Active. A+ BBB. No major news. Stable niche player targeting conservative investors.
 
 ---
 
-### 9. Priority Gold
+### 9. Orion Metal Exchange
 
 | Detail | Info |
 |--------|------|
-| **HQ** | Dallas, TX |
-| **Founded** | Recent |
-| **BBB Rating** | Accredited |
-| **Minimum Investment** | $5,000 (cash), $10,000 (IRA) |
-| **Lead Buying Likelihood** | **Medium** |
-| **Website** | [prioritygold.com](https://prioritygold.com) |
+| **HQ** | Los Angeles, CA (12301 Wilshire Blvd) |
+| **Founded** | 2017 |
+| **Employees** | 2-10 |
+| **Est. Revenue** | $5M |
+| **BBB Rating** | A+ (5-star Google and TrustPilot) |
+| **Minimum Investment** | $10,000 (IRA) |
+| **Affiliate/Partner Program** | No formal public affiliate program found. |
+| **Actively Buying Third-Party Leads** | **Likely**. Small team with limited marketing reach. Founded by Jacob Blalock (40+ years combined experience among founders). |
+| **Outreach Angle** | Consumer Affairs top-rated gold IRA dealer. Zero setup or transfer fees. Commission-free buyback policy. Flat $175/year for combined custody, storage, and insurance on accounts up to $500K. Small but well-reviewed. Direct approach to sales team. |
+| **Priority Score** | **5/10** |
+| **Website** | [orionmetalexchange.com](https://orionmetalexchange.com) |
 
-Voted #1 Precious Metals IRA Company of the Year. Focus on clear investor education before commitments. Lower minimums ($5K cash, $10K IRA) broaden their prospect pool. Dallas-based, differentiating from the heavily LA-concentrated competition.
-
----
-
-### 10. Colonial Metals Group
-
-| Detail | Info |
-|--------|------|
-| **HQ** | Miami, FL |
-| **Founded** | 2022 |
-| **BBB Rating** | Accredited |
-| **Minimum Investment** | ~$10,000 for benefits |
-| **Lead Buying Likelihood** | **Medium-High** |
-| **Website** | [colonialmetalsgroup.com](https://colonialmetalsgroup.com) |
-
-Newer entrant (2022) with 700+ reviews across 5 review platforms. No rigid investment minimum. Partners with Equity Trust and STRATA Trust as custodians. Multiple depository locations (Delaware, Texas, Nevada). New companies in growth mode are typically the most eager lead buyers.
+**Status (March 2026):** Active. Named one of Money.com's 7 Best Gold IRA Companies (March 2026). Strong reviews but very small team limits lead absorption capacity.
 
 ---
 
-### 11. JM Bullion (IRA Services)
+### 10. JM Bullion (IRA Services)
 
 | Detail | Info |
 |--------|------|
@@ -348,14 +409,16 @@ Newer entrant (2022) with 700+ reviews across 5 review platforms. No rigid inves
 | **BBB Rating** | A+ |
 | **Primary Business** | Online precious metals retail |
 | **IRA Services** | Yes, through custodial partners |
-| **Lead Buying Likelihood** | **Low-Medium** |
+| **Affiliate/Partner Program** | Not for IRA leads specifically |
+| **Actively Buying Third-Party Leads** | **Low**. Core business is direct metal sales, not IRA conversions. |
+| **Priority Score** | **3/10** |
 | **Website** | [jmbullion.com](https://www.jmbullion.com) |
 
-Primarily an online bullion dealer rather than an IRA-focused company, but they do offer IRA setup assistance and have a staff of IRA professionals. Lower priority as a lead buyer since their core business is direct metal sales, but worth approaching if leads don't meet the IRA threshold.
+**Status (March 2026):** Active. Primarily an online bullion dealer. Worth approaching if leads don't meet the IRA threshold, but not a primary target.
 
 ---
 
-### 12. APMEX (IRA Services)
+### 11. APMEX (IRA Services)
 
 | Detail | Info |
 |--------|------|
@@ -364,16 +427,22 @@ Primarily an online bullion dealer rather than an IRA-focused company, but they 
 | **BBB Rating** | A+ |
 | **Primary Business** | Online precious metals exchange (20,000+ products) |
 | **IRA Services** | Yes, through custodial partners |
-| **Lead Buying Likelihood** | **Low** |
+| **Affiliate/Partner Program** | Not IRA-focused |
+| **Actively Buying Third-Party Leads** | **Low**. Secondary business line. |
+| **Priority Score** | **2/10** |
 | **Website** | [apmex.com](https://www.apmex.com) |
 
-One of the largest online precious metals dealers in the US. Over 20,000 products. Offers IRA services through custodial partners, but this is a secondary business line. Unlikely to buy IRA leads at scale, though could be a referral partner for leads who want direct metal purchases instead of IRAs.
+**Status (March 2026):** Active. One of the largest online precious metals dealers. IRA is a secondary line. Not a primary target for IRA leads.
 
 ---
 
-### Note on Regal Assets
+### Defunct Companies (Do NOT Approach)
 
-Regal Assets has ceased operations. The CFTC and California DFPI filed suit alleging the company misappropriated $21M in client retirement funds. Owner Tyler Gallagher reportedly fled the country. Do NOT approach. Remove from any prospecting lists.
+**Regal Assets:** Ceased operations. CFTC and California DFPI filed suit alleging $21M misappropriated from client retirement funds. Owner Tyler Gallagher reportedly fled the country. Remove from all lists.
+
+**Oxford Gold Group:** BBB accreditation revoked June 2024. Website taken down. Numerous complaints of undelivered metals. ABC 7 Eyewitness News reported company "vanished" with customer savings (one investor lost $200,000+). Company is no longer operating. Remove from all lists.
+
+**Colonial Metals Group:** Effectively closed as of mid-2025. BBB rating downgraded to F (November 2025). Numerous complaints of undelivered metals ($50K-$300K losses reported). Customer service channels non-functional. Phone lines disconnected. Equity Trust and other custodian partners severed relationships. Remove from all lists.
 
 ---
 
@@ -381,18 +450,18 @@ Regal Assets has ceased operations. The CFTC and California DFPI filed suit alle
 
 These are smaller, often regional dealers that handle gold IRAs alongside their core coin/bullion business. They buy fewer leads but can be steady, long-term customers at lower volume.
 
-| Company | Location | Focus | Lead Buying Likelihood |
-|---------|----------|-------|----------------------|
-| **Texas Precious Metals** | Shiner, TX | Bullion dealer with IRA partnership via GoldStar Trust & Texas Depository | Medium |
-| **Blanchard & Company** | New Orleans, LA | One of America's oldest precious metals dealers (founded 1975) | Low-Medium |
-| **Kitco** | Montreal, QC / New York, NY | Major metals dealer, primarily spot/bullion trading | Low |
-| **SD Bullion** | Williston, ND | Online bullion dealer, offers IRA services | Low-Medium |
-| **Money Metals Exchange** | Eagle, ID | Growing online dealer with IRA services | Medium |
-| **Scottsdale Bullion & Coin** | Scottsdale, AZ | Regional dealer with gold IRA services | Medium |
-| **Allegiance Gold** | Los Angeles, CA | Newer entrant, aggressive marketing | Medium-High |
-| **Gold Alliance** | Beverly Hills, CA | Mid-size IRA provider with celebrity marketing | Medium |
+| Company | Location | Focus | BBB | Affiliate Program | Lead Buying Likelihood |
+|---------|----------|-------|-----|-------------------|----------------------|
+| **Allegiance Gold** | Calabasas, CA | *Moved to Tier 2* | | | |
+| **Texas Precious Metals** | Shiner, TX | Bullion dealer with IRA partnership via GoldStar Trust & Texas Depository | N/A | No | Medium |
+| **Blanchard & Company** | New Orleans, LA | One of America's oldest precious metals dealers (founded 1975) | A+ | No | Low-Medium |
+| **Kitco** | Montreal, QC / New York, NY | Major metals dealer, primarily spot/bullion trading | N/A | No | Low |
+| **SD Bullion** | Williston, ND | Online bullion dealer, offers IRA services | A+ | No | Low-Medium |
+| **Money Metals Exchange** | Eagle, ID | Growing online dealer with IRA services | A+ | Yes ($16/sale via ShareASale, 30-day cookie) | Medium |
+| **Scottsdale Bullion & Coin** | Scottsdale, AZ | Regional dealer with gold IRA services, founded 2005 | A+ | No formal program found | Medium |
+| **Gold Alliance** | Beverly Hills, CA | Mid-size IRA provider with celebrity marketing | N/A | No formal program found | Medium |
 
-**Approach strategy for Tier 3:** Bundle them together as a category. Offer smaller lead packages (10-25 leads/month) at competitive pricing. These firms often lack the infrastructure to generate their own leads digitally and will value a consistent, quality source.
+**Approach strategy for Tier 3:** Bundle them together as a category. Offer smaller lead packages (10-25 leads/month) at competitive pricing. These firms often lack the infrastructure to generate their own leads digitally and will value a consistent, quality source. Money Metals Exchange is the only one with a confirmed affiliate program, though payouts are low ($16/sale).
 
 ---
 
@@ -424,19 +493,106 @@ Independent financial advisors who specialize in alternative investments represe
 
 ---
 
+## New Entrants & Companies to Watch
+
+### Battalion Metals
+| Detail | Info |
+|--------|------|
+| **HQ** | North Dakota |
+| **Founded** | 2024 |
+| **Co-Founder** | Tucker Carlson (via Last Country holding company) + Christopher Olson (ND bullion dealer) |
+| **Business Model** | E-commerce precious metals with live pricing + IRA rollover services |
+| **Minimum Investment** | Not publicly disclosed |
+| **Affiliate/Partner Program** | No formal program found yet |
+| **Why Watch** | Tucker Carlson turned down a $20M pitchman offer from a competitor to co-found his own company. Massive built-in audience from conservative media. Clean e-commerce experience with live pricing positions them as a transparency-first brand. IRA rollover services are part of their offering. Too new to have an affiliate program, but their scale of audience means they'll need lead infrastructure as they grow. |
+| **Lead Buying Likelihood** | **Medium-High (future)**. Not yet, but likely within 12-18 months as they scale operations. |
+
+### iTrustCapital
+| Detail | Info |
+|--------|------|
+| **HQ** | Irvine, CA |
+| **Founded** | 2018 |
+| **Business Model** | Self-directed digital IRA platform (crypto + gold/silver). 24/7 buy/sell, no commissioned salespeople, no marked-up coins, $0 monthly/annual/storage fees. |
+| **Affiliate/Partner Program** | Yes. Pay per funded account. $100 customer referral reward. Affiliate portal with real-time tracking. |
+| **Why Watch** | Named #1 Gold IRA company for 2026 by Insider Monkey. Completely different model from traditional gold IRA dealers. Self-service platform, no sales team. This means they're not traditional lead buyers (no sales team to call leads), but their affiliate program pays for funded accounts. Could be a referral partner for tech-savvy leads who don't want a phone sales experience. |
+| **Lead Buying Likelihood** | **Low for traditional PPL**. Different model. But worth monitoring as they may evolve their lead acquisition strategy. |
+
+### Companies Gaining Momentum (2025-2026)
+- **Preserve Gold:** Already in Tier 2 above. Surging in rankings, now #4 among all gold IRA companies.
+- **GoldenCrest Metals:** Already in Tier 2 above. Fastest-growing affiliate program in the space.
+- **Priority Gold:** Already in Tier 2 above. Inc. 5000, Forbes recognition, multiple 2026 awards.
+- **Allegiance Gold:** Moved from Tier 3 to Tier 2 based on Inc. 5000 #2187 performance.
+
+---
+
+## How to Approach Lead Buyers
+
+### Best Outreach Channels (Ranked by Effectiveness)
+
+1. **Affiliate Program Signup (for companies that have them):** The path of least resistance. Sign up, demonstrate lead quality, then negotiate a custom PPL deal at higher rates once volume is proven. Companies with programs: Goldco, Augusta, Birch Gold, Lear Capital, American Hartford Gold, GoldenCrest Metals, Preserve Gold, American Bullion, Noble Gold.
+
+2. **LinkedIn Outreach:** Target VP of Marketing, Director of Business Development, Affiliate Manager, or Head of Sales. Gold IRA companies are concentrated in Los Angeles/Woodland Hills/Calabasas, CA and Dallas, TX. Search for these roles at the target companies.
+
+3. **Direct Email:** Find the right contact (affiliate manager, marketing director) via LinkedIn, ZoomInfo, or company website. Short, proof-driven first message.
+
+4. **Phone:** For Tier 2-3 companies without affiliate programs, calling their main line and asking for the marketing or partnerships team can work. These smaller companies are hungrier and more accessible.
+
+5. **Industry Events:** ANA shows, Precious Metals Summit, financial advisor conferences (see Events section). Face-to-face builds trust faster for high-value partnerships.
+
+### What to Say in the First Message
+
+**For companies with affiliate programs:**
+> "We generate [X] qualified gold IRA leads per month through [paid media/educational content/etc.] targeting [demographic description]. Our leads are phone-verified with confirmed investment intent of [$X minimum]. We're currently working with [number] gold IRA companies and looking to add a partner. Can we discuss a custom PPL arrangement beyond your standard affiliate terms?"
+
+**For companies without affiliate programs:**
+> "We're a lead generation company specializing in retirement-focused consumers interested in precious metals IRAs. We deliver phone-verified leads with confirmed investment intent. We currently generate [X] leads per month and are looking for a gold IRA partner in [their region/niche]. Would you be open to a pilot of 25-50 leads to test quality and conversion?"
+
+### What Metrics/Proof They Want to See
+
+- **Lead quality indicators:** Phone verification, investment amount intent, IRA eligibility confirmation, time to contact (speed-to-lead)
+- **Volume capacity:** How many leads per month, scalability
+- **Exclusivity:** Whether leads are sold to one buyer or multiple (exclusive leads command 2-3x pricing)
+- **Demographic match:** Age (typically 50-70), income ($75K+), existing retirement accounts (401k, IRA)
+- **Conversion data:** If you have it from other partners (anonymized), share close rates
+- **Compliance:** How leads are generated (FTC/TCPA compliant), opt-in verification, do-not-call compliance
+
+### Typical Deal Structures
+
+| Structure | How It Works | Typical Range | Best For |
+|-----------|-------------|---------------|----------|
+| **PPL (Pay Per Lead)** | Flat fee per qualified lead delivered | $25-$200 per lead | Volume play. Predictable revenue for CN. |
+| **CPQL (Cost Per Qualified Lead)** | Payment only for leads that meet specific qualification criteria (contacted, verified, meets minimum investment threshold) | $50-$200 per qualified lead | Higher quality bar, higher payout. Most common in gold IRA. |
+| **Revenue Share** | Percentage of closed sale value | 2-13% of investment amount | Higher upside per lead, but delayed payment and requires trust/tracking. |
+| **Hybrid (CPQL + Rev Share)** | Flat fee per lead + percentage on conversion | $25-$100 per lead + 2-8% rev share | Best of both worlds. Most Tier 1 companies offer this. |
+| **Tiered PPL** | Payout increases as volume/quality improves | Starting at $50, scaling to $200+ | Incentivizes partnership growth. Lear Capital's model. |
+
+### Red Flags to Watch For
+
+- **No contract or vague terms:** Legitimate companies have clear affiliate agreements or lead purchase contracts.
+- **Payment delays beyond 30 days:** Industry standard is monthly payouts. Anything longer signals cash flow issues.
+- **No tracking/attribution system:** If they can't tell you which leads converted, they can't pay fairly. Look for companies using Everflow, HasOffers/Tune, or similar platforms.
+- **Extremely high CPL offers with no track record:** A brand-new company offering $300/lead may not be able to sustain it.
+- **BBB complaints about undelivered metals:** This is the biggest red flag in the industry (see: Oxford Gold, Colonial Metals, Regal Assets). If a company can't deliver metals to customers, they'll eventually stop paying lead providers too.
+- **Companies with no online pricing transparency:** While common in the industry (Rosland Capital), extreme opacity can indicate high-pressure sales tactics that lead to poor customer outcomes and higher refund rates, which can impact your lead payment.
+- **Asking for exclusivity without premium pricing:** If a company wants exclusive leads, they should pay 2-3x the shared lead rate. Don't give exclusivity for standard pricing.
+
+---
+
 ## Market Intermediaries
 
 ### Affiliate Networks Brokering Gold IRA Leads
 
 Most top-tier gold IRA companies do NOT use generic public networks (ShareASale, CJ Affiliate). Instead, they use specialized tracking software:
 
-- **HasOffers (by Tune)** and **Everflow**: Used by major gold IRA companies for precise tracking of high-value leads
+- **Everflow**: Used by Lear Capital, GoldenCrest Metals, and others for precise tracking of high-value leads
+- **HasOffers (by Tune)**: Used by several major gold IRA companies
 - **In-house programs**: Goldco, Augusta, Birch Gold, and American Bullion all run their own affiliate programs with direct signup
 
 ### Lead Aggregators in Financial Services
 
 | Company | Location | Specialty | Website |
 |---------|----------|-----------|---------|
+| **Gold IRA Leads** | Online | Exclusive gold IRA leads from motivated, retirement-minded investors | [goldiraleads.com](https://goldiraleads.com) |
 | **SalesLeads.TV** | Boca Raton, FL | 30+ years in accredited investor leads, including precious metals | [salesleads.tv](https://www.salesleads.tv) |
 | **InvestorLeads.com** | Multiple | Pre-qualified precious metal leads since 1987, 180-day exclusives | [investorleads.com](https://investorleads.com) |
 | **Investorlead.com** | Online | High-quality gold and silver investment leads | [investorlead.com](https://investorlead.com) |
@@ -448,7 +604,7 @@ These are competitors, but also potential partners. Some lead aggregators will b
 ### CPA Networks with Gold IRA Offers
 
 Gold IRA offers are among the highest-paying CPA verticals in financial services. Key characteristics:
-- Payouts range from $25 (Birch Gold, per qualified lead) to $500 (Augusta, per qualified lead)
+- Payouts range from $25 (Birch Gold, per qualified lead) to $200 (Goldco/Augusta, per qualified lead)
 - Revenue share models add 2-13% of account value on conversion
 - Average gold IRA investment of $100K means a single conversion can generate $2,000-$13,000 in affiliate revenue
 - Most programs require phone-verified leads with minimum investment intent ($10K-$50K)
@@ -488,10 +644,11 @@ Gold IRA offers are among the highest-paying CPA verticals in financial services
 | Tier | # of Companies | Total Addressable Market | Average Lead Volume Need |
 |------|---------------|------------------------|------------------------|
 | **Tier 1: National Gold IRA** | 8 | $500M-$1B+ in combined annual revenue | 500-5,000+ leads/month per company |
-| **Tier 2: Mid-Size Dealers** | 12 | $50M-$200M combined | 50-500 leads/month per company |
-| **Tier 3: Regional/Boutique** | 8+ identified, 50+ exist | $20M-$50M combined | 10-50 leads/month per company |
+| **Tier 2: Mid-Size Dealers** | 11 | $50M-$200M combined | 50-500 leads/month per company |
+| **Tier 3: Regional/Boutique** | 7+ identified, 50+ exist | $20M-$50M combined | 10-50 leads/month per company |
 | **Tier 4: Financial Advisors** | 1,000s of individuals | Fragmented but large in aggregate | 5-15 leads/month per advisor |
 | **Market Intermediaries** | 5-10 aggregators | Resell/broker market | Variable (buy in bulk) |
+| **New Entrants** | 2+ to watch | Growing | TBD |
 | **TOTAL** | 75-100+ potential buyers | $600M-$1.5B+ addressable | Thousands of leads/month industry-wide |
 
 ---
@@ -500,82 +657,75 @@ Gold IRA offers are among the highest-paying CPA verticals in financial services
 
 Top 10 companies to approach first as lead buyers, ranked by likelihood of partnership and potential volume:
 
-### 1. Goldco
-Largest company, highest volume need, already paying $200/lead + 8-10% rev share. Proven affiliate infrastructure. The first call to make.
+### 1. Goldco (Priority Score: 10/10)
+Largest company, highest volume need, already paying $165-$200/lead + 8-10% rev share. Proven affiliate infrastructure paying $150K+/month in commissions. Selective but the first call to make.
 
-### 2. American Hartford Gold
-$100M-$250M revenue, 200+ employees, five Inc. 5000 appearances. Aggressive growth company with low minimums ($10K). Massive sales floor that needs constant lead supply.
+### 2. Lear Capital (Priority Score: 9/10)
+Best-structured affiliate program in the industry. Clear tiered progression ($150-$200 CPQL + 5-7% rev share). Named Best Overall by ConsumerAffairs March 2026. 25+ years, 100K+ investors. Transparent terms make this an easy deal to close.
 
-### 3. GoldenCrest Metals
-Named #1 affiliate program. Paying up to 13% commission. Brand new (2023) and clearly in aggressive customer acquisition mode. Will be receptive to new lead sources.
+### 3. American Hartford Gold (Priority Score: 9/10)
+$4B+ in metals delivered. 200+ employees. New C-suite hires signal continued scaling. Negotiable CPQL or rev share model. Five Inc. 5000 appearances. Massive sales floor that needs constant lead supply.
 
-### 4. Augusta Precious Metals
-$500/qualified lead is the highest flat-rate payout in the industry. $50K minimum means they want high-quality leads, which commands premium pricing for us.
+### 4. GoldenCrest Metals (Priority Score: 9/10)
+Named #1 affiliate program. Paying up to 13% commission on premium coins. Brand new (2023) and clearly in aggressive customer acquisition mode. Ground-floor opportunity with the highest commission structure in the industry.
 
-### 5. Preserve Gold
-Built-out affiliate infrastructure, founder came from Lear Capital, new company (2022) actively seeking growth. Low barrier to start a partnership.
+### 5. Augusta Precious Metals (Priority Score: 9/10)
+$200/qualified lead + 8-10% rev share. $50K minimum means premium lead pricing. Zero BBB complaints since 2012. Ranked #1 gold IRA company by multiple outlets for 2026. Selective but worth the effort.
 
-### 6. Lear Capital
-27+ years in business, $3B+ in transactions, 115 employees. Negotiable affiliate compensation based on traffic quality. Established enough to be a stable long-term partner.
+### 6. Preserve Gold (Priority Score: 8/10)
+Built-out affiliate infrastructure, negotiable terms. Founder from Lear Capital with 30+ years experience. Ranked #4 among gold IRA companies for March 2026. Fast-growing, receptive to new partnerships.
 
-### 7. American Bullion
-Already has structured lead buying: $30/lead + 3% of sales over $10K. Defined program means fast onboarding.
+### 7. American Bullion (Priority Score: 7/10)
+Already has structured lead buying: $30/lead + 2-3% of sales over $10K. Defined program means fast onboarding. Small team (15) relies on external leads.
 
-### 8. Monetary Gold
-25+ years, direct dealer model (higher margins = can pay more per lead). 25-50 employees, A+ BBB. Stable mid-tier buyer.
+### 8. Birch Gold Group (Priority Score: 7/10)
+20+ years, Ben Shapiro partnership. $25/lead + 2-5% tiered rev share. Lower per-lead payout but high volume potential and brand stability. 90-day cookie and lifetime commissions on repeat purchases.
 
-### 9. Birch Gold Group
-20+ years, Ben Shapiro partnership. Paying $25/lead + 2-5% rev share. Lower payouts but high volume potential and brand stability.
+### 9. Allegiance Gold (Priority Score: 7/10)
+Inc. 5000 #2187. A+ BBB with perfect consumer rating. No affiliate program yet, meaning CN could be first to propose a structured deal. 9 years, growing steadily.
 
-### 10. Colonial Metals Group
-New (2022), 700+ reviews already, multiple custodian partnerships. Growth-stage company that needs leads to fuel expansion.
+### 10. Priority Gold (Priority Score: 7/10)
+Forbes Most Trusted Gold Company. Inc. 5000 fastest-growing. Multiple 2026 awards. No affiliate program, but active growth trajectory makes them a prime target for a direct PPL arrangement.
 
 ---
 
 ## Sources
 
-1. [Goldco - About Page](https://goldco.com/about/)
-2. [Goldco Surpasses $2 Billion in Precious Metals Placements](https://goldco.com/goldco-surpasses-2-billion-precious-metals/)
-3. [Goldco Inc. 5000 Recognition](https://goldco.com/goldco-direct-llc-named-to-inc-5000-fastest-growing-list-for-sixth-time/)
-4. [Goldco - Sean Hannity Endorsement](https://goldco.com/sean-hannity-endorses-goldco-for-diversifying-portfolios-with-precious-metals/)
-5. [Augusta Precious Metals - Official Site](https://www.augustapreciousmetals.com/)
-6. [Augusta Precious Metals - BBB Profile](https://www.bbb.org/us/ca/beverly-hills/profile/precious-metal-dealers/augusta-precious-metals-1216-260545)
-7. [Augusta Precious Metals - ZoomInfo](https://www.zoominfo.com/c/augusta-precious-metals/358235712)
-8. [Birch Gold Group - ZoomInfo](https://www.zoominfo.com/c/birch-gold-group/346598678)
-9. [Birch Gold Group - Ben Shapiro Partnership](https://www.birchgold.com/ben-shapiro-gold-company/)
-10. [American Hartford Gold - About Us](https://www.americanhartfordgold.com/about-us/)
-11. [American Hartford Gold - Inc. 5000 Profile](https://www.inc.com/profile/american-hartford-gold-group)
-12. [American Hartford Gold - Bill O'Reilly Endorsement](https://www.americanhartfordgold.com/bill-oreilly-trusts-american-hartford-gold/)
-13. [Noble Gold Investments - Crunchbase](https://www.crunchbase.com/organization/noble-gold-investments)
-14. [Lear Capital - Crunchbase](https://www.crunchbase.com/organization/lear-capital)
-15. [Lear Capital - BBB Profile](https://www.bbb.org/us/ca/los-angeles/profile/precious-metal-dealers/lear-capital-inc-1216-13059407)
-16. [Rosland Capital - Wikipedia](https://en.wikipedia.org/wiki/Rosland_Capital)
-17. [Rosland Capital - CompWorth Revenue Data](https://compworth.com/company/rosland-capital)
-18. [Patriot Gold Group - ZoomInfo](https://www.zoominfo.com/c/patriot-gold-group/398931074)
-19. [Advantage Gold - BBB Profile](https://www.bbb.org/us/tx/austin/profile/precious-metal-dealers/advantage-gold-llc-0825-1000218426)
-20. [Oxford Gold Group - ZoomInfo](https://www.zoominfo.com/c/oxford-gold-group/418262850)
-21. [Orion Metal Exchange - BBB Profile](https://www.bbb.org/us/ca/los-angeles/profile/gold-buyers/orion-metal-exchange-1216-1268434)
-22. [American Bullion - Official Site](https://www.americanbullion.com/)
-23. [Monetary Gold - BBB Profile](https://www.bbb.org/us/ca/woodland-hills/profile/precious-metal-dealers/monetary-gold-1216-350988)
-24. [GoldenCrest Metals - Official Site](https://goldencrestmetals.com/)
-25. [Preserve Gold - Affiliate Program](https://preservegold.com/affiliate-program/)
-26. [Reagan Gold Group - Official Site](https://www.reagangoldgroup.com/)
-27. [Priority Gold - Official Site](https://prioritygold.com/)
-28. [Colonial Metals Group - Official Site](https://colonialmetalsgroup.com/)
-29. [JM Bullion - Official Site](https://www.jmbullion.com/)
-30. [APMEX - Official Site](https://www.apmex.com/)
-31. [GoldStar Trust - Official Site](https://www.goldstartrust.com/)
-32. [SalesLeads.TV - Precious Metals Leads](https://www.salesleads.tv/precious-metals.html)
-33. [InvestorLeads.com - Precious Metal Leads](https://investorleads.com/home/lead-categories/precious-metal-leads/)
-34. [Gold IRA Secrets - Best Affiliate Programs 2026](https://goldirasecrets.com/gold-ira-affiliate-programs/)
-35. [BP Trends - Best Gold Affiliate Programs 2026](https://bestgoldira.us.com/best-gold-affiliate-programs/)
-36. [Authority Hacker - Gold Affiliate Programs](https://www.authorityhacker.com/gold-affiliate-programs/)
-37. [BP Trends - Gold IRA Statistics 2026](https://bestgoldira.us.com/gold-ira-statistics/)
-38. [Gold IRA Investor - 10 Years of Growth Statistics](https://goldirainvestor.us.com/the-rise-of-gold-iras-10-years-of-data-driven-growth-statistics-2015-2025/)
-39. [ANA - National Money Show](https://www.money.org/nationalmoneyshow/)
-40. [ANA - World's Fair of Money](https://www.money.org/worldsfairofmoney/)
-41. [Precious Metals Summit Conferences](https://www.precioussummit.com/)
-42. [Regal Assets - Ceased Trading (fraud)](https://goldiracompaniescompared.com/analysis/regal-assets/regal-assets-update/)
-43. [InvestmentNews - Gold IRA Ponzi Scheme](https://www.investmentnews.com/retirement-planning/gold-ira-ponzi-paid-for-luxury-cars-esports-team-cftc-says/244015)
-44. [CNBC - Best Gold IRA Companies March 2026](https://www.cnbc.com/select/best-gold-ira-companies/)
-45. [Money.com - Best Gold IRA Companies](https://money.com/best-gold-ira-companies/)
+1. [Gold IRA Secrets - Best Affiliate Programs 2026](https://goldirasecrets.com/gold-ira-affiliate-programs/)
+2. [BP Trends - Best Gold Affiliate Programs 2026](https://bestgoldira.us.com/best-gold-affiliate-programs/)
+3. [Goldco - Official Site](https://goldco.com)
+4. [Goldco BBB Profile](https://www.bbb.org/us/ca/woodland-hills/profile/gold-buyers/goldco-1216-100109958/complaints)
+5. [Goldco Reviews 2026 - Morningstar/AccessWire](https://www.morningstar.com/news/accesswire/1128968msn/goldco-reviews-2026-warning-hidden-fees-complaints-buyback-reality-why-retirement-investors-quietly-switch)
+6. [Augusta Precious Metals - Official Site](https://www.augustapreciousmetals.com/)
+7. [Augusta Affiliate Program Details](https://apmaffiliates.com/augusta-gold-ira-affiliate-program/)
+8. [Augusta BBB Review 2026](https://goldiracompaniescompared.com/analysis/augusta-precious-metals-review/)
+9. [Birch Gold Group - Affiliate Program](https://www.birchgold.com/affiliate-program/)
+10. [Birch Gold - Bullion Directory Affiliate Details](https://bullion.directory/gold-affiliate-programs/birch-gold-affiliate-program/)
+11. [American Hartford Gold - $4B Milestone](https://www.prnewswire.com/news-releases/american-hartford-gold-delivers-over-4-billion-in-precious-metals-302672889.html)
+12. [American Hartford Gold - 2026 IRAEmpire Review](https://finance.yahoo.com/news/american-hartford-gold-reviews-2026-213500484.html)
+13. [Lear Capital - Affiliate Program](https://www.learcapital.com/about-lear-capital/affiliate-program/)
+14. [Lear Capital - Commission Details](https://getlasso.co/affiliate/lear-capital/)
+15. [Lear Capital - Best Overall by ConsumerAffairs](https://www.prnewswire.com/news-releases/lear-capital-named-best-overall-gold-ira-company-by-consumeraffairs-302709511.html)
+16. [Rosland Capital - LendEDU Review 2026](https://lendedu.com/blog/rosland-capital-review/)
+17. [Noble Gold - Affiliate Signup](https://noblegoldinvestments.com/affiliate-sign-up/)
+18. [GoldenCrest Metals - Official Site](https://goldencrestmetals.com/)
+19. [GoldenCrest Metals - Review 2026](https://howtoinvestgold.com/reviews/golden-crest-metals-review/)
+20. [Preserve Gold - Affiliate Program](https://preservegold.com/affiliate-program/)
+21. [American Bullion - Affiliate Details (AffPaying)](https://www.affpaying.com/americanbullion)
+22. [Allegiance Gold - BBB Profile](https://www.bbb.org/us/ca/calabasas/profile/precious-metal-dealers/allegiance-gold-llc-1216-764211)
+23. [Priority Gold - Feb 2026 Recognition](https://www.prnewswire.com/news-releases/best-gold-ira-february-2026-priority-gold-named-as-preferred-gold-ira-provider-by-better-business-advice-302679785.html)
+24. [Oxford Gold Group - Shut Down](https://certifiedgoldexchange.com/oxford-gold-group-ira/)
+25. [Oxford Gold Group - Scam Warning](https://howtoinvestgold.com/reviews/oxford-gold-group-reviews/)
+26. [Colonial Metals Group - TrustPilot Reviews](https://www.trustpilot.com/review/colonialmetalsgroup.com)
+27. [Battalion Metals - Newser](https://www.newser.com/story/379238/tucker-carlson-bets-on-gold-with-new-venture.html)
+28. [iTrustCapital - Affiliate Program](https://www.itrustcapital.com/affiliate)
+29. [Money Metals Exchange - Affiliate Program](https://www.moneymetals.com/affiliates)
+30. [CNBC Select - Best Gold IRA Companies March 2026](https://www.cnbc.com/select/best-gold-ira-companies/)
+31. [Fortune - Top 10 Gold IRA Companies 2026](https://fortune.com/article/best-gold-ira-companies/)
+32. [Money.com - Best Gold IRA Companies March 2026](https://money.com/best-gold-ira-companies/)
+33. [Insider Monkey - Best Gold IRA Companies 2026](https://www.insidermonkey.com/blog/best-gold-ira-companies-2026-1713778/)
+34. [Gold IRA Leads - Specialist Lead Provider](https://goldiraleads.com/)
+35. [Monetary Gold - Official Site](https://www.monetarygold.com/)
+36. [Reagan Gold Group - Official Site](https://www.reagangoldgroup.com/)
+37. [Scottsdale Bullion & Coin - Official Site](https://www.sbcgold.com/)
+38. [Advantage Gold - Official Site](https://www.advantagegold.com/)

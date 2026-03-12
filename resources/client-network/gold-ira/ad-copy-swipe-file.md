@@ -183,3 +183,31 @@ Click "Learn More" to get your free Gold IRA kit while the window is open.
 - "Click 'Learn More' to get your free Gold IRA kit while the window is open."
 - "Click 'Learn More' to start protecting your retirement today."
 - "Get the guide. No cost, no obligation, no sales pitch."
+
+---
+
+## Wild Ads (Captured from Live Campaigns)
+
+### Wild 01 — Institutional Hypocrisy / Conspiracy Angle
+
+**GOLD IRA** Central banks worldwide are buying gold at the fastest pace in 55 years.
+
+Meanwhile, they're telling everyday citizens to stick with stocks and bonds.
+
+Our Gold IRA specialists can help you follow the smart money by adding physical precious metals to your retirement portfolio. Click to discover why the world's financial elites are quietly hoarding gold.
+
+**Angle:** Insider knowledge / "they don't want you to know." Positions the viewer as being kept in the dark by the financial establishment. Central banks as the proof point. "Follow the smart money" as the bridge to action.
+**Strength:** Short, punchy, builds conspiracy-lite tension without going full tinfoil hat. "Quietly hoarding" is strong language.
+**Target persona:** Robert (primary avatar). Conservative, distrustful of institutions, wants to feel like he's in on something.
+
+---
+
+### Wild 02 — Legacy / Generational Wealth Angle
+
+**GOLD IRA:**
+
+True wealth transcends generations. For over 5,000 years, through every empire's rise and fall, gold has maintained its value. Our Gold IRA specialists can help you convert part of your retirement savings into a legacy asset that has protected family wealth for millennia. Click to learn how to create a lasting financial legacy for your children and grandchildren.
+
+**Angle:** Aspiration, not fear. Legacy, family, permanence. Gold as a timeless store of value, not a panic buy.
+**Strength:** Completely different emotional register from every other ad in the swipe file. Targets the "wealth preserver" (Jim avatar) who isn't scared, just strategic. "Through every empire's rise and fall" is powerful historical framing.
+**Target persona:** Jim (wealth preserver sub-persona). Higher net worth, thinking long-term, motivated by legacy not survival.
