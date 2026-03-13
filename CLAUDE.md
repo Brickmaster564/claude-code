@@ -78,6 +78,54 @@ Universal ad creative workshop for Client Network. Four modes: copy rehash, full
 - **Dependencies:** `tools/higgsfield.py` (Kie.ai API), copywriter resources, vertical resources
 - **Image Gen:** Nano Banana Pro via Kie.ai (2 variants per run, 2K default)
 
+---
+
+## Paid Advertising Skills — Client Network Context
+
+18 specialist `/ads-*` skills are installed. When running any of them for Client Network, apply the context below. These skills are optimised for e-commerce by default — the CN adaptations below override that default behaviour.
+
+### Business Model Override
+Client Network is a **PPL (pay-per-lead) lead generation** business, not e-commerce. All ads drive prospects into a quiz/landing funnel that qualifies and phone-verifies them before delivering to insurance agents or brokers.
+
+- **Primary KPIs:** CPL (cost per lead), qualified lead rate, contact rate. NOT ROAS.
+- **Funnel:** Ad → Quiz/landing page → OTP phone verification → real-time delivery to buyer
+- **Primary platform:** Meta (Facebook + Instagram). Secondary: Google Search, YouTube, native.
+- **Brand profile:** `resources/client-network/brand-profile.json` — load this before any `/ads-create` or `/ads-generate` run.
+
+### Verticals & Resources
+Always load the relevant vertical's `copywriting-bible.md`, `voc.md`, and `ad-copy-swipe-file.md` before auditing or generating creative.
+
+| Vertical | Resource Path | Compliance |
+|---|---|---|
+| Life Insurance | `resources/client-network/life-insurance/` | Restricted on Meta — no income claims, honest intent, disclaimers required |
+| Senior Care | `resources/client-network/senior-care/` | Sensitive category — avoid exploitative framing |
+| Home Security | `resources/client-network/home-security/` | Standard category |
+| Tax Relief | `resources/client-network/tax-relief/` | Financial services — no relief guarantees |
+| Gold IRA | `resources/client-network/gold-ira/` | Investment category — no return guarantees |
+
+### Meta Infrastructure
+Full reference docs for CN's Meta setup:
+- Handbook: `resources/paid-advertising/meta-advertising-handbook.md`
+- Campaign playbook: `resources/paid-advertising/meta-campaign-playbook.md`
+- Recovery SOP: `resources/paid-advertising/meta-recovery-sop.md`
+- Domain/pixel strategy: `resources/paid-advertising/meta-multi-vertical-domain-strategy.md`
+
+### Skill Quick Reference
+| Skill | Use When |
+|---|---|
+| `/ads-dna` | First run for a new CN campaign — extracts brand from clientnetwork.io, outputs `brand-profile.json` |
+| `/ads-audit` | Full multi-platform account health check across active CN campaigns |
+| `/ads-meta` | Deep Facebook/Instagram audit — 46 checks incl. Pixel/CAPI, creative fatigue, structure |
+| `/ads-google` | Deep Google Ads audit — 74 checks across Search, PMax, YouTube |
+| `/ads-create` | Campaign brief generation — reads `brand-profile.json` + vertical resources |
+| `/ads-generate` | AI image generation — reads campaign brief + brand profile |
+| `/ads-creative` | Creative quality audit — fatigue signals, format diversity, spec compliance |
+| `/ads-budget` | Budget allocation + bidding strategy review |
+| `/ads-landing` | Landing page / quiz funnel assessment |
+| `/ads-competitor` | Competitor ad intelligence — find what others in the vertical are running |
+| `/ads-plan` | Strategic media plan for a new vertical or campaign push |
+| `/ads-copy` | Platform-compliant headlines, primary text, CTAs |
+
 ### `/outreach-retarget`
 Weekly scan of Instantly outreach campaigns for podcast clients. Finds contacts who completed the sequence without responding, matches them to Airtable guest tracker records, and updates location/status to move them into a retargeting pool.
 

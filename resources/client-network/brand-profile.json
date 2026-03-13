@@ -1,0 +1,102 @@
+{
+  "brand": "Client Network",
+  "tagline": "Exclusive, phone-verified leads. Pay per result. No risk to the buyer.",
+  "business_type": "B2B pay-per-lead (PPL) lead generation",
+  "website": "clientnetwork.io",
+
+  "tone_of_voice": {
+    "style": "Direct, plain-spoken, math-first. No hype, no guru talk, no corporate phrasing.",
+    "personality": "Trusted operator. Premium but accessible. Partner, not pushy vendor.",
+    "language": "Simple British English. Conversational but professional.",
+    "reading_level": "Grade 6 (Hemingway clarity)",
+    "avoid": [
+      "game-changer", "revolutionary", "disruptive", "synergy", "world-class",
+      "best-in-class", "cutting-edge", "innovative", "transformative", "guru-speak"
+    ],
+    "never_use": "em dashes"
+  },
+
+  "messaging_pillars": [
+    "100% exclusive leads — never shared, never recycled",
+    "Pay per result: zero setup fees, zero retainers, zero ad-spend risk for buyers",
+    "OTP phone-verified before delivery",
+    "Real-time delivery while intent is warm",
+    "Adjustable daily volume with consistent CPL",
+    "24-hour setup from strategy call to first lead"
+  ],
+
+  "proof_points": [
+    "OTP phone verification before every lead",
+    "Exclusive-only policy — no resell model",
+    "Replacement guarantee for out-of-spec leads",
+    "Full-stack execution: ads, quiz funnel, CRM integration — all handled by CN",
+    "Client Network carries all marketing spend risk"
+  ],
+
+  "primary_audience": {
+    "description": "US life insurance agents, brokers, independent producers, and small agency owners",
+    "age_range": "28-60, strongest cluster 32-52",
+    "income": "Producer revenue roughly $8k-35k/mo; agency revenue $30k-250k+/mo",
+    "pain_points": [
+      "Burned by shared or fake leads before",
+      "Dead numbers and no contact rate",
+      "Overpromising vendors who disappeared post-payment",
+      "Inconsistent pipeline, hard to forecast revenue"
+    ],
+    "decision_driver": "ROI math. Cost per lead divided by contact rate divided by close rate = true cost per sale. Make the numbers work, they buy."
+  },
+
+  "verticals": {
+    "life-insurance": {
+      "resources": "resources/client-network/life-insurance/",
+      "compliance": "Restricted category on Meta. No income claims. Honest non-deceptive intent. Disclaimers required.",
+      "key_files": ["copywriting-bible.md", "ad-copy-swipe-file.md", "headlines-swipe-file.md", "Avatar.md"]
+    },
+    "senior-care": {
+      "resources": "resources/client-network/senior-care/",
+      "compliance": "Sensitive category. Age-related targeting restrictions on Meta. Avoid exploitative framing.",
+      "key_files": ["copywriting-bible.md", "voc.md", "ad-copy-swipe-file.md", "senior-care-ppl-playbook.md"]
+    },
+    "home-security": {
+      "resources": "resources/client-network/home-security/",
+      "compliance": "Standard category. Fear-based angles permitted within policy.",
+      "key_files": ["copywriting-bible.md", "voc.md", "ad-copy-swipe-file.md", "home-security-ppl-playbook.md"]
+    },
+    "tax-relief": {
+      "resources": "resources/client-network/tax-relief/",
+      "compliance": "Financial services category. Avoid income projections and relief guarantees.",
+      "key_files": ["tax_relief_copywriting_bible.md", "tax_relief_niche_overview.md"]
+    },
+    "gold-ira": {
+      "resources": "resources/client-network/gold-ira/",
+      "compliance": "Financial/investment category. No return guarantees. FTC-compliant disclaimers.",
+      "key_files": ["copywriting-bible.md", "voc.md", "ad-copy-swipe-file.md", "gold-ira-ppl-playbook.md"]
+    }
+  },
+
+  "traffic_channels": {
+    "primary": "Meta (Facebook + Instagram)",
+    "secondary": ["Google Search", "YouTube", "Native ads"],
+    "funnel_structure": "Ad → Quiz/landing page → qualification logic → OTP phone verification → real-time delivery to buyer"
+  },
+
+  "kpis": {
+    "primary": ["CPL (cost per lead)", "qualified lead rate", "contact rate"],
+    "secondary": ["cost per qualified lead", "funnel conversion rate", "buyer acceptance rate"],
+    "not_primary": "ROAS — this is a PPL model, not e-commerce. Optimise for CPL and lead quality, not revenue attribution."
+  },
+
+  "visual_identity": {
+    "note": "No formal brand guidelines on file. Run /ads-dna against clientnetwork.io to extract visual identity before generating creatives for the first time.",
+    "direction": "Clean, professional, direct-response. Trust-building imagery. No stock-photo clichés. Conveys credibility and operator-grade execution.",
+    "style": "Corporate-adjacent but human. Numbers and proof over lifestyle imagery."
+  },
+
+  "meta_infrastructure": {
+    "handbook": "resources/paid-advertising/meta-advertising-handbook.md",
+    "campaign_playbook": "resources/paid-advertising/meta-campaign-playbook.md",
+    "recovery_sop": "resources/paid-advertising/meta-recovery-sop.md",
+    "agency_accounts": "resources/paid-advertising/meta-agency-accounts.md",
+    "domain_strategy": "resources/paid-advertising/meta-multi-vertical-domain-strategy.md"
+  }
+}

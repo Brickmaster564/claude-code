@@ -8,12 +8,14 @@ Usage:
     python3 tools/apify.py scrape-tweets --handles "sabrisuby,TheJeremyHaynes" [--max-per-user 5]
     python3 tools/apify.py scrape-instagram-related --handles "mikethurstonfitness,lewishowes" [--min-followers 100000]
     python3 tools/apify.py scrape-instagram-profile --handles "mikethurstonfitness,lewishowes"
+    python3 tools/apify.py scrape-company-employees --company-url "https://linkedin.com/company/goldco/" [--job-title "marketing"] [--max-employees 5]
 
-scrape-profiles:          LinkedIn profile data including recent posts.
-scrape-comments:          LinkedIn commenting activity.
-scrape-tweets:            Recent tweets from X handles.
-scrape-instagram-related: Suggested/related Instagram profiles (filtered by follower count).
-scrape-instagram-profile: Instagram profile details (followers, bio, verified status).
+scrape-profiles:            LinkedIn profile data including recent posts.
+scrape-comments:            LinkedIn commenting activity.
+scrape-tweets:              Recent tweets from X handles.
+scrape-instagram-related:   Suggested/related Instagram profiles (filtered by follower count).
+scrape-instagram-profile:   Instagram profile details (followers, bio, verified status).
+scrape-company-employees:   LinkedIn company employees (no cookies). ~$0.01-0.05/run.
 
 Reads API key from config/api-keys.json.
 """
@@ -32,6 +34,7 @@ ACTOR_COMMENTS = "apimaestro~linkedin-profile-comments"
 ACTOR_TWEETS = "apidojo~tweet-scraper"
 ACTOR_INSTAGRAM_RELATED = "scrapio~instagram-related-person-scraper"
 ACTOR_INSTAGRAM_PROFILE = "shu8hvrXbJbY3Eb9W"
+ACTOR_COMPANY_EMPLOYEES = "apimaestro~linkedin-company-employees-scraper-no-cookies"
 API_BASE = "https://api.apify.com/v2"
 POLL_INTERVAL = 10  # seconds between status checks
 MAX_WAIT = 600  # max seconds to wait for actor run
@@ -379,6 +382,52 @@ def scrape_instagram_profile(token, handles):
     }
 
 
+def scrape_company_employees(token, company_url, job_title="", max_employees=5):
+    """Scrape LinkedIn company employees. No cookies required.
+
+    Args:
+        company_url: LinkedIn company URL (e.g. https://www.linkedin.com/company/goldco/)
+        job_title: Optional filter keyword (e.g. "marketing", "business development")
+        max_employees: Max results to return (default 5, keeps cost ~$0.01-0.05)
+    """
+    if not company_url:
+        return {"error": "No company URL provided"}
+
+    actor_input = {
+        "identifier": company_url.rstrip("/") + "/",
+        "max_employees": max_employees
+    }
+    if job_title:
+        actor_input["job_title"] = job_title
+
+    company_name = company_url.rstrip("/").split("/")[-1]
+    raw = run_actor(token, ACTOR_COMPANY_EMPLOYEES, actor_input,
+                    label=f"employees at {company_name} (filter: {job_title or 'none'})")
+    if isinstance(raw, dict) and "error" in raw:
+        return raw
+
+    items = raw if isinstance(raw, list) else []
+
+    employees = []
+    for item in items:
+        employees.append({
+            "fullname": item.get("fullname", ""),
+            "first_name": item.get("first_name", ""),
+            "last_name": item.get("last_name", ""),
+            "headline": item.get("headline", ""),
+            "profile_url": item.get("profile_url", ""),
+            "location": item.get("location", {}).get("full", ""),
+            "public_identifier": item.get("public_identifier", "")
+        })
+
+    return {
+        "company_url": company_url,
+        "job_title_filter": job_title,
+        "total": len(employees),
+        "employees": employees
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="Apify scraper tools (LinkedIn + X/Twitter + Instagram)")
     subparsers = parser.add_subparsers(dest="command")
@@ -400,6 +449,11 @@ def main():
 
     ig_profile_cmd = subparsers.add_parser("scrape-instagram-profile", help="Scrape Instagram profile details")
     ig_profile_cmd.add_argument("--handles", required=True, help="Comma-separated Instagram handles (without @)")
+
+    employees_cmd = subparsers.add_parser("scrape-company-employees", help="Scrape LinkedIn company employees (no cookies)")
+    employees_cmd.add_argument("--company-url", required=True, help="LinkedIn company URL")
+    employees_cmd.add_argument("--job-title", default="", help="Job title filter keyword (e.g. 'marketing')")
+    employees_cmd.add_argument("--max-employees", type=int, default=5, help="Max employees to return (default: 5)")
 
     args = parser.parse_args()
     token = load_api_key()
@@ -424,6 +478,9 @@ def main():
     elif args.command == "scrape-instagram-profile":
         handles = [h.strip().lstrip("@") for h in args.handles.split(",") if h.strip()]
         result = scrape_instagram_profile(token, handles)
+        print(json.dumps(result, indent=2))
+    elif args.command == "scrape-company-employees":
+        result = scrape_company_employees(token, args.company_url, args.job_title, args.max_employees)
         print(json.dumps(result, indent=2))
     else:
         parser.print_help()

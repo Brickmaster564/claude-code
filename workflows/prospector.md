@@ -105,28 +105,28 @@ When context has been compacted mid-run, the FIRST action must be:
 
 ## Target Roles (Universal — Same Across All Verticals)
 
-These are the decision-maker roles we always target. Do not deviate from these unless Jasper explicitly overrides.
+These are the core decision-maker functions we target. **Title matching is fuzzy.** Any title that clearly relates to one of these core functions qualifies, even if the exact wording differs. For example, "Affiliate Marketing Manager", "Growth Marketing Lead", "Partnership Recruiter", "Digital Marketing Specialist", or "Senior Affiliate Manager" all qualify under their respective groups.
 
 **Search order matters.** Always exhaust the three Primary groups first before falling back to Secondary. The goal is to fill lead counts with marketing, partnerships, and BD contacts. Only pull from Secondary (Operations) if Primary groups don't yield enough results for a given company.
 
 **Primary — Marketing (search first):**
 - Head of Marketing
-- Marketing Director
-- Marketing Manager
+- Marketing Director / Marketing Manager
 - VP of Marketing
 - Chief Marketing Officer (CMO)
+- *Also matches:* Affiliate Marketing Manager, Digital Marketing Specialist, Growth Marketing Manager, Content Marketing Manager, Email Marketing Manager, Performance Marketing Manager, and any other title where the core function is marketing
 
 **Primary — Partnerships:**
 - Head of Partnerships
-- Strategic Partnerships Manager
-- Partnership Director
+- Strategic Partnerships Manager / Partnership Director
 - VP of Partnerships
+- *Also matches:* Affiliate Manager, Affiliate Partnership Manager, Partnership Recruiter, Channel Partnership Manager, and any other title where the core function is partnerships or affiliate relationships
 
 **Primary — Business Development:**
 - Head of Business Development
-- Business Development Director
-- Business Development Manager
+- Business Development Director / Business Development Manager
 - VP of Business Development
+- *Also matches:* Growth Manager, Revenue Development Manager, and any other title where the core function is business development
 
 **Secondary — Operations (fallback only):**
 - Head of Operations
@@ -137,8 +137,9 @@ These are the decision-maker roles we always target. Do not deviate from these u
 **Excluded titles (never add these):**
 - Chief of People Operations
 - Any HR/People Operations role (e.g. VP of People, Head of People, People Operations Manager)
+- Pure sales roles with no marketing/partnership component (e.g. "Account Executive", "Sales Rep") unless they are the only contacts available at a target company
 
-When searching Apollo, combine these titles with the vertical's industry filters. Prioritise the three Primary groups to hit the lead count. Only dip into Secondary if needed.
+When searching Apollo, combine these titles with the vertical's industry filters. Prioritise the three Primary groups to hit the lead count. Only dip into Secondary if needed. When searching, use broad title keywords (e.g. "marketing", "affiliate", "partnership") rather than exact title strings to catch variations.
 
 ---
 
@@ -147,14 +148,14 @@ When searching Apollo, combine these titles with the vertical's industry filters
 ### Step 1 — Apollo Search (MCP)
 
 Use `apollo_mixed_people_api_search` to find prospects matching:
-- **Titles:** Search Primary groups first (Marketing, Partnerships, BD). Only search Secondary (Operations) if Primary doesn't fill the lead count for a company. Never include excluded titles (People Operations, HR roles).
+- **Titles:** Search Primary groups first (Marketing, Partnerships, BD) using broad keywords like "marketing", "affiliate", "partnership", "growth", "business development". Only search Secondary (Operations) if Primary doesn't fill the lead count for a company. Never include excluded titles (People Operations, HR roles). Title matching is fuzzy: any title relating to marketing, partnerships, or BD qualifies.
 - **Industry + Keywords:** use the industry as the broad filter, then layer in specific keywords to narrow results to the right niche (see Vertical Search Config below)
 - **Location:** as specified by Jasper (person location, not company HQ)
 - **Company size:** as specified by Jasper (never less than 10 employees — hard floor)
 - **Seniority:** director, vp, c_suite, owner, founder, manager
 - **Per page:** use `per_page: 10` to keep each response lean
 
-**Max 3 contacts per company.** While collecting results, track how many prospects have been picked from each company. Once a company has 3 people in the pipeline, skip any further results from that company. This prevents over-saturating a single organisation and keeps outreach spread across more businesses.
+**Max 5 contacts per company.** While collecting results, track how many prospects have been picked from each company. Once a company has 5 people in the pipeline, skip any further results from that company. This prevents over-saturating a single organisation while still capturing enough decision-makers in verticals with distributed teams (e.g. separate affiliate, marketing, and partnership functions).
 
 Collect results until you have enough unique prospects to meet the requested lead count (overshoot by ~20% to account for losses in enrichment and dedup). If a single search doesn't return enough, run additional searches varying the title keywords or broadening keyword combinations.
 
@@ -180,9 +181,31 @@ Keywords are critical for result quality. The industry is the broad bucket; the 
 
 Use 5-10 specific keywords. Avoid generic terms that would pull in unrelated companies. When in doubt, ask Jasper to confirm the keywords before searching.
 
+### Step 1B — LinkedIn Supplemental Discovery (Apify)
+
+After Step 1, check which companies returned fewer than 5 contacts from Apollo. For each under-covered company, run the LinkedIn company employees scraper to find people Apollo missed.
+
+**Tool:** `python3 tools/apify.py scrape-company-employees --company-url "<linkedin_company_url>" --job-title "<keyword>" --max-employees 5`
+
+**Process:**
+1. Identify companies with < 5 contacts from Step 1
+2. For each company, run 3 keyword searches:
+   - Run 1: `--job-title "marketing"` (catches CMO, Marketing Director, Digital Marketing, Affiliate Marketing)
+   - Run 2: `--job-title "affiliate"` (catches Affiliate Manager, Partnership Recruiter)
+   - Run 3: `--job-title "business development"` (catches BD Director, Growth Manager)
+3. All runs use `--max-employees 5` (~$0.01-0.05 per run)
+4. Merge and dedupe results across all 3 runs (match by name or profile URL)
+5. Filter locally: only keep people whose headline contains target role keywords (marketing, affiliate, partnership, CMO, growth, business development, digital marketing, director). Drop pure sales reps, account execs, IT, HR, etc.
+6. Dedupe against contacts already found in Step 1 (match by name or LinkedIn URL)
+7. For new contacts found, extract their LinkedIn profile URLs and run them through `apollo_people_match` in Step 2 to get emails
+
+**Cost control:** 3 runs per company (~$0.03-0.15 per company). For 15 under-covered companies, total cost is typically under $2.
+
+**LinkedIn company URL:** If you don't have the company's LinkedIn URL, search Apollo's company data or construct it as `https://www.linkedin.com/company/<company-slug>/`. Common patterns: "goldco-precious-metals", "preserve-gold", "rosland-capital".
+
 ### Step 2 — Apollo Enrich (MCP)
 
-For prospects that don't have email addresses from the search results:
+For prospects that don't have email addresses from the search results (including new contacts from Step 1B):
 - Use `apollo_people_bulk_match` for batches (preferred — fewer API calls, less context used)
 - Fall back to `apollo_people_match` individually only if bulk fails
 
