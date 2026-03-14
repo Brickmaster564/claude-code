@@ -5,10 +5,12 @@ Gmail send tool using Google OAuth credentials.
 Usage:
     python3 tools/gmail.py send --to "recipient@example.com" --subject "Subject" --body "Email body"
     python3 tools/gmail.py send --to "recipient@example.com" --subject "Subject" --html-file path/to/email.html
+    python3 tools/gmail.py send --to "recipient@example.com" --subject "Subject" --body "Report" --attachment report.pdf
     python3 tools/gmail.py --account nalu send --to "recipient@example.com" --subject "Subject" --body "Hello"
 
 Accounts: cn (hello@clientnetwork.io, default), nalu.
 Supports plain text (--body / --body-file) or HTML (--html-file) emails.
+Supports file attachments via --attachment.
 """
 
 import argparse
@@ -18,6 +20,8 @@ import sys
 import urllib.request
 import urllib.error
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
 from pathlib import Path
 
 CONFIG_DIR = Path(__file__).parent.parent / "config"
@@ -90,9 +94,18 @@ def gmail_request(access_token, method, endpoint, data=None):
         return {"error": f"HTTP {e.code}: {e.reason}", "detail": error_body}
 
 
-def _build_message(to, subject, body_text, content_type="plain", cc=None):
+def _build_message(to, subject, body_text, content_type="plain", cc=None, attachment_path=None):
     """Build a MIME message and return the base64url-encoded raw string."""
-    msg = MIMEText(body_text, content_type, "utf-8")
+    if attachment_path:
+        msg = MIMEMultipart()
+        msg.attach(MIMEText(body_text, content_type, "utf-8"))
+        file_path = Path(attachment_path)
+        with open(file_path, "rb") as f:
+            part = MIMEApplication(f.read(), Name=file_path.name)
+        part["Content-Disposition"] = f'attachment; filename="{file_path.name}"'
+        msg.attach(part)
+    else:
+        msg = MIMEText(body_text, content_type, "utf-8")
     msg["to"] = to
     msg["subject"] = subject
     if cc:
@@ -112,15 +125,15 @@ def _api_call_with_refresh(endpoint, payload, method="POST"):
     return result
 
 
-def send_email(to, subject, body_text, content_type="plain", cc=None):
+def send_email(to, subject, body_text, content_type="plain", cc=None, attachment=None):
     """Send an email via Gmail API. content_type can be 'plain' or 'html'."""
-    raw = _build_message(to, subject, body_text, content_type, cc)
+    raw = _build_message(to, subject, body_text, content_type, cc, attachment_path=attachment)
     return _api_call_with_refresh("/messages/send", {"raw": raw})
 
 
-def create_draft(to, subject, body_text, content_type="plain", cc=None):
+def create_draft(to, subject, body_text, content_type="plain", cc=None, attachment=None):
     """Create a draft email via Gmail API."""
-    raw = _build_message(to, subject, body_text, content_type, cc)
+    raw = _build_message(to, subject, body_text, content_type, cc, attachment_path=attachment)
     return _api_call_with_refresh("/drafts", {"message": {"raw": raw}})
 
 
@@ -140,6 +153,7 @@ def main():
         cmd.add_argument("--body-file", help="Path to file containing plain text body")
         cmd.add_argument("--html-file", help="Path to file containing HTML body")
         cmd.add_argument("--cc", help="CC email address(es), comma-separated")
+        cmd.add_argument("--attachment", help="Path to file to attach")
 
     args = parser.parse_args()
 
@@ -159,10 +173,15 @@ def main():
             print("ERROR: Must provide --body, --body-file, or --html-file", file=sys.stderr)
             sys.exit(1)
 
+        attachment = getattr(args, "attachment", None)
+        if attachment and not Path(attachment).exists():
+            print(f"ERROR: Attachment file not found: {attachment}", file=sys.stderr)
+            sys.exit(1)
+
         if args.command == "send":
-            result = send_email(args.to, args.subject, body_text, content_type, cc=args.cc)
+            result = send_email(args.to, args.subject, body_text, content_type, cc=args.cc, attachment=attachment)
         else:
-            result = create_draft(args.to, args.subject, body_text, content_type, cc=args.cc)
+            result = create_draft(args.to, args.subject, body_text, content_type, cc=args.cc, attachment=attachment)
 
         print(json.dumps(result, indent=2))
 
