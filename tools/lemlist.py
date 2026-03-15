@@ -121,6 +121,14 @@ def list_leads(api_key, campaign_id):
     return {"total": len(all_leads), "leads": all_leads}
 
 
+def delete_lead(api_key, campaign_id, email):
+    """Delete a single lead from a Lemlist campaign."""
+    if not campaign_id.startswith("cam_"):
+        campaign_id = f"cam_{campaign_id}"
+    result = api_request(api_key, "DELETE", f"/campaigns/{campaign_id}/leads/{email}")
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description="Lemlist campaign tools")
     subparsers = parser.add_subparsers(dest="command")
@@ -142,6 +150,11 @@ def main():
     ll_cmd = subparsers.add_parser("list-leads", help="List leads in a campaign")
     ll_cmd.add_argument("--campaign-id", required=True, help="Lemlist campaign ID")
 
+    # delete-lead
+    dl_cmd = subparsers.add_parser("delete-lead", help="Delete a lead from a campaign")
+    dl_cmd.add_argument("--campaign-id", required=True, help="Lemlist campaign ID")
+    dl_cmd.add_argument("--email", required=True, help="Email of lead to delete")
+
     args = parser.parse_args()
     api_key = load_api_key()
 
@@ -159,6 +172,10 @@ def main():
 
     elif args.command == "list-leads":
         result = list_leads(api_key, args.campaign_id)
+        print(json.dumps(result, indent=2))
+
+    elif args.command == "delete-lead":
+        result = delete_lead(api_key, args.campaign_id, args.email)
         print(json.dumps(result, indent=2))
 
     else:

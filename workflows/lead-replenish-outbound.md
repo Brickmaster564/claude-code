@@ -197,11 +197,13 @@ Use `apollo_mixed_people_api_search` with:
 
 **Vertical Search Config:**
 
-| Vertical | Industry | Keywords |
-|---|---|---|
-| life-insurance | insurance, financial services | life insurance, final expense, term life, whole life, universal life, burial insurance, mortgage protection |
-| senior-care | home health care, elder care, healthcare | senior care, home care, elder care, assisted living, memory care, in-home care, senior living, aging in place |
-| home-security | security, home security | home security, alarm systems, security monitoring, home automation, smart home security, surveillance, burglar alarm |
+| Vertical | Industry | Keywords | Exclude Keywords |
+|---|---|---|---|
+| life-insurance | insurance, financial services | life insurance, final expense, term life, whole life, universal life, burial insurance, mortgage protection | software, SaaS, platform, technology, marketing agency, digital agency, CRM, insurtech, consulting |
+| senior-care | home health care, elder care, healthcare | senior care, home care, elder care, assisted living, memory care, in-home care, senior living, aging in place | software, SaaS, platform, technology, marketing agency, digital agency, CRM, healthtech, consulting |
+| home-security | security, home security | home security, alarm systems, security monitoring, home automation, smart home security, surveillance, burglar alarm | software, SaaS, platform, technology, marketing agency, digital agency, CRM, cybersecurity, consulting |
+
+**Exclude Keywords** filter out software companies, marketing agencies, and tech platforms that serve the vertical but don't buy leads. Apollo's MCP API does NOT support negative keyword filtering natively. Apply exclusions **post-search**: after each page of results, drop any prospect whose company name or description contains an exclude keyword. This is critical for verticals like life insurance where many results are software/marketing companies servicing the industry rather than actual insurance companies that buy leads.
 
 **Dedup, caps, and enrichment:** Same rules as Step 4A:
 - Deduplicate against existing Apollo contacts

@@ -41,7 +41,8 @@ def api_request(api_key, method, endpoint, data=None, params=None):
     body = json.dumps(data).encode() if data else None
     req = urllib.request.Request(url, data=body, method=method)
     req.add_header("Authorization", f"Bearer {api_key}")
-    req.add_header("Content-Type", "application/json")
+    if body is not None:
+        req.add_header("Content-Type", "application/json")
     req.add_header("User-Agent", "JasperOS/1.0")
 
     try:
@@ -163,6 +164,56 @@ def list_leads(api_key, campaign_id, status=None, limit=100):
     }
 
 
+def delete_leads(api_key, campaign_id, emails):
+    """Delete leads from a campaign by email.
+
+    Finds lead IDs by listing campaign leads and matching emails,
+    then deletes each via DELETE /leads/{id}.
+    """
+    email_set = {e.lower() for e in emails}
+    matched = []
+    starting_after = None
+
+    # Find lead IDs by scanning campaign
+    while email_set:
+        payload = {"campaign": campaign_id, "limit": 100}
+        if starting_after:
+            payload["starting_after"] = starting_after
+        result = api_request(api_key, "POST", "/leads/list", data=payload)
+        if "error" in result:
+            return {"error": result["error"], "deleted": matched}
+        items = result if isinstance(result, list) else result.get("items", result.get("data", []))
+        if not items:
+            break
+        for lead in items:
+            if lead.get("email", "").lower() in email_set:
+                matched.append({"id": lead["id"], "email": lead["email"]})
+                email_set.discard(lead["email"].lower())
+        next_after = result.get("next_starting_after")
+        if not next_after:
+            last = items[-1] if items else None
+            next_after = last.get("id") if last else None
+        if not next_after or next_after == starting_after:
+            break
+        starting_after = next_after
+
+    # Delete each matched lead
+    deleted = []
+    failed = []
+    for m in matched:
+        res = api_request(api_key, "DELETE", f"/leads/{m['id']}")
+        if "error" in res:
+            failed.append({"email": m["email"], "error": res["error"]})
+        else:
+            deleted.append(m["email"])
+
+    return {
+        "deleted": deleted,
+        "failed": failed,
+        "not_found": list(email_set),
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="Instantly.ai campaign tools")
     subparsers = parser.add_subparsers(dest="command")
@@ -182,6 +233,11 @@ def main():
     ll_cmd.add_argument("--status", help="Filter by lead status (e.g. completed, replied)")
     ll_cmd.add_argument("--limit", type=int, default=1000, help="Max leads to return (default 1000)")
 
+    # delete-leads
+    del_cmd = subparsers.add_parser("delete-leads", help="Delete leads from a campaign")
+    del_cmd.add_argument("--campaign-id", required=True, help="Instantly campaign ID")
+    del_cmd.add_argument("--emails", required=True, help="Comma-separated list of emails to delete")
+
     args = parser.parse_args()
     api_key = load_api_key()
 
@@ -196,6 +252,11 @@ def main():
 
     elif args.command == "list-leads":
         result = list_leads(api_key, args.campaign_id, status=args.status, limit=args.limit)
+        print(json.dumps(result, indent=2))
+
+    elif args.command == "delete-leads":
+        emails = [e.strip() for e in args.emails.split(",")]
+        result = delete_leads(api_key, args.campaign_id, emails)
         print(json.dumps(result, indent=2))
 
     else:

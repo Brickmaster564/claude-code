@@ -167,12 +167,14 @@ Collect results until you have enough unique prospects to meet the requested lea
 
 Keywords are critical for result quality. The industry is the broad bucket; the keywords narrow it down to the specific niche. Always use multiple keywords per search to maximise coverage.
 
-| Vertical | Industry | Keywords |
-|---|---|---|
-| life-insurance | insurance, financial services | life insurance, final expense, term life insurance, term life, whole life, universal life, burial insurance, mortgage protection |
-| tax-relief | tax services, accounting, financial services | tax debt, tax relief, tax resolution, tax settlement, IRS debt, back taxes, offer in compromise, tax lien, penalty abatement, enrolled agent |
-| senior-care | home health care, elder care, healthcare | senior care, home care, elder care, assisted living, memory care, in-home care, senior living, aging in place, companion care, dementia care |
-| home-security | security, home security | home security, alarm systems, security monitoring, home automation, smart home security, surveillance, burglar alarm, access control |
+| Vertical | Industry | Keywords | Exclude Keywords |
+|---|---|---|---|
+| life-insurance | insurance, financial services | life insurance, final expense, term life insurance, term life, whole life, universal life, burial insurance, mortgage protection | software, SaaS, platform, technology, marketing agency, digital agency, CRM, insurtech, consulting |
+| tax-relief | tax services, accounting, financial services | tax debt, tax relief, tax resolution, tax settlement, IRS debt, back taxes, offer in compromise, tax lien, penalty abatement, enrolled agent | software, SaaS, platform, technology, marketing agency, digital agency, CRM, fintech, consulting |
+| senior-care | home health care, elder care, healthcare | senior care, home care, elder care, assisted living, memory care, in-home care, senior living, aging in place, companion care, dementia care | software, SaaS, platform, technology, marketing agency, digital agency, CRM, healthtech, consulting |
+| home-security | security, home security | home security, alarm systems, security monitoring, home automation, smart home security, surveillance, burglar alarm, access control | software, SaaS, platform, technology, marketing agency, digital agency, CRM, cybersecurity, consulting |
+
+**Exclude Keywords** prevent software companies, marketing agencies, and tech platforms that serve the vertical from polluting results. Apollo's MCP API does NOT support negative keyword filtering natively. Instead, apply exclusions **post-search**: after each page of results, check each prospect's company name and title against the exclude keywords. Drop any prospect whose company name or description contains an exclude keyword (e.g. a company called "InsurTech Solutions" or "Life Insurance Marketing Platform"). This is critical for verticals like life insurance where many results are software/marketing companies that service the industry rather than actual insurance companies that buy leads.
 
 **Keyword inference rule:** If Jasper asks for a vertical or niche not in the table above, determine the best keywords by thinking about:
 1. What does this company actually sell or do?
