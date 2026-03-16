@@ -1,7 +1,6 @@
 ---
 name: yt-packaging
 description: Use when someone asks to package a podcast episode, create YouTube titles from a transcript, find high-ceiling concepts in a transcript, or do episode packaging for a podcast.
-disable-model-invocation: true
 argument-hint: [file path to transcript, or paste transcript in chat]
 ---
 

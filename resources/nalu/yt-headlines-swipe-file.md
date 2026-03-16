@@ -130,4 +130,7 @@ When writing titles, optimise for this order:
 
 ## Winning Titles Log
 
-- (empty, pending confirmed used titles)
+- I Never Expected This From Cape Town (Honest Review)
+- My Luxury Trip to Cape Town
+- Is Cape Town Actually Worth the Hype? (Full Vlog)
+- Is This The Most Beautiful City in the World? (Cape Town Vlog)
