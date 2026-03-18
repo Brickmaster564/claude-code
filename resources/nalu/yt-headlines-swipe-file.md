@@ -39,6 +39,7 @@ Purpose: Pattern extraction for universal YouTube title ideation
 - If you're ambitious and in your 20s or 30s (pls watch this)
 - You're Procrastinating 80% of Your Time (Here's How I Fixed It)
 - How to Articulate Your Thoughts More Clearly Than 99% of People
+- Male Mental Models To Better Understand Life, Wealth & Success
 
 ## Hard-coded title rules
 
@@ -88,7 +89,14 @@ Purpose: Pattern extraction for universal YouTube title ideation
 - Even niche topics connect to universal outcomes.
 - Topic-specific words are framed through broad human benefit.
 
-### 9) Unconventional / raw tone
+### 9) The "Better Understand" angle
+- Frames the episode as a lens or mental model, not a tactics dump.
+- Feels intellectual and calm while still promising transformation.
+- Works best for philosophy, identity, wealth, and mindset-heavy episodes.
+- Formula: [Audience Identity] + [Tool/Model/Framework] + "To Better Understand" + [3 big life topics].
+- The three-topic stack at the end signals breadth — good for wide-ranging, conversational episodes.
+
+### 10) Unconventional / raw tone
 - Lowercase, broken grammar, deliberately casual. Feels like a friend texting, not a producer writing.
 - First-person confessional: "i make $305k/mo" reads like someone sharing a secret, not a headline.
 - Conversational parentheticals: "(this feels illegal)", "(pls watch this)" break the fourth wall.
@@ -112,6 +120,7 @@ Purpose: Pattern extraction for universal YouTube title ideation
 - If you're X and in your Ys (pls watch this)
 - How to X Better Than Y% of People
 - [short sentence]. [short sentence]. [result]. (emotional reaction)
+- [Audience] [Tools/Mindsets] To Better Understand [Topic 1, Topic 2 & Topic 3]
 
 ## Operator note
 

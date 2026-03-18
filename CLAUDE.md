@@ -2,6 +2,11 @@
 
 Universal workspace for Client Network, Nalu, and personal automation. Combines skills (expertise layers) with workflows (process orchestration) under one roof.
 
+## Writing Rules (Zero Tolerance)
+
+- **NEVER use em dashes (—).** Use colons, commas, periods, or restructure the sentence. Applies to all output without exception.
+- **NEVER write staccato sentence fragments.** No short punchy sentences under 5 words, especially in sequence (e.g. "That ends." / "Simple. Clean. Done." / "Post consistently. See what works."). Combine them into proper sentences. Applies to all output without exception.
+
 ## Project Structure
 
 ```

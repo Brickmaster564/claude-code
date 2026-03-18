@@ -229,6 +229,85 @@
           "search_terms": ["UK scaleup advisor", "UK CEO coach scaling", "UK corporate transformation CEO", "UK growth partner"]
         }
       }
+    },
+
+    "btm": {
+      "name": "Build to Matter",
+      "host": "Ayax Bader",
+      "guest_criteria_file": "guest-criteria-btm.md",
+      "airtable_base_id": "appsQZPJ7iDq4kF3q",
+      "airtable_table_id": "tbloHFKqyqhwZG8bV",
+      "airtable_fields": {
+        "name": "fld4bHKqL5GOkhTiw",
+        "status": "fld86R8OzKDoBuZlC",
+        "profile": "fld9BEYcC5Es9dpl0",
+        "rationale": "fldXJTPDfkTJLmg11",
+        "type": "fldAlxiAiexPtB8GS",
+        "shortlisted": "fldFjYe6IBvauFgFr",
+        "btm": "fldzWYecf1RUpx8gJ"
+      },
+      "airtable_defaults": {
+        "type": "Guest",
+        "status": "For Review",
+        "btm": "BtM"
+      },
+      "target_per_run": 30,
+      "min_followers": 5000,
+      "priority_locations": ["UAE", "US", "UK", "MENA"],
+      "seed_sample_size": 10,
+
+      "competitor_podcasts": [
+        {"name": "How I Built This", "apple_url": "https://podcasts.apple.com/us/podcast/how-i-built-this-with-guy-raz/id1150510297"},
+        {"name": "Masters of Scale", "apple_url": "https://podcasts.apple.com/us/podcast/masters-of-scale-with-reid-hoffman/id1227971746"},
+        {"name": "My Climate Journey", "apple_url": "https://podcasts.apple.com/us/podcast/my-climate-journey/id1535913108"},
+        {"name": "Impact Theory", "apple_url": "https://podcasts.apple.com/us/podcast/impact-theory-with-tom-bilyeu/id1033823831"},
+        {"name": "Lenny's Podcast", "apple_url": "https://podcasts.apple.com/us/podcast/lennys-podcast-product-growth-career/id1627920305"}
+      ],
+
+      "exclude_types": [
+        "hustle culture personality",
+        "motivational speaker",
+        "course seller",
+        "generic business coach",
+        "lifestyle influencer",
+        "corporate executive without founder story",
+        "generic SaaS with no impact angle"
+      ],
+
+      "diversity_categories": {
+        "climate_sustainability": {
+          "quota_min": 4,
+          "search_terms": ["climate tech founder", "clean energy startup CEO", "sustainability tech founder", "carbon tech startup", "water tech founder", "circular economy startup"]
+        },
+        "healthtech": {
+          "quota_min": 4,
+          "search_terms": ["healthtech founder impact", "digital health startup CEO", "healthcare access startup", "telemedicine founder emerging market", "biotech social impact founder"]
+        },
+        "infrastructure_construction": {
+          "quota_min": 3,
+          "search_terms": ["construction tech founder", "infrastructure startup CEO", "smart city startup", "logistics tech founder impact", "housing tech startup"]
+        },
+        "fintech_inclusion": {
+          "quota_min": 3,
+          "search_terms": ["fintech founder financial inclusion", "neobank founder emerging market", "payments startup unbanked", "microfinance tech founder", "remittance startup CEO"]
+        },
+        "education_devtools": {
+          "quota_min": 4,
+          "search_terms": ["edtech founder impact", "developer tools startup CEO", "open source founder", "coding education startup", "skills platform founder"]
+        },
+        "ai_real_applications": {
+          "quota_min": 4,
+          "search_terms": ["AI startup real world impact", "applied AI founder", "AI for social good startup", "AI healthcare founder", "AI climate startup CEO"]
+        },
+        "mena_ecosystem": {
+          "quota_min": 4,
+          "search_terms": ["Dubai startup founder", "UAE tech founder", "MENA startup CEO", "Middle East tech entrepreneur", "Saudi startup founder", "24six9 founder"]
+        },
+        "deep_tech_frontier": {
+          "quota_min": 2,
+          "search_terms": ["deep tech founder impact", "frontier technology startup CEO", "robotics social good", "space tech founder", "materials science startup"]
+        }
+      }
     }
   },
 

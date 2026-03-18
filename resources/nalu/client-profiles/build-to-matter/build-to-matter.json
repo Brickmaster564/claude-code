@@ -1,0 +1,374 @@
+{
+  "show": {
+    "name": "Build to Matter",
+    "status": "Pre-launch",
+    "go_live": "First week of May 2026",
+    "pre_production": "April 2026",
+    "buffer_target": "3 finished episodes before launch",
+    "format": {
+      "type": "Interview-based",
+      "episode_length": "20-25 minutes",
+      "frequency": "Twice per month (minimum)",
+      "shorts_per_episode": "5-6 clips per episode",
+      "recording_location": "Bellman office studio, Dubai (in-person), remote as backup depending on guest availability and Dubai situation"
+    },
+    "editorial_philosophy": {
+      "core_principle": "Nobody cares about you. The audience is the hero. Every conversation must deliver actionable value the viewer can apply today.",
+      "positioning": "Focuses on projects and companies built with intention and purpose, aiming to create meaningful impact rather than short-term financial returns. Counterbalances the startup ecosystem's obsession with rapid growth and monetization.",
+      "honesty_angle": "Intentionally avoids presenting founders as flawless experts. Emphasizes the realities of building: uncertainty, experimentation, learning through experience.",
+      "host_approach": "Ayax participates as a builder and storyteller, not an industry authority. Asks questions that explore reasoning, decisions, and challenges behind the work.",
+      "what_they_want": "Actionable takeaways from founders building with purpose. What can I learn from your story that I can apply to my business today?",
+      "what_they_dont_want": "Ego-driven storytelling, generic founder origin stories, hustle culture, 'get rich with AI' narratives, overnight success stories",
+      "content_strategy": "Episodes structured for short-form extraction. Ayax will prepare questions specifically designed to trigger strong standalone clips. Expects quick iterations, format explorations, and access to raw material/editing projects.",
+      "guest_prep_note": "Guests will be briefed: don't talk about yourself, focus on what the audience can learn. 'We are not the heroes in our story.'"
+    },
+    "content_pillars": [
+      {
+        "name": "Purpose & Impact",
+        "description": "What problems are they solving and why it matters"
+      },
+      {
+        "name": "The Reality of Building",
+        "description": "Honest conversations about the journey: uncertainty, experimentation, learning through failure"
+      },
+      {
+        "name": "Idea to Adoption",
+        "description": "How to make stories reach the world. The role of communication and narrative in innovation."
+      },
+      {
+        "name": "Builders & Ecosystems",
+        "description": "Creating environments where impact can grow. Community, infrastructure, support systems."
+      }
+    ]
+  },
+  "client": {
+    "name": "Ayax Bader",
+    "role": "Founder & CEO",
+    "company": "Bellman Media",
+    "website": "wearebellman.com",
+    "parent_company": "Ahoy",
+    "location_base": "Dubai, UAE",
+    "email": "ayax@bellman.media",
+    "links": {
+      "website": "https://wearebellman.com",
+      "linkedin": null,
+      "podcast": "Build to Matter",
+      "community": "24six9 (chapters in Dubai, Riyadh, Athens, and more)",
+      "news_platform": "Tech Revolt (media partner access to events)",
+      "investment_arm": "Actual VC (Ahoy's deep tech investment arm)"
+    },
+    "team": [
+      {
+        "name": "Kubi (medicenkuki)",
+        "role": "Team member, to be included on all comms"
+      },
+      {
+        "name": "Jamil",
+        "role": "Key collaborator, extensive network, source of guest suggestions. Will announce the show through his LinkedIn as a project he co-runs."
+      }
+    ],
+    "notable_background": [
+      "Audiovisual industry background (editing, post-production, After Effects)",
+      "Runs a branding agency (branding workshops, storytelling frameworks)",
+      "Runs a video production company with 4 in-house video editors",
+      "Previously ran a podcast (understands the medium deeply)",
+      "Content creator on personal accounts, content-first mindset",
+      "Active in UAE founders community (24six9)",
+      "NOT a founder who got into content, but a creator who became a founder"
+    ],
+    "communication": {
+      "preferred_method": ["Email", "WhatsApp / Slack"],
+      "check_in_frequency": "Weekly"
+    }
+  },
+  "company": {
+    "name": "Bellman Media",
+    "parent": "Ahoy",
+    "positioning": "Branding agency and video production company. Part of the Ahoy ecosystem which builds software tools for developers to lower the barrier of entry to high tech globally.",
+    "ahoy_context": {
+      "what_ahoy_does": "Creates software tools for developers to lower the barrier of entry to high tech, promoting geography-agnostic Deep Tech development",
+      "ahoy_ventures": "Actual VC, deep tech investment arm working with startups",
+      "media_ecosystem": "Building a media ecosystem around Ahoy: Tech Revolt (news publication) + events IP + Build to Matter (podcast)"
+    },
+    "bellman_offerings": [
+      "Branding workshops",
+      "Storytelling frameworks",
+      "Video production"
+    ]
+  },
+  "goals": {
+    "runway": "6 months funded by Ahoy, review point at end of Month 3",
+    "primary_objectives": [
+      "Grow a relevant channel in the startup niche to leverage exposure, influence and grow Bellman's brand equity",
+      "Promote entrepreneurship and impactful projects/founders to leverage relationships",
+      "Establish Ahoy's USP: lowering barrier of entry, enabling geography-agnostic innovation",
+      "Boost Ahoy Ventures / Actual VC and potential partners through exposure",
+      "Get branding and video work for Bellman through Ayax's positioning"
+    ],
+    "success_definition": "Consistent output and fast iteration, not chasing virality. Every episode is a chance to learn what formats, topics, and angles land best, then double down on what performs.",
+    "success_criteria_any_one_of": [
+      "A valuable partnership for Ahoy (credibility to justify continued funding)",
+      "Branding work for Bellman (leverage podcast conversations into branding workshop sales)",
+      "Sponsorship that covers production costs (self-sustaining model)"
+    ]
+  },
+  "icp": {
+    "persona_a": {
+      "who": "Founders in the thick of it: people building technology with real-world impact, still in the messy stages of figuring things out",
+      "stage": "Early stage to growth stage",
+      "description": "Working on meaningful problems, navigating uncertainty, making hard decisions daily"
+    },
+    "persona_b": {
+      "who": "Future founders: aspiring builders not yet started but on the path",
+      "roles": "Engineers, designers, startup employees, operators who want to build",
+      "description": "Learning, watching, getting ready to start their own thing"
+    },
+    "mindset": [
+      "Technology should solve meaningful problems",
+      "Building is hard and uncertain, and that's normal",
+      "Ideas only matter if they reach adoption",
+      "Ecosystems improve when builders challenge each other",
+      "Communication and narrative matter as much as the product"
+    ],
+    "pain_points": [
+      "Toxic startup content: hustle culture, 'get rich with AI,' overnight success stories",
+      "Fake expertise everywhere: suddenly everyone is an expert, in reality nobody has a clue",
+      "Misaligned incentives: too many people chasing quick returns instead of solving meaningful problems"
+    ],
+    "media_consumption": "Entrepreneurship and founder content"
+  },
+  "guest_criteria": {
+    "primary_profile": "Early to mid-stage founders building in areas like climate, health, infrastructure, fintech, education, dev tools, AI with real applications. Thoughtful, reflective, willing to discuss uncertainty and decisions. Motivated by impact, not just fast exits.",
+    "geographic_focus": "Middle East / UAE region primarily, but open globally",
+    "ideal_traits": [
+      "Building technology with real-world impact",
+      "Willing to be honest about the messy reality of building",
+      "Thoughtful and reflective about decisions and uncertainty",
+      "Impact-motivated, not just chasing exits",
+      "Able to share lessons that other builders can actually use"
+    ],
+    "sectors": ["Climate", "Health", "Infrastructure", "Fintech", "Education", "Dev tools", "AI with real applications"],
+    "not_looking_for": [
+      "Generic SaaS/marketing automation founders with no impact angle",
+      "Pure 'we raised money' stories without substance",
+      "Hustle culture figures or 'get rich quick' personalities",
+      "Self-proclaimed experts with no real building experience",
+      "People selling courses or clout with no track record",
+      "Anyone who just wants to promote themselves"
+    ],
+    "sourcing_channels": [
+      "Jamil (key collaborator, huge network in the region)",
+      "Actual VC portfolio companies (Ahoy's investment arm, natural pipeline)",
+      "24six9 community (founder chapters in Dubai, Riyadh, Athens, and more)",
+      "Tech Revolt (Bellman's news platform, media partner access to regional events)",
+      "Nalu outreach (research and direct outreach via Airtable)"
+    ]
+  },
+  "kpis": {
+    "priority_metrics": [
+      "Audience growth (YouTube, LinkedIn)",
+      "Views and downloads",
+      "Email list growth",
+      "Qualified leads",
+      "Booked calls",
+      "Guest conversions or partnerships",
+      "Brand perception"
+    ],
+    "measurement_philosophy": "First priority is consistent output. Second is identifying what formats, topics, and angles perform best. Third is doing more of what works. Speed of iteration matters more than any single metric.",
+    "open_questions": [
+      "What does a qualified lead look like? Bellman branding services, Ahoy partnership, or both?",
+      "What kind of booked call? Bellman sales conversation or Ahoy intro meeting?",
+      "Is there a services page, booking link, or partnership page to drive traffic to?",
+      "Will there be a newsletter tied to the podcast? Who builds and runs it?"
+    ]
+  },
+  "ownership": {
+    "nalu_handles": [
+      "Guest research and outreach (Airtable tracker)",
+      "Full editing: long-form + short-form clip selection and editing",
+      "YouTube management (uploading, thumbnails, A/B testing with up to 6 variations)",
+      "Copywriting: carousels, newsletter, social media posts, captions",
+      "Notion workspace setup (foundational docs, content calendar, sign-off workflow)",
+      "Recording support: on-site operator + extra equipment if needed",
+      "Airtable guest tracker",
+      "Content strategy and creative direction"
+    ],
+    "bellman_handles": [
+      "Social media distribution (posting content)",
+      "Carousel/infographic design (Nalu provides copy, Bellman designs)",
+      "Branding and visual identity",
+      "Studio setup and maintenance",
+      "Core recording equipment",
+      "Quick iterations and format explorations (content-first approach)"
+    ],
+    "partnership_dynamic": "Nalu brings strategic podcast experience and format expertise. Bellman brings content production knowledge and video capabilities. Ayax is a creator-turned-founder, not a founder getting into content. This is a real collaboration, not a handoff."
+  },
+  "commercials": {
+    "standard_retainer": "2750 GBP/month",
+    "adjusted_retainer": "2450 GBP/month",
+    "adjustment_reason": "Bellman handling social media posting and carousel/infographic design in-house",
+    "currency": "GBP"
+  },
+  "distribution": {
+    "channels": ["YouTube", "LinkedIn", "Instagram", "Email", "Blog", "Paid Ads"],
+    "current_audience_size": "Zero across all channels, building from scratch",
+    "leverage_points": [
+      {
+        "asset": "24six9 community",
+        "how": "Founder network across Dubai, Riyadh, Athens, and more. Built-in launch audience and cross-promotion."
+      },
+      {
+        "asset": "Actual VC",
+        "how": "Ahoy's investment arm. Connections to impact startups for guests and shared promotion."
+      },
+      {
+        "asset": "Tech Revolt",
+        "how": "News platform with media partner access to events. Cross-promotion and guest sourcing."
+      },
+      {
+        "asset": "Jamil's network",
+        "how": "Extensive connections in the founder/startup ecosystem. Will announce show as a project he co-runs."
+      },
+      {
+        "asset": "Ayax's personal channels",
+        "how": "Existing content creator audience. Primary cross-promotion channel."
+      }
+    ],
+    "outreach_domains": "buildtomattermedia.com or similar, fully owned by Bellman"
+  },
+  "roadmap": {
+    "month_1_april": {
+      "name": "Pre-Production",
+      "focus": "Build the foundation so everything is tight before go-live",
+      "setup": [
+        "Onboarding invoice cleared",
+        "Outreach domains created, fully owned by Bellman",
+        "Airtable guest tracker built and shared",
+        "Notion workspace live with content calendar, foundational docs, sign-off workflow",
+        "Show art finalised"
+      ],
+      "guest_pipeline": [
+        "First wave of email outreach using dedicated domains",
+        "Nalu sources initial guest list for Ayax to review and approve",
+        "Bellman side (Jamil, Ayax, 24six9, Actual VC) feeds in suggestions",
+        "Book and record at least 3 episodes as buffer",
+        "Mix of in-person and remote depending on availability"
+      ],
+      "content_prep": [
+        "All recorded episodes edited, clipped, packaged (long-form + 5-6 shorts each)",
+        "Full content calendar drafted in Notion with all assets ready for sign-off",
+        "Ayax and team review and approve everything before go-live",
+        "Two-week teaser window devised leading into first published episode"
+      ]
+    },
+    "month_2_may": {
+      "name": "Go Live & Build the Base Layer",
+      "focus": "Publish, get the word out, test what resonates, build momentum organically",
+      "publishing": [
+        "Bi-weekly episode cadence begins",
+        "Full content package per episode: long-form, 5-6 shorts, carousel copy, newsletter copy, social captions",
+        "Bellman handles design and posting; Nalu provides written content and creative direction",
+        "YouTube A/B testing on thumbnails and titles (up to 6 variations)"
+      ],
+      "amplification": [
+        "Jamil announces the show through LinkedIn as a project he co-runs",
+        "Ayax cross-promotes through personal channels and 24six9",
+        "Explore PR and cross-promotion with relevant Dubai/UAE networks, media outlets, and communities"
+      ],
+      "iteration": [
+        "Monitor performance data across YouTube, streaming platforms, and social",
+        "Track how repurposed assets perform relative to long-form",
+        "Identify which topics, guests, and pillars get the strongest response",
+        "Review whether visual identity is landing well in the wild"
+      ],
+      "pipeline": [
+        "Guest outreach continues in parallel",
+        "Sharpen guest targeting based on learnings from first episodes"
+      ]
+    },
+    "month_3_june": {
+      "name": "Optimise & Explore Growth Levers",
+      "focus": "With ~6 episodes live and real data, double down on what works and explore paid media",
+      "performance_review": [
+        "Full review across YouTube, Spotify, Apple, and streaming platforms",
+        "Assess repurposed asset performance across social channels",
+        "Identify top-performing content pillars and guest types",
+        "Evaluate social account growth and strongest traction points"
+      ],
+      "iteration": [
+        "Double down on best-performing formats, topics, and angles",
+        "Adjust content calendar and guest pipeline based on data",
+        "Refine repurposing strategy if certain asset types outperform"
+      ],
+      "paid_media_option": {
+        "status": "Optional, requires separate commercial conversation",
+        "trigger": "If organic performs well we may not need it, but if we see opportunity to accelerate this is when we explore",
+        "approach": "Take best-performing organic creatives and run as Google search intent campaigns and in-feed YouTube ads",
+        "goal": "Drive qualified traffic to a clear endpoint (book a call, partnership page, sponsorship opportunity)",
+        "value": "Twofold: grow YouTube channel/audience through qualified traffic while driving direct response outcomes",
+        "target": "Break even on ad spend, meaning audience growth and brand exposure come effectively for free"
+      },
+      "review": [
+        "End-of-quarter review with Ayax to assess progress against success criteria",
+        "Decide direction for months 4-6"
+      ]
+    }
+  },
+  "equipment": {
+    "bellman_has": [
+      "2x Sony A7IV cameras",
+      "50mm lens",
+      "24-70mm lens",
+      "Panasonic GH5S (3rd camera option, but color matching issues with Sony)",
+      "3x Manfrotto tripods",
+      "Rode mixer + microphones",
+      "Godox SL-150 lighting",
+      "Blackmagic ATEM Mini (monitoring)"
+    ],
+    "gaps": [
+      "3rd matching Sony camera (Nalu to potentially supply)",
+      "Possibly additional lighting (ring light, backlights)",
+      "Studio wall needs painting",
+      "Soundproofing panels to be installed"
+    ],
+    "action": "Ayax to send Excel equipment list + photos for Nalu to assess"
+  },
+  "logistics": {
+    "recording_location": "Bellman office conference room, Dubai",
+    "studio_status": "Under preparation (painting, soundproofing, equipment setup)",
+    "studio_ready_target": "Week after Eid (approx. March 24, 2026)",
+    "eid_break": "March 19-22, 2026 (Dubai offline)",
+    "first_recordings_target": "April 2026, aim for 3 episodes as buffer before May go-live"
+  },
+  "potential_opportunities": {
+    "notion_partnership": "Notion is expanding to Middle East, reached out to Ayax's founders community via 24six9. Could be relevant for podcast sponsorship or collaboration.",
+    "ahoy_ventures_content": "Actual VC portfolio companies as natural guest pipeline",
+    "tech_revolt_crossover": "Tech Revolt news platform can cross-promote podcast content and provide event access for guest sourcing"
+  },
+  "open_actions": [
+    "DONE: Onboarding form submitted",
+    "DONE: Client brief sent",
+    "Ayax to email: equipment list (Excel + photos)",
+    "Ayax to email: cleaned logo files (.ai)",
+    "Ayax to email: podcast notes (description, aims, goals for Ahoy pitch)",
+    "Nalu to add Kubi to email thread",
+    "Nalu to set up Airtable guest tracker",
+    "Nalu to set up Notion workspace",
+    "Nalu to begin initial guest research",
+    "Ayax to brief Jamil and collect guest suggestions",
+    "Ayax to finish studio (paint wall, buy missing gear)",
+    "Clarify: conversion path (services page, booking link, partnership page)",
+    "Clarify: what counts as a qualified lead",
+    "Clarify: newsletter ownership and setup"
+  ],
+  "profile_status": {
+    "completeness": "COMPREHENSIVE: onboarding form + call + brief all integrated",
+    "still_missing": [
+      "Brand assets (logo, colors, guidelines), Ayax sending .ai files",
+      "Social media handles and current stats",
+      "Professional photos of Ayax",
+      "Competitor/inspiration podcasts",
+      "Conversion path and offer details (pending clarification questions)"
+    ]
+  }
+}
