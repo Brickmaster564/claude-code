@@ -6,7 +6,8 @@
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\(''error'',''ACCESSIBLE''\\)\\)\" done)",
       "Bash(python3 -c \":*)",
       "WebFetch(domain:www.blackhatworld.com)",
-      "mcp__claude_ai_Apollo_io__apollo_people_match"
+      "mcp__claude_ai_Apollo_io__apollo_people_match",
+      "Bash(curl -s -w \"\\\\n%{http_code}\" \"https://services.leadconnectorhq.com/contacts/\" -H \"Authorization: Bearer 69849ba0ab157d009a3d2ff3-mldvj3jw\" -H \"Version: 2021-07-28\" -H \"Content-Type: application/json\")"
     ]
   }
 }
