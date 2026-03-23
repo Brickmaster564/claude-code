@@ -139,3 +139,30 @@ Start with high-competition markets where attorneys are already spending on Goog
 10. Charlotte, NC
 
 Mid-sized competitive markets where CPCs are lower but intent is still high and smaller firms are underserved by good agencies.
+
+---
+
+## PPCSauce Qualifying Criteria
+
+| Criteria | Threshold |
+|---|---|
+| Minimum client-side ad spend | $10,000/month on Google Ads |
+| Starting retainer | $2,500/month |
+| Firm size sweet spot | Solo to mid-size (2-20 attorneys) |
+| Decision makers | Managing Partner, Firm Owner, Operations Manager |
+
+**Disqualify if:**
+- Ad spend below $10,000/month (insufficient data for meaningful optimisation)
+- Unwilling to implement tracking recommendations (GTM, GA4 custom events)
+- Burned by PPC and unwilling to commit to a minimum 3-month engagement (unless we can clearly pinpoint why the last agency failed)
+
+**Additional pain points from ICP (not covered in VOC):**
+- High-asset divorce vs. low-complexity cases: firms are acutely aware of the difference between a $1,500 uncontested divorce and a $50,000 complex asset division case. Campaigns should self-select for high-value cases and actively repel low-margin ones.
+- Lead qualification at ad and landing page level: financial screening and case complexity filtering before a prospect ever reaches intake.
+- Seasonal peaks: Q1 post-holiday divorce season creates surges that firms with poor campaign preparation miss entirely.
+- Campaigns driving volume without case value context: more calls does not mean better cases.
+- No remarketing strategy for high-consideration prospects who research multiple firms before retaining.
+- Difficulty scaling beyond referral-based growth.
+
+**Outreach positioning (from ICP):**
+Family law firms are acutely aware of the difference between a $1,500 uncontested divorce and a $50,000 complex asset division case. Position PPCSauce as the agency that uses campaign structure, ad copy, and landing page design to self-select for the high-value cases and actively repel the low-margin ones.

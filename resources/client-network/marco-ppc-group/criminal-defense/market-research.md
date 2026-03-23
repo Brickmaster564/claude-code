@@ -388,6 +388,32 @@ Criminal defense clients search at 2 AM from jail waiting rooms. Ad scheduling, 
 
 ---
 
+## PPCSauce Qualifying Criteria
+
+| Criteria | Threshold |
+|---|---|
+| Minimum client-side ad spend | $10,000/month on Google Ads |
+| Starting retainer | $2,500/month |
+| Firm size sweet spot | Solo to mid-size (2-30 attorneys) |
+| Decision makers | Managing Partner, Firm Owner, Practice Administrator |
+| Case value range targets | Clients who can afford a $3,000-$15,000+ retainer/flat fee |
+
+**Disqualify if:**
+- Ad spend below $10,000/month (insufficient data for meaningful optimisation)
+- Unwilling to implement tracking recommendations (GTM, GA4 custom events)
+- Burned by PPC and unwilling to commit to a minimum 3-month engagement (unless we can clearly pinpoint why the last agency failed)
+
+**Additional pain points from ICP (not covered in VOC):**
+- Calls from unqualified cases (e.g., minor violations with no viable defense)
+- Over-reliance on a single lead channel (usually referrals)
+- Poor Google Ads account structure inherited from a generalist agency
+- Seasonal fluctuations in case quality with no campaign adjustment
+
+**Outreach positioning (from ICP):**
+Lead with the qualification problem. The biggest frustration is not a lack of leads, it is the cost and time wasted on people who will never become clients. PPCSauce's tracking setup identifies and eliminates unqualified traffic at the campaign level, so the intake team spends time on real prospects.
+
+---
+
 ## Key Takeaways for Campaign Planning
 
 1. **Addressable market:** 252,000+ criminal defense attorneys, with the vast majority in solo/small firms where the attorney is the decision-maker
