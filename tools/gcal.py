@@ -121,6 +121,32 @@ def list_events(args):
     return result
 
 
+def delete_event(args):
+    token_data = load_token()
+    access_token = token_data["token"]
+    endpoint = f"/calendars/primary/events/{args.event_id}"
+    url = f"{CALENDAR_API}{endpoint}"
+    req = urllib.request.Request(url, method="DELETE")
+    req.add_header("Authorization", f"Bearer {access_token}")
+
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            resp.read()
+        print(f"Deleted event {args.event_id}")
+    except urllib.error.HTTPError as e:
+        if e.code == 401 and token_data:
+            new_token = refresh_access_token(token_data)
+            req2 = urllib.request.Request(url, method="DELETE")
+            req2.add_header("Authorization", f"Bearer {new_token}")
+            with urllib.request.urlopen(req2, timeout=30) as resp:
+                resp.read()
+            print(f"Deleted event {args.event_id}")
+            return
+        error_body = e.read().decode() if e.fp else ""
+        print(f"ERROR: HTTP {e.code}: {e.reason}\n{error_body}", file=sys.stderr)
+        sys.exit(1)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Google Calendar tool")
     parser.add_argument("--account", default="cn", choices=ACCOUNTS.keys())
@@ -138,6 +164,9 @@ def main():
     p_list = sub.add_parser("list-events")
     p_list.add_argument("--max", type=int, default=10)
 
+    p_delete = sub.add_parser("delete-event")
+    p_delete.add_argument("--event-id", required=True)
+
     args = parser.parse_args()
     set_account(args.account)
 
@@ -145,6 +174,8 @@ def main():
         create_event(args)
     elif args.command == "list-events":
         list_events(args)
+    elif args.command == "delete-event":
+        delete_event(args)
     else:
         parser.print_help()
 

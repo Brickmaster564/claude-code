@@ -150,30 +150,7 @@ Weekly automated pipeline that scans Instantly campaigns for completed leads, fi
 
 ---
 
-## WAT Framework (Workflows, Agent, Tools)
-
-This workspace uses the WAT architecture to build and run automations. The core principle: probabilistic AI handles reasoning and orchestration, deterministic code handles execution. That separation is what makes things reliable.
-
-### How the layers work
-
-**Workflows** — Markdown SOPs in `workflows/`. Each one defines the objective, required inputs, which tools to run, expected outputs, and edge case handling. Written in plain language. Think of these as recipes.
-
-**Agent** — That's me. I read the workflow, run tools in the correct sequence, handle failures, ask clarifying questions, and improve the system over time. I connect intent to execution without trying to do everything myself.
-
-**Tools** — Python scripts in `tools/` that do the actual work: API calls, data transformations, file operations, external service integrations. Credentials live in `config/api-keys.json`. These scripts are consistent, testable, and fast.
-
-### How skills and workflows coexist
-
-| | Skills | Workflows |
-|---|---|---|
-| Purpose | Expertise — *how* to think about a task | Orchestration — *what steps* to run and in what order |
-| Format | `SKILL.md` in `.claude/skills/` | `.md` files in `workflows/` |
-| Execution | Interactive — user prompts, I follow the skill | Process — I read the SOP and chain tools together |
-| Example | `/copywriter` loads frameworks, VOC, swipe files | A workflow that researches → writes → formats → sends a newsletter |
-
-A workflow can invoke a skill as one of its steps. They're complementary, not competing.
-
-### Operating rules
+## Operating Rules
 
 1. **Check for existing tools first.** Before building anything new, check `tools/`. Only create new scripts when nothing exists for the task.
 
@@ -189,10 +166,6 @@ A workflow can invoke a skill as one of its steps. They're complementary, not co
    - Verify the fix
    - Update the workflow
    - Move on with a more robust system
-
-### Tracker Sheet
-
-When a new skill or workflow is created (or an existing one is significantly updated), update the **Tracker** sheet in the [Jasper OS Google Sheet](https://docs.google.com/spreadsheets/d/1bypUOLHBBG9E5X0Gxpx4tLT45pGbgIj5hEPfCSB36js). Columns: Name, Type (Skill/Workflow), Status, Description, Steps (checkmark-style workflow steps matching the Cron Jobs tab format). Use the Google OAuth credentials in `config/google-token.json`.
 
 ### File handling
 

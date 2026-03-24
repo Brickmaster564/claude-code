@@ -7,7 +7,14 @@
       "Bash(python3 -c \":*)",
       "WebFetch(domain:www.blackhatworld.com)",
       "mcp__claude_ai_Apollo_io__apollo_people_match",
-      "Bash(curl -s -w \"\\\\n%{http_code}\" \"https://services.leadconnectorhq.com/contacts/\" -H \"Authorization: Bearer 69849ba0ab157d009a3d2ff3-mldvj3jw\" -H \"Version: 2021-07-28\" -H \"Content-Type: application/json\")"
+      "Bash(curl -s -w \"\\\\n%{http_code}\" \"https://services.leadconnectorhq.com/contacts/\" -H \"Authorization: Bearer 69849ba0ab157d009a3d2ff3-mldvj3jw\" -H \"Version: 2021-07-28\" -H \"Content-Type: application/json\")",
+      "Bash(chmod +x \"/Users/jasper/Library/Application Support/Claude/Jasper OS - CC Hub/.claude/hooks/\"*.py)",
+      "Bash(python3 -c \"import json; keys = json.load\\(open\\(''config/api-keys.json''\\)\\); print\\(json.dumps\\(list\\(keys.keys\\(\\)\\), indent=2\\)\\)\")",
+      "Bash(python3 .claude/hooks/validate-api-keys.py)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(python3 .claude/hooks/validate-campaign-id.py)",
+      "Bash(printf '{\"\"\"\"tool_name\"\"\"\":\"\"\"\"Write\"\"\"\",\"\"\"\"tool_input\"\"\"\":{\"\"\"\"file_path\"\"\"\":\"\"\"\"/Users/jasper/Library/Application Support/Claude/Jasper OS - CC Hub/output/copywriter/test.md\"\"\"\",\"\"\"\"content\"\"\"\":\"\"\"\"Get your quote today \\\\\\\\u2014 no obligations.\"\"\"\"}}')",
+      "Bash(python3 .claude/hooks/lint-copy-output.py)"
     ]
   }
 }
