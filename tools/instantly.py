@@ -54,7 +54,7 @@ def load_api_key():
     return key
 
 
-def api_request(api_key, method, endpoint, data=None, params=None):
+def api_request(api_key, method, endpoint, data=None, params=None, timeout=30):
     url = f"{API_BASE}{endpoint}"
     if params:
         url = f"{url}?{urllib.parse.urlencode(params)}"
@@ -67,7 +67,7 @@ def api_request(api_key, method, endpoint, data=None, params=None):
     req.add_header("User-Agent", "JasperOS/1.0")
 
     try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
             return json.loads(resp.read().decode())
     except urllib.error.HTTPError as e:
         error_body = e.read().decode() if e.fp else ""
@@ -210,27 +210,65 @@ def list_campaigns(api_key, search=None):
 
 
 def add_leads(api_key, campaign_id, leads):
-    """Add leads to a campaign via POST /leads/add (batch endpoint)."""
-    payload = {
-        "campaign_id": campaign_id,
-        "skip_if_in_campaign": True,
-        "leads": leads,
-    }
-    result = api_request(api_key, "POST", "/leads/add", data=payload)
+    """Add leads to a campaign via POST /leads/add (batch endpoint).
 
-    if "error" in result:
-        return {"campaign_id": campaign_id, "error": result["error"]}
-
-    return {
-        "campaign_id": campaign_id,
-        "total_sent": result.get("total_sent", 0),
-        "leads_uploaded": result.get("leads_uploaded", 0),
-        "duplicated_leads": result.get("duplicated_leads", 0),
-        "skipped_count": result.get("skipped_count", 0),
-        "invalid_email_count": result.get("invalid_email_count", 0),
-        "in_blocklist": result.get("in_blocklist", 0),
-        "remaining_in_plan": result.get("remaining_in_plan"),
+    Automatically splits into chunks of 100 to avoid API timeouts on large
+    payloads. Each chunk uses a 120s timeout and retries once on failure.
+    """
+    CHUNK_SIZE = 100
+    totals = {
+        "leads_uploaded": 0,
+        "duplicated_leads": 0,
+        "skipped_count": 0,
+        "invalid_email_count": 0,
+        "in_blocklist": 0,
+        "remaining_in_plan": None,
+        "errors": [],
     }
+
+    for i in range(0, len(leads), CHUNK_SIZE):
+        chunk = leads[i : i + CHUNK_SIZE]
+        payload = {
+            "campaign_id": campaign_id,
+            "skip_if_in_campaign": True,
+            "leads": chunk,
+        }
+
+        result = None
+        for attempt in range(2):
+            result = api_request(api_key, "POST", "/leads/add", data=payload, timeout=120)
+            if "error" not in result:
+                break
+            if attempt == 0:
+                time.sleep(3)
+
+        if "error" in result:
+            totals["errors"].append({"chunk": i // CHUNK_SIZE + 1, "error": result["error"]})
+            continue
+
+        totals["leads_uploaded"] += result.get("leads_uploaded", 0)
+        totals["duplicated_leads"] += result.get("duplicated_leads", 0)
+        totals["skipped_count"] += result.get("skipped_count", 0)
+        totals["invalid_email_count"] += result.get("invalid_email_count", 0)
+        totals["in_blocklist"] += result.get("in_blocklist", 0)
+        totals["remaining_in_plan"] = result.get("remaining_in_plan")
+
+        if i + CHUNK_SIZE < len(leads):
+            time.sleep(2)
+
+    output = {
+        "campaign_id": campaign_id,
+        "total_sent": len(leads),
+        "leads_uploaded": totals["leads_uploaded"],
+        "duplicated_leads": totals["duplicated_leads"],
+        "skipped_count": totals["skipped_count"],
+        "invalid_email_count": totals["invalid_email_count"],
+        "in_blocklist": totals["in_blocklist"],
+        "remaining_in_plan": totals["remaining_in_plan"],
+    }
+    if totals["errors"]:
+        output["chunk_errors"] = totals["errors"]
+    return output
 
 
 def list_leads(api_key, campaign_id, status=None, limit=100):
@@ -358,6 +396,15 @@ def delete_leads(api_key, campaign_id, emails):
         "failed": failed,
         "not_found": list(email_set),
     }
+
+
+def update_lead(api_key, lead_id, updates):
+    """Update a lead's fields via PATCH /leads/{id}.
+
+    `updates` is a dict of fields to change (e.g. {"company_name": "New Name"}).
+    """
+    result = api_request(api_key, "PATCH", f"/leads/{lead_id}", data=updates, timeout=30)
+    return result
 
 
 def main():

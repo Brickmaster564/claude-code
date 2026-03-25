@@ -218,24 +218,21 @@ For prospects that don't have email addresses from the search results (including
 
 Report how many were enriched vs dropped.
 
-### Step 3 — Apollo Create Contacts + Dedup + Add to List (MCP)
+### Step 3 — Apollo Create Contacts + Dedup + Add to List (Bulk Tool)
 
-For each prospect with status `enriched`:
-1. Use `apollo_contacts_create` with **`run_dedupe: true`** to create the contact in Apollo
-2. Include the label/list name for the specified Apollo list via `label_names`
+Run the bulk create tool to create all enriched contacts in Apollo in one call:
 
-Apollo's built-in dedup logic prevents creating duplicates. Check the response for `was_existing`:
-- `was_existing: true` → contact already existed, mark as `duplicate`
-- `was_existing: false` or absent → newly created, mark as `created`
+```bash
+python3 tools/apollo_bulk_create.py --list "{apollo_list_name}" --workers 3
+```
 
-Source replacements for any duplicates if needed to maintain the requested lead count.
+The tool reads `.tmp/prospector-run.json`, finds all prospects with status `enriched`, creates them in Apollo via the REST API with concurrent workers, applies dedup, adds to the specified list, and updates the working file with results. It checkpoints every 50 contacts.
 
-**Per-contact writes:** After EACH `apollo_contacts_create` call:
-1. Check `was_existing` in the response to determine if it was a new create or a duplicate
-2. Update status to `created` or `duplicate` accordingly, store the `apollo_id`
-3. Write the working file to disk immediately (before processing the next contact)
+Apollo auto-creates the list when a new name is passed. The tool updates prospect statuses to `created` or `duplicate` and writes stats.
 
-Apollo auto-creates the list when a new `label_names` value is passed to `apollo_contacts_create`. No need to pre-create the list. Store the label ID from the first create response in the `discovered` object.
+**Do NOT use individual `apollo_contacts_create` MCP calls for bulk runs.** The MCP endpoint is single-contact only and will take hours for 300+ contacts. Always use the bulk tool.
+
+If the Apollo REST API key is not configured, add it to `config/api-keys.json` as `apollo_api_key` (get it from Apollo Settings > Integrations > API).
 
 **Known Instantly campaign IDs:**
 | Campaign Name | Campaign ID |
@@ -307,6 +304,25 @@ Runs `apimaestro/linkedin-profile-comments`. Extract the username slug from the 
 - **No profile** = no LinkedIn URL from Apollo. Treat as inactive, route to Instantly only.
 
 **Write checkpoint:** Update each prospect with their `linkedin_status`.
+
+### Step 6B — Clean Company Names
+
+Before loading leads into Instantly or Lemlist, strip legal/corporate fluff from company names so they read like a human wrote them. This runs on all prospects with status `good` or `recovered` in the working file.
+
+**What to strip:**
+- Legal entity suffixes: Inc, LLC, PLLC, Ltd, Corp, Corporation, Company, Co, Limited, Incorporated, P.C., P.A., S.C., P.L., "and Co."
+- These can appear with or without a preceding comma
+
+**What to fix:**
+- ALL CAPS names (3+ words) get converted to Title Case, preserving mixed-case words (e.g. McPherson) and known acronyms (MD, ENT, NYC, DC, JC, LA, FACS, DDS)
+- Small words (of, and, for, the, in, at) get lowercased unless they start the name
+
+**What NOT to touch:**
+- Spa, MedSpa, Associates, Group (these are meaningful in medical/service businesses, not legal fluff)
+- Names that are already clean
+- Brand-specific formatting (miraDry, BeautyFix, etc.)
+
+Update the `company` field on each prospect in the working file after cleaning. This ensures both Instantly and Lemlist receive the cleaned version.
 
 ### Step 7 — Add Leads to Instantly Campaign (API)
 
