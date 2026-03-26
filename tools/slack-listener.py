@@ -5,6 +5,7 @@ Slack Socket Mode listener for on-demand skill triggers.
 Supported triggers:
   - "guest-pipeline" in #guest-research-and-comms -> runs /guest-pipeline
   - "client-agendas" in #nalu-hub -> runs /client-agendas
+  - Thread reply to a notification with "EMAIL ID:" in #guest-research-and-comms -> runs /reply-router
 
 Usage:
     python3 tools/slack-listener.py
@@ -19,6 +20,7 @@ import re
 import subprocess
 import sys
 import logging
+import urllib.request
 from datetime import datetime
 from pathlib import Path
 
@@ -137,6 +139,32 @@ def is_client_agendas_trigger(text):
     )
 
 
+def get_parent_message(channel, thread_ts):
+    """Fetch the parent message of a thread to check if it's a notification."""
+    token = keys["slack_nalu"]
+    url = (
+        f"https://slack.com/api/conversations.replies"
+        f"?channel={channel}&ts={thread_ts}&limit=1&inclusive=true"
+    )
+    req = urllib.request.Request(url)
+    req.add_header("Authorization", f"Bearer {token}")
+    req.add_header("Content-Type", "application/json")
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read().decode())
+        if data.get("ok") and data.get("messages"):
+            return data["messages"][0]
+    except Exception as e:
+        log.error(f"Failed to fetch parent message: {e}")
+    return None
+
+
+def extract_email_id(text):
+    """Extract an Instantly email UUID from a notification message."""
+    match = re.search(r"EMAIL ID:\s*([0-9a-f-]{36})", text, re.IGNORECASE)
+    return match.group(1) if match else None
+
+
 @app.event("message")
 def handle_message(event, say):
     if event.get("bot_id") or event.get("subtype"):
@@ -144,8 +172,29 @@ def handle_message(event, say):
 
     channel = event.get("channel", "")
     text = event.get("text", "").strip()
+    thread_ts = event.get("thread_ts")
     if not text:
         return
+
+    # Reply-router: thread reply to a notification in #guest-research-and-comms
+    if channel == GUEST_PIPELINE_CHANNEL and thread_ts:
+        parent = get_parent_message(channel, thread_ts)
+        if parent:
+            email_id = extract_email_id(parent.get("text", ""))
+            if email_id:
+                parent_text = parent.get("text", "")
+                prompt = (
+                    f'Run /reply-router. A team member replied to an Instantly email notification.\n\n'
+                    f'SLACK CHANNEL: {channel}\n'
+                    f'SLACK THREAD TS: {thread_ts}\n'
+                    f'INSTANTLY EMAIL ID: {email_id}\n\n'
+                    f'ORIGINAL NOTIFICATION:\n{parent_text}\n\n'
+                    f'TEAM MEMBER\'S NOTES:\n{text}\n\n'
+                    f'Follow the /reply-router skill instructions exactly. '
+                    f'Draft the reply, send it via Instantly, and post confirmation back to this Slack thread.'
+                )
+                spawn_claude("reply-router", prompt, event, say)
+                return
 
     if channel == GUEST_PIPELINE_CHANNEL and is_guest_pipeline_trigger(text):
         prompt = (
@@ -170,6 +219,7 @@ def handle_message(event, say):
 if __name__ == "__main__":
     log.info("Starting Slack Socket Mode listener...")
     log.info("Watching #guest-research-and-comms for 'guest-pipeline' triggers")
+    log.info("Watching #guest-research-and-comms for reply-router thread replies")
     log.info("Watching #nalu-hub for 'client-agendas' triggers")
     handler = SocketModeHandler(app, APP_TOKEN)
     handler.start()

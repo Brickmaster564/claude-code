@@ -63,20 +63,35 @@ Use WebSearch to find the latest AI developments from the last 24-48 hours.
 
 Each item: 1-2 sentence summary of what happened + 1 sentence on why it matters for marketing/lead gen.
 
-### Step 3: X/Twitter Insights
+### Step 3: X/Twitter Insights (Media Buying Focus)
 
-Scrape recent tweets from tracked marketers using Apify.
+Scrape recent tweets from tracked marketers using Apify. The X section is one of the most valuable parts of the briefing, so invest real effort here.
 
 **Current X handles** (stored in `x-handles.json` supporting file):
-See the supporting file for the current list. Read it before scraping.
+See the supporting file for the current list. Read it before scraping. Handles are tagged by category. **Media buying accounts are the top priority** and should always appear first and get the most coverage.
 
 **Process:**
 1. Read `x-handles.json` from this skill's directory
-2. Run `python3 tools/apify.py scrape-tweets --handles [comma-separated handles] --max-per-user 3`
+2. Run `python3 tools/apify.py scrape-tweets --handles [comma-separated handles] --max-per-user 5`
 3. From the results, extract the most insightful/actionable tweets from each person
 4. Skip promotional tweets, retweets with no commentary, and generic motivation
-5. For each person, pick the 1-2 best tweets and summarize the insight
-6. **Group tweets by person.** Never repeat a person's name/handle as a separate block. List all their tweets under one heading.
+5. **Prioritise media buying insights:** Meta ad tactics, spend strategies, campaign structure, creative testing learnings, attribution, scaling approaches, CPM/CPA trends, and platform changes. These are the insights Jasper uses daily.
+6. For each person, pick the 1-3 best tweets and summarize the insight
+7. **Group tweets by person.** Never repeat a person's name/handle as a separate block. List all their tweets under one heading.
+8. **Order: media-buying accounts first, then general-marketing accounts.** Within each category, lead with whoever had the most valuable content that day.
+
+**What makes a good X insight for this briefing:**
+- Specific tactics or learnings from actual ad spend (e.g., "Switched from ABO to CBO on cold audiences, saw 30% CPL drop")
+- Platform changes or algorithm shifts observed in the wild
+- Creative testing results or frameworks
+- Scaling strategies with real numbers or ratios
+- Contrarian takes backed by data
+
+**What to skip:**
+- Motivational fluff, "grind" content, lifestyle posts
+- Pure self-promotion or course launches
+- Retweets without added commentary
+- Takes without substance or data behind them
 
 If Apify fails (credits exhausted, rate limit, etc.), fall back to WebSearch: search "[person name] site:x.com" for their recent activity. Note the fallback in the briefing.
 

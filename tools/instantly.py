@@ -9,6 +9,9 @@ Usage:
     python3 tools/instantly.py set-sequence --campaign-id "ID" --sequence-file sequence.json
     python3 tools/instantly.py add-leads --campaign-id "ID" --leads '[{"email":"...","first_name":"...","company_name":"..."}]'
     python3 tools/instantly.py list-leads --campaign-id "ID" --status "completed" --limit 500
+    python3 tools/instantly.py get-email --id "EMAIL_UUID"
+    python3 tools/instantly.py list-emails --email-type received --campaign-id "ID" --limit 20
+    python3 tools/instantly.py send-reply --reply-to "EMAIL_UUID" --eaccount "sender@domain.com" --subject "Re: Subject" --body "Reply text"
 
 Sequence JSON format (array of steps):
     [
@@ -407,6 +410,128 @@ def update_lead(api_key, lead_id, updates):
     return result
 
 
+def get_email(api_key, email_id):
+    """Get a single email by ID via GET /emails/{id}."""
+    result = api_request(api_key, "GET", f"/emails/{email_id}")
+    if "error" in result:
+        return result
+    return {
+        "id": result.get("id", ""),
+        "subject": result.get("subject", ""),
+        "from_address_email": result.get("from_address_email", ""),
+        "to_address_email_list": result.get("to_address_email_list", ""),
+        "body": result.get("body", {}),
+        "eaccount": result.get("eaccount", ""),
+        "campaign_id": result.get("campaign_id", ""),
+        "lead": result.get("lead", ""),
+        "ue_type": result.get("ue_type", 0),
+        "is_unread": result.get("is_unread", 0),
+        "thread_id": result.get("thread_id", ""),
+        "timestamp_email": result.get("timestamp_email", ""),
+        "timestamp_created": result.get("timestamp_created", ""),
+    }
+
+
+def list_emails(api_key, email_type=None, campaign_id=None, is_unread=None,
+                eaccount=None, lead=None, limit=20, min_timestamp=None):
+    """List emails via GET /emails with optional filters.
+
+    Rate limited to 20 requests per minute.
+    email_type: "received", "sent", or "manual"
+    """
+    params = {"limit": str(min(limit, 100))}
+    if email_type:
+        params["email_type"] = email_type
+    if campaign_id:
+        params["campaign_id"] = campaign_id
+    if is_unread is not None:
+        params["is_unread"] = str(is_unread).lower()
+    if eaccount:
+        params["eaccount"] = eaccount
+    if lead:
+        params["lead"] = lead
+    if min_timestamp:
+        params["min_timestamp_created"] = min_timestamp
+
+    all_emails = []
+    starting_after = None
+
+    while True:
+        if starting_after:
+            params["starting_after"] = starting_after
+
+        result = api_request(api_key, "GET", "/emails", params=params)
+        if "error" in result:
+            return {"error": result["error"], "emails": all_emails}
+
+        items = result.get("items", [])
+        if not items:
+            break
+
+        for email in items:
+            all_emails.append({
+                "id": email.get("id", ""),
+                "subject": email.get("subject", ""),
+                "from_address_email": email.get("from_address_email", ""),
+                "to_address_email_list": email.get("to_address_email_list", ""),
+                "body_text": (email.get("body") or {}).get("text", ""),
+                "eaccount": email.get("eaccount", ""),
+                "lead": email.get("lead", ""),
+                "campaign_id": email.get("campaign_id", ""),
+                "is_unread": email.get("is_unread", 0),
+                "thread_id": email.get("thread_id", ""),
+                "timestamp_email": email.get("timestamp_email", ""),
+            })
+
+            if len(all_emails) >= limit:
+                break
+
+        if len(all_emails) >= limit:
+            break
+
+        next_after = result.get("next_starting_after")
+        if not next_after:
+            break
+        starting_after = next_after
+
+    return {"total": len(all_emails), "emails": all_emails}
+
+
+def send_reply(api_key, reply_to_uuid, eaccount, subject, body_text, body_html=None):
+    """Reply to an email via POST /emails/reply.
+
+    reply_to_uuid: ID of the email being replied to
+    eaccount: the sending email account (must be connected to workspace)
+    subject: subject line (typically "Re: ...")
+    body_text: plain text body
+    body_html: optional HTML body (defaults to wrapping body_text in <p> tags)
+    """
+    if not body_html:
+        body_html = body_text.replace("\n", "<br>\n")
+
+    payload = {
+        "eaccount": eaccount,
+        "reply_to_uuid": reply_to_uuid,
+        "subject": subject,
+        "body": {
+            "html": body_html,
+            "text": body_text,
+        },
+    }
+
+    result = api_request(api_key, "POST", "/emails/reply", data=payload)
+    if "error" in result:
+        return result
+
+    return {
+        "sent": True,
+        "id": result.get("id", ""),
+        "reply_to": reply_to_uuid,
+        "eaccount": eaccount,
+        "subject": subject,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="Instantly.ai campaign tools")
     subparsers = parser.add_subparsers(dest="command")
@@ -452,6 +577,28 @@ def main():
     del_cmd.add_argument("--campaign-id", required=True, help="Instantly campaign ID")
     del_cmd.add_argument("--emails", required=True, help="Comma-separated list of emails to delete")
 
+    # get-email
+    ge_cmd = subparsers.add_parser("get-email", help="Get a single email by ID")
+    ge_cmd.add_argument("--id", required=True, help="Email UUID")
+
+    # list-emails
+    le_cmd = subparsers.add_parser("list-emails", help="List emails (rate limit: 20/min)")
+    le_cmd.add_argument("--email-type", choices=["received", "sent", "manual"], help="Filter by type")
+    le_cmd.add_argument("--campaign-id", help="Filter by campaign ID")
+    le_cmd.add_argument("--is-unread", action="store_true", help="Only unread emails")
+    le_cmd.add_argument("--eaccount", help="Filter by sending account email")
+    le_cmd.add_argument("--lead", help="Filter by lead email address")
+    le_cmd.add_argument("--limit", type=int, default=20, help="Max emails to return (default 20)")
+    le_cmd.add_argument("--since", help="Only emails after this ISO datetime")
+
+    # send-reply
+    sr_cmd = subparsers.add_parser("send-reply", help="Reply to an email")
+    sr_cmd.add_argument("--reply-to", required=True, help="UUID of the email to reply to")
+    sr_cmd.add_argument("--eaccount", required=True, help="Sending email account")
+    sr_cmd.add_argument("--subject", required=True, help="Reply subject line")
+    sr_cmd.add_argument("--body", required=True, help="Plain text reply body")
+    sr_cmd.add_argument("--body-html", help="Optional HTML reply body")
+
     args = parser.parse_args()
     api_key = load_api_key()
 
@@ -489,6 +636,25 @@ def main():
     elif args.command == "delete-leads":
         emails = [e.strip() for e in args.emails.split(",")]
         result = delete_leads(api_key, args.campaign_id, emails)
+        print(json.dumps(result, indent=2))
+
+    elif args.command == "get-email":
+        result = get_email(api_key, args.id)
+        print(json.dumps(result, indent=2))
+
+    elif args.command == "list-emails":
+        result = list_emails(
+            api_key, email_type=args.email_type, campaign_id=args.campaign_id,
+            is_unread=True if args.is_unread else None, eaccount=args.eaccount,
+            lead=args.lead, limit=args.limit, min_timestamp=args.since,
+        )
+        print(json.dumps(result, indent=2))
+
+    elif args.command == "send-reply":
+        result = send_reply(
+            api_key, reply_to_uuid=args.reply_to, eaccount=args.eaccount,
+            subject=args.subject, body_text=args.body, body_html=args.body_html,
+        )
         print(json.dumps(result, indent=2))
 
     else:

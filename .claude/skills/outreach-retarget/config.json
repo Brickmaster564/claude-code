@@ -33,6 +33,25 @@
         "location": "General / Retargeting",
         "status": ""
       }
+    },
+    "jh": {
+      "name": "Deal Junky",
+      "host": "Jeremy Harbour",
+      "instantly_campaign_id": "a8e7f5ac-75fc-4a75-b0f1-3ba745bb30bb",
+      "airtable_base_id": "appsHgXM4NYOx8n2y",
+      "airtable_table_id": "tbloHFKqyqhwZG8bV",
+      "airtable_fields": {
+        "name": "fld4bHKqL5GOkhTiw",
+        "status": "fld86R8OzKDoBuZlC",
+        "location": "fld8ezjsYuy9LBfzr",
+        "profile": "fld9BEYcC5Es9dpl0",
+        "email": "fldgaqXCeHPGFZEHq",
+        "retarget_checkbox": "fldcdUquzOCcngSFU"
+      },
+      "retarget_mode": "checkbox",
+      "retarget_values": {
+        "retarget_checkbox": true
+      }
     }
   },
 

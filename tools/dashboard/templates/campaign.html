@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+{% block title %}{{ data.campaign_name|default('Campaign') }} - Dashboard{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+    <a href="/?account={{ current_account }}&days={{ current_days }}">Dashboard</a>
+    <span>&rsaquo;</span>
+    <span>{{ data.campaign_name|default('Campaign') }}</span>
+</div>
+
+{% if not data.get('error') %}
+
+{% if current_days == 1 %}
+<div class="live-banner">LIVE - Today's Performance</div>
+{% endif %}
+
+<!-- Campaign Summary Cards -->
+<section class="summary-cards">
+    {% set s = data.summary %}
+    <div class="card">
+        <div class="card-label">Spend</div>
+        <div class="card-value">£{{ "%.2f"|format(s.spend|default(0)) }}</div>
+    </div>
+    <div class="card">
+        <div class="card-label">Leads</div>
+        <div class="card-value">{{ s.leads|default(0) }}</div>
+    </div>
+    <div class="card">
+        <div class="card-label">CPL</div>
+        <div class="card-value">{{ "£%.2f"|format(s.cpl) if s.cpl else "N/A" }}</div>
+    </div>
+    <div class="card">
+        <div class="card-label">CTR</div>
+        <div class="card-value">{{ "%.2f"|format(s.ctr|default(0)) }}%</div>
+    </div>
+    <div class="card">
+        <div class="card-label">CPC</div>
+        <div class="card-value">{{ "£%.2f"|format(s.cpc|default(0)) }}</div>
+    </div>
+    <div class="card">
+        <div class="card-label">Frequency</div>
+        <div class="card-value">{{ "%.1f"|format(s.frequency|default(0)) }}</div>
+    </div>
+</section>
+
+<!-- Trend Charts -->
+{% if current_days > 1 and data.daily_data|length > 1 %}
+<section class="charts-row">
+    <div class="chart-container">
+        <h3>Daily Spend & CPL</h3>
+        <canvas id="spend-cpl-chart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h3>Daily Leads</h3>
+        <canvas id="leads-chart"></canvas>
+    </div>
+</section>
+{% endif %}
+
+<!-- Campaign Insights -->
+{% if data.insights %}
+<section class="section insights-panel">
+    <h2>Insights</h2>
+    <div class="insights-list">
+        {% for insight in data.insights %}
+        <div class="insight insight-{{ insight.priority|lower }}">
+            <span class="insight-priority priority-{{ insight.priority|lower }}">{{ insight.priority }}</span>
+            <span class="insight-category">{{ insight.category }}</span>
+            <strong>{{ insight.title }}</strong>
+            <p>{{ insight.detail }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Ad-Level Table -->
+<section class="section">
+    <h2>Ads</h2>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Ad Name</th>
+                <th>Spend</th>
+                <th>Leads</th>
+                <th>CPL</th>
+                <th>CTR</th>
+                <th>Freq</th>
+                <th>Fatigue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in data.ads %}
+            <tr>
+                <td>{{ a.ad_name|default('Unknown') }}</td>
+                <td>£{{ "%.2f"|format(a.spend|default(0)) }}</td>
+                <td>{{ a.leads|default(0) }}</td>
+                <td>{{ "£%.2f"|format(a.cpl) if a.cpl else "-" }}</td>
+                <td>{{ "%.2f"|format(a.ctr|default(0)) }}%</td>
+                <td>{{ "%.1f"|format(a.frequency|default(0)) }}</td>
+                <td>
+                    <span class="fatigue-dot fatigue-{{ a.fatigue|default('OK')|lower }}"></span>
+                    {{ a.fatigue|default('OK') }}
+                </td>
+            </tr>
+            {% endfor %}
+            {% if not data.ads %}
+            <tr><td colspan="7" class="empty-state">No ad data for this period</td></tr>
+            {% endif %}
+        </tbody>
+    </table>
+</section>
+
+<!-- Creative Previews -->
+{% if data.creatives %}
+<section class="section">
+    <h2>Creative Details</h2>
+    <div class="creative-grid">
+        {% for cr in data.creatives %}
+        <div class="creative-card">
+            <div class="creative-card-header">
+                <span class="fatigue-dot fatigue-{{ cr.fatigue|default('OK')|lower }}"></span>
+                <strong>{{ cr.ad_name|default('Unknown') }}</strong>
+            </div>
+            <div class="creative-card-stats">
+                <span>£{{ "%.2f"|format(cr.spend|default(0)) }} spend</span>
+                <span>{{ cr.leads|default(0) }} leads</span>
+                <span>{{ "%.2f"|format(cr.ctr|default(0)) }}% CTR</span>
+                <span>{{ "%.1f"|format(cr.frequency|default(0)) }} freq</span>
+            </div>
+            {% if cr.creative %}
+            <div class="creative-card-preview">
+                {% if cr.creative.image_url %}
+                <img src="{{ cr.creative.image_url }}" alt="Creative" class="preview-thumb">
+                {% endif %}
+                <div class="preview-copy">
+                    {% if cr.creative.title %}<div class="preview-headline">{{ cr.creative.title }}</div>{% endif %}
+                    {% if cr.creative.body %}<div class="preview-body">{{ cr.creative.body[:200] }}{% if cr.creative.body|length > 200 %}...{% endif %}</div>{% endif %}
+                    {% if cr.creative.cta %}<div class="preview-cta">{{ cr.creative.cta }}</div>{% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    if (dashboardData && !dashboardData.error) {
+        renderCharts(dashboardData);
+    }
+</script>
+{% endblock %}

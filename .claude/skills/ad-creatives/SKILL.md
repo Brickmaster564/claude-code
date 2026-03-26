@@ -1,6 +1,6 @@
 ---
 name: ad-creatives
-description: Use when someone asks to create ads, rehash ad copy, review ad creatives, generate ad images, create UGC AI characters, rewrite video ad scripts, build ad creative variants, or workshop ad messaging for any Client Network vertical.
+description: Use when someone asks to create ads, rehash ad copy, review ad creatives, generate ad images, create UGC AI characters, rewrite video ad scripts, build ad creative variants, iterate on winning creatives, create winner variants, or workshop ad messaging for any Client Network vertical.
 disable-model-invocation: true
 ---
 
@@ -8,12 +8,13 @@ disable-model-invocation: true
 
 A universal ad creative workshop for Client Network. Handles everything from rehashing competitor copy to generating full AI ad images via Kie.ai (Nano Banana Pro). Works across all verticals: life insurance, senior care, home security, tax relief, client acquisition.
 
-Four modes, auto-detected from context:
+Five modes, auto-detected from context:
 
 1. **Copy-Only** -- Rehash in-ad messaging from competitor or cross-vertical ads
 2. **Full Ad Creative** -- Workshop copy + design, then generate images on approval
 3. **UGC AI Characters** -- Generate realistic phone-photo-style people for ads
 4. **Video Script Rehash** -- Rewrite competitor video transcripts for our verticals
+5. **Winner Variant** -- Take a winning creative and produce genuinely different variants across messaging angles, visual direction, and formats
 
 This skill is conversational and malleable. Sessions can shift between modes fluidly. Follow the user's creative direction.
 
@@ -22,6 +23,7 @@ For supporting references:
 - [ugc-prompt-template.md](ugc-prompt-template.md) -- UGC character prompt template
 - [video-rehash-guide.md](video-rehash-guide.md) -- Video script rehash process
 - [winning-scripts.md](winning-scripts.md) -- Quality benchmark scripts
+- [winner-variant-guide.md](winner-variant-guide.md) -- Winner variant process and angle reference
 
 ---
 
@@ -63,6 +65,7 @@ Auto-detect from the user's input:
 | Ad image + asks to recreate/redesign | Full Ad Creative |
 | Describes a person/scene for UGC | UGC AI Character |
 | Pastes a video transcript | Video Script Rehash |
+| Winning creative (screenshot or video) + asks for variants/iterations | Winner Variant |
 
 If ambiguous, ask. The user may also explicitly state what they want.
 
@@ -194,6 +197,93 @@ Rewrite competitor video ad transcripts for our verticals.
 6. If the user specifies an awareness stage, write for it. Otherwise, default to problem-aware.
 
 7. Present the rewrite. Iterate if the user wants changes.
+
+---
+
+## Step 7: Winner Variant Mode
+
+Take a winning creative and produce genuinely different variants, not just copy swaps but fully distinct ads with different messaging angles, visual direction, and creative formats. Each variant should feel like a completely different ad to Meta's Andromeda algorithm: different colors, different characters/imagery, different layout, different copy angle.
+
+### Static Winners
+
+1. **User sends a screenshot** of a winning static ad.
+
+2. **Analyze the winner:**
+   - Hook and headline approach
+   - Awareness stage it's currently targeting
+   - Angle and emotional driver
+   - Visual elements: colors, layout, imagery, characters, font treatment
+   - What makes this ad work (the core conversion logic to preserve)
+
+3. **Ideate 5 variants**, each with a different messaging angle. Pick the angles that make the most sense for this specific winner. Don't use a fixed list; choose what fits. Examples of angle types:
+   - Tragic/fear, ease/affordability, informative, urgency, social proof, curiosity gap, myth-busting, lifestyle outcome, objection handling, transparency, real talk, hidden mistake
+
+   Each variant is a **creative brief**:
+
+   ```
+   ### VARIANT [N]: [ANGLE NAME]
+   **Awareness stage:** [level]
+   **Angle:** [emotional driver and why it fits as a variant of the original]
+
+   **IN-AD COPY:**
+   - Headline: [2-4 words per line, max 2 lines]
+   - Subhead: [1-2 sentences]
+   - Value prop: [key benefit or proof point, formatted for visual element]
+   - CTA: [button text]
+
+   **VISUAL DIRECTION:**
+   - Color palette: [specific shift from original, e.g. "warm gold/navy instead of pink/white"]
+   - Layout: [what changes in structure/placement]
+   - Imagery/Characters: [new subject, setting, objects, or character description]
+   - Font treatment: [any changes to type style or hierarchy]
+
+   **FORMAT SUGGESTION:** [if this variant could work as a different format entirely,
+   e.g. "this angle would also work well as a carousel" or "strong candidate for UGC video".
+   Only include if there's a genuine fit, not every variant needs one.]
+   ```
+
+4. **User picks favorites and gives feedback** (tweak headline, change colors, adjust imagery, etc.). Iterate until approved.
+
+5. **On approval, generate the creative:**
+   - Read [prompt-guide.md](prompt-guide.md)
+   - Build a Nano Banana Pro prompt incorporating the approved copy and visual direction
+   - Show the prompt for confirmation
+   - On confirmation, run: `python3 tools/higgsfield.py generate-and-wait --prompt "[PROMPT]" --aspect-ratio "[RATIO]" --resolution "2K" --n 2`
+   - Deliver image URLs in chat
+
+### Video Winners
+
+1. **User sends a video URL and/or script.** If a URL is provided, download the transcript using the youtube-transcript skill to understand the content and format.
+
+2. **Analyze the winner:**
+   - Hook and opening approach
+   - Persuasion structure (hook, problem agitation, mechanism, social proof, offer, CTA)
+   - Format type: UGC, interview, podcast, direct-to-camera, voiceover, etc.
+   - What makes this video work
+
+3. **Ideate 5 variants**, each with a different messaging angle. For each:
+
+   ```
+   ### VARIANT [N]: [ANGLE NAME]
+   **Awareness stage:** [level]
+   **Angle:** [emotional driver and why it fits]
+   **Format:** [same as original, or a suggested format shift with reasoning,
+   e.g. "original was podcast interview, this variant works better as AI UGC direct-to-camera
+   because the personal confession angle needs first-person delivery"]
+
+   [Full rewritten script in script format, line breaks after each sentence]
+   ```
+
+4. **User picks favorites and gives feedback.** Iterate until approved.
+
+5. **Deliver final polished script** in the chosen format, ready for production.
+
+### Key Principles
+
+- **Every variant must be a genuinely different ad**, not a twin. Different colors, different people, different layout, different copy. If you put the original and the variant side by side, they should look and feel like they came from different campaigns.
+- **Preserve the core conversion logic.** The original won for a reason. Each variant keeps that underlying truth but delivers it through a different lens.
+- **Angles are creative choices, not a checklist.** Pick the 5 that make the most sense for this specific winner. A gold IRA ad might call for different angles than a life insurance ad.
+- **Format suggestions are optional but valuable.** If a static winner has an angle that would work better as a video, or a script that would kill as a UGC selfie, say so. But only when there's a genuine fit.
 
 ---
 

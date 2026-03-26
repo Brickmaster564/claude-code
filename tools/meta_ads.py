@@ -43,6 +43,7 @@ INSIGHT_FIELDS = [
     "spend", "impressions", "clicks", "cpc", "cpm", "ctr",
     "reach", "frequency",
     "actions", "cost_per_action_type",
+    "outbound_clicks", "cost_per_outbound_click",
     "date_start", "date_stop",
 ]
 
@@ -50,6 +51,7 @@ ACCOUNT_INSIGHT_FIELDS = [
     "spend", "impressions", "clicks", "cpc", "cpm", "ctr",
     "reach", "frequency",
     "actions", "cost_per_action_type",
+    "outbound_clicks", "cost_per_outbound_click",
     "date_start", "date_stop",
 ]
 
@@ -119,6 +121,26 @@ def extract_cpl(cost_per_action_type):
     return None
 
 
+def extract_link_clicks(outbound_clicks):
+    """Extract link (outbound) click count from outbound_clicks array."""
+    if not outbound_clicks:
+        return None
+    for item in outbound_clicks:
+        if item.get("action_type") == "outbound_click":
+            return int(item.get("value", 0))
+    return None
+
+
+def extract_cost_per_link_click(cost_per_outbound_click):
+    """Extract cost per link click from cost_per_outbound_click array."""
+    if not cost_per_outbound_click:
+        return None
+    for item in cost_per_outbound_click:
+        if item.get("action_type") == "outbound_click":
+            return float(item.get("value", 0))
+    return None
+
+
 def format_insight_row(row):
     """Format a single insight row into a clean dict."""
     actions = row.get("actions", [])
@@ -127,11 +149,16 @@ def format_insight_row(row):
     leads = extract_leads(actions)
     cpl = extract_cpl(cpat)
 
+    # Link click metrics (what Ads Manager shows as CPC)
+    link_clicks = extract_link_clicks(row.get("outbound_clicks", []))
+    cost_per_link_click = extract_cost_per_link_click(row.get("cost_per_outbound_click", []))
+
     result = {
         "spend": spend,
         "impressions": int(row.get("impressions", 0)),
         "clicks": int(row.get("clicks", 0)),
-        "cpc": float(row.get("cpc", 0)) if row.get("cpc") else None,
+        "link_clicks": link_clicks,
+        "cpc": cost_per_link_click if cost_per_link_click else (float(row.get("cpc", 0)) if row.get("cpc") else None),
         "cpm": float(row.get("cpm", 0)) if row.get("cpm") else None,
         "ctr": float(row.get("ctr", 0)) if row.get("ctr") else None,
         "reach": int(row.get("reach", 0)),

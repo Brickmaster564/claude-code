@@ -3,23 +3,43 @@
     {
       "handle": "sabrisuby",
       "name": "Sabri Suby",
-      "focus": "Direct response, ad copy, scaling"
+      "focus": "Direct response, ad copy, scaling",
+      "category": "general-marketing"
     },
     {
       "handle": "TheJeremyHaynes",
       "name": "Jeremy Haynes",
-      "focus": "Media buying, Facebook/Meta ads, agency"
+      "focus": "Media buying, Facebook/Meta ads, agency",
+      "category": "media-buying"
     },
     {
       "handle": "markbuildsbrands",
       "name": "Mark",
-      "focus": "Brand building, marketing strategy"
+      "focus": "Brand building, marketing strategy",
+      "category": "general-marketing"
     },
     {
       "handle": "IAmAlenSultanic",
       "name": "Alen Sultanic",
-      "focus": "Funnels, webinars, high-ticket"
+      "focus": "Funnels, webinars, high-ticket",
+      "category": "general-marketing"
+    },
+    {
+      "handle": "dtcprophet",
+      "name": "DTC Prophet",
+      "focus": "DTC ecommerce, Meta ad spend strategy, 8-figure brand operator",
+      "category": "media-buying"
+    },
+    {
+      "handle": "IstvanicMarin",
+      "name": "Marin Istvanic",
+      "focus": "Meta/Facebook ads, performance marketing, DTC scaling ($100M+ in Meta spend)",
+      "category": "media-buying"
     }
   ],
-  "notes": "Add new handles here. Jasper can request additions at any time. Keep focus field short - it helps filter for relevant tweets."
+  "categories": {
+    "media-buying": "Prioritised. These accounts provide hands-on media buying insights, Meta ad tactics, spend strategy, and performance learnings. Give their tweets extra weight in the briefing.",
+    "general-marketing": "Broader marketing, copywriting, and strategy insights."
+  },
+  "notes": "Add new handles here. Jasper can request additions at any time. Keep focus field short. Media buying accounts are the highest priority for the X section."
 }

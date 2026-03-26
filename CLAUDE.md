@@ -76,10 +76,10 @@ Automated guest discovery pipeline for Nalu podcast clients. Runs 5 research met
 - **Cron:** `cron-guest-pipeline.sh` Monday + Thursday 10 AM
 
 ### `/ad-creatives`
-Universal ad creative workshop for Client Network. Four modes: copy rehash, full ad creative generation, UGC AI characters, and video script rehash. Conversational and interactive. Loads vertical-specific resources and copywriting frameworks automatically.
+Universal ad creative workshop for Client Network. Five modes: copy rehash, full ad creative generation, UGC AI characters, video script rehash, and winner variant (take a winning creative and produce genuinely different variants across messaging angles, visual direction, and formats). Conversational and interactive. Loads vertical-specific resources and copywriting frameworks automatically.
 
-- **Triggers:** "create ads for...", "rehash this ad", "generate ad images", "create a UGC character", "rewrite this video script for..."
-- **Modes:** Copy-Only, Full Ad Creative, UGC AI Character, Video Script Rehash
+- **Triggers:** "create ads for...", "rehash this ad", "generate ad images", "create a UGC character", "rewrite this video script for...", "create variants of this winner"
+- **Modes:** Copy-Only, Full Ad Creative, UGC AI Character, Video Script Rehash, Winner Variant
 - **Dependencies:** `tools/higgsfield.py` (Kie.ai API), copywriter resources, vertical resources
 - **Image Gen:** Nano Banana Pro via Kie.ai (2 variants per run, 2K default)
 

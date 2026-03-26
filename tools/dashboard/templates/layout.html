@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meta Ads Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <header class="top-bar">
+        <div class="top-bar-left">
+            <select id="account-switcher" onchange="switchAccount(this.value)">
+                {% for aid, info in accounts.items() %}
+                <option value="{{ aid }}" {% if aid == current_account %}selected{% endif %}>
+                    {{ info.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="top-bar-center">
+            <button class="date-btn {% if current_days == 1 %}active live{% endif %}"
+                    onclick="switchDays(1)">LIVE</button>
+            {% for d in [3, 7, 14, 30] %}
+            <button class="date-btn {% if d == current_days %}active{% endif %}"
+                    onclick="switchDays({{ d }})">{{ d }}d</button>
+            {% endfor %}
+        </div>
+        <div class="top-bar-right">
+            <span id="last-refreshed"></span>
+            <button id="refresh-btn" class="refresh-btn" onclick="refreshData()">
+                <span class="refresh-icon">&#8635;</span> Refresh
+            </button>
+        </div>
+    </header>
+
+    <main class="content">
+        {% if data.get('error') %}
+        <div class="error-banner">
+            <strong>Error:</strong> {{ data.error }}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        const CURRENT_ACCOUNT = "{{ current_account }}";
+        const CURRENT_DAYS = {{ current_days }};
+        let dashboardData = {{ data_json|safe }};
+    </script>
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

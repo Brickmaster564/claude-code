@@ -94,3 +94,35 @@ Honestly, I feel so much lighter and in control now.
 Whatever happens my kids won't be put at risk and their mum won't be scrambling to keep things together.
 That guilt is gone. And it cost me less than my morning coffee.
 Link's below if you've been putting this off too.
+
+---
+
+## Script 8: "One Thing" (Gold IRA / Direct Address)
+
+Americans who are best with their money have all done this one thing.
+
+Most let their retirement slowly lose value as debt piles up and the dollar buys less every year.
+
+Instead of keeping everything in stocks and bonds, they move some of their retirement into physical gold.
+
+It's at all-time highs as I make this, and it has held its long-term value through all the crashes.
+
+If you have a 401k, you might qualify to move part of it into physical gold.
+
+Click below to learn how to protect what you've built with an asset no government can print more of.
+
+---
+
+## Script 9: "The Trap" (Gold IRA / Interview/Testimonial)
+
+**Interviewer:** "What's the one thing most Americans get wrong about their retirement?"
+
+**Senior:** "They think it's safe because it's in a 401k, that's the trap.
+
+The stocks, bonds, dollars you hold, it all loses value the moment the government decides to print more money. And they always do. *(laughs)*
+
+So what I did was move some of my retirement into physical gold.
+
+Think about this, Gold just hit all-time highs. It has preserved wealth through war, recessions, and currency collapses.
+
+If my fellow Americans who are serious about protecting what they've built want to learn how to do exactly what I did, click the link below."
