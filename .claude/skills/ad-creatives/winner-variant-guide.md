@@ -46,6 +46,8 @@ Break down the winner into its components:
 - **Awareness stage:** Which of Schwartz's 5 levels is this targeting?
 - **Angle and emotional driver:** What feeling does this ad tap into? (fear, relief, curiosity, urgency, social proof, aspiration, etc.)
 - **Visual elements:** Colors, layout, imagery, characters, font treatment, overall vibe
+- **Text density:** Count the exact number of text elements and total word count on the image. This is the ceiling for all variants. If the original has 20 words across 4 elements, no variant should exceed that. Fewer words is usually better.
+- **Scroll-stop mechanism:** What visual element interrupts the feed? Bold background color, striking image, geometric shape, high contrast? Every variant needs its own scroll-stop mechanism that is equally strong but visually different.
 - **What makes this ad work:** The core conversion logic that must be preserved across all variants
 
 ### Step 2: Ideate 5 Variants
@@ -67,22 +69,26 @@ Pick the 5 messaging angles that make the most sense for this specific winner. D
 | Hidden Mistake | You're already making this error | When the ICP is unknowingly hurting themselves |
 | Case Study | Real results from a real person | When proof and relatability drive conversion |
 
-Each variant is a **creative brief** with copy AND visual direction:
+Each variant is a **creative brief** with copy AND visual direction.
+
+**Critical rule: match or beat the original's text economy.** If the winner had 4 text elements and 20 words, the variant should have 3-4 elements and no more than 20 words. Not every variant needs all four copy fields below. Use only what the ad needs. A feed ad must be readable at thumbnail size on a phone. If you can't read it at 160px wide, there's too much text.
 
 ```
 ### VARIANT [N]: [ANGLE NAME]
 **Awareness stage:** [level]
 **Angle:** [emotional driver and why it fits as a variant of the original]
+**Text density:** [N elements, ~N words -- must be at or below the original's count]
 
-**IN-AD COPY:**
+**IN-AD COPY (use only the elements the ad needs):**
 - Headline: [2-4 words per line, max 2 lines]
-- Subhead: [1-2 sentences]
-- Value prop: [key benefit or proof point, formatted for visual element]
-- CTA: [button text]
+- Supporting line: [one short sentence max, omit if not needed]
+- Value prop / mechanism: [one line, formatted for visual element like a badge or pill]
+- CTA: [button text, 2-4 words]
 
 **VISUAL DIRECTION:**
+- Scroll-stop: [what bold visual element interrupts the feed? Strong background color, striking shape, high contrast, image]
 - Color palette: [specific shift from original, e.g. "warm gold/navy instead of pink/white"]
-- Layout: [what changes in structure/placement]
+- Layout: [what changes in structure/placement, including geometric elements or shapes]
 - Imagery/Characters: [new subject, setting, objects, or character description]
 - Font treatment: [any changes to type style or hierarchy]
 
@@ -97,8 +103,8 @@ User picks favorites and gives feedback: tweak a headline, change a color, adjus
 ### Step 4: Generate the Creative
 
 On approval:
-1. Read `prompt-guide.md` for Nano Banana Pro prompting rules
-2. Build the image gen prompt incorporating the approved copy and visual direction
+1. Read `image-gen-methodology.md` for the full prompt construction methodology, then `prompt-guide.md` for Kie.ai-specific settings and vertical palettes
+2. Build the image gen prompt following the methodology: art-direct the image layer by layer (subject, action, environment, composition, lighting, style, color system, materials/textures, typography, output constraints). Incorporate the approved copy and visual direction from the creative brief. The prompt should read like a complete visual brief, not a keyword pile.
 3. Show the prompt to the user for confirmation
 4. On confirmation, generate: `python3 tools/higgsfield.py generate-and-wait --prompt "[PROMPT]" --aspect-ratio "[RATIO]" --resolution "2K" --n 2`
 5. Deliver image URLs in chat

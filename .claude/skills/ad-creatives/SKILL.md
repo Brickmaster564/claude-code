@@ -19,7 +19,8 @@ Five modes, auto-detected from context:
 This skill is conversational and malleable. Sessions can shift between modes fluidly. Follow the user's creative direction.
 
 For supporting references:
-- [prompt-guide.md](prompt-guide.md) -- Nano Banana Pro prompting for designed ads
+- [image-gen-methodology.md](image-gen-methodology.md) -- Master image gen prompt methodology (structure, composition, lighting, typography, color systems)
+- [prompt-guide.md](prompt-guide.md) -- Nano Banana Pro / Kie.ai specific settings, vertical palettes, aspect ratios
 - [ugc-prompt-template.md](ugc-prompt-template.md) -- UGC character prompt template
 - [video-rehash-guide.md](video-rehash-guide.md) -- Video script rehash process
 - [winning-scripts.md](winning-scripts.md) -- Quality benchmark scripts
@@ -140,8 +141,8 @@ Interactive workshop. Analyze, suggest, iterate, generate on approval.
 5. **Workshop loop:** Present suggestions, get user feedback, refine. Iterate until the user says "approved" or "go ahead" or similar.
 
 6. **On approval:**
-   - Read [prompt-guide.md](prompt-guide.md)
-   - Build a comprehensive Nano Banana Pro prompt following the template structure
+   - Read [image-gen-methodology.md](image-gen-methodology.md) and [prompt-guide.md](prompt-guide.md)
+   - Build a comprehensive prompt following the image gen methodology (art-direct the image, don't keyword-pile) and the Kie.ai template structure
    - Show the prompt to the user for confirmation
    - On confirmation, run: `python3 tools/higgsfield.py generate-and-wait --prompt "[PROMPT]" --aspect-ratio "[RATIO]" --resolution "2K" --n 2`
    - Deliver the image URLs in chat
@@ -311,6 +312,7 @@ Default resolution: **2K**. Use 4K only for hero images or large display.
 - Default: n=2 (two variants per generation)
 - Polling: tool handles polling automatically, returns image URLs
 - Images delivered as URLs in chat
+- **Prompt quality:** Always follow [image-gen-methodology.md](image-gen-methodology.md) when building prompts. Art-direct the image with specific composition, lighting, typography, color systems, and material detail. Never use loose keyword piles. The prompt should read like a clear visual brief that controls every element of the output.
 
 ### Copy Quality
 - All copy must sound like a real person, not a marketer
