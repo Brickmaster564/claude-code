@@ -7,9 +7,9 @@ disable-model-invocation: true
 
 ## What This Skill Does
 
-Researches and builds the complete foundational resource library for a new Client Network lead gen vertical. Produces 10 source-of-truth documents that match the quality, depth, and structure of existing verticals (senior care, home security).
+Researches and builds the complete foundational resource library for a new Client Network lead gen vertical. Produces 10 source-of-truth research documents plus a Final Master Doc that synthesizes everything into a single strategic reference.
 
-Output: 10 `.md` files saved locally + uploaded to Google Drive as Google Docs.
+Output: 11 `.md` files saved locally + uploaded to Google Drive as Google Docs.
 
 ## Inputs
 
@@ -54,6 +54,7 @@ Before creating ANY document, read the equivalent document from an established v
 | Copywriting Bible | `senior-care/copywriting-bible.md` | `home-security/copywriting-bible.md` |
 | Ad Copy Swipe File | `senior-care/ad-copy-swipe-file.md` | `home-security/ad-copy-swipe-file.md` |
 | Headlines Swipe File | `senior-care/headlines-swipe-file.md` | `home-security/headlines-swipe-file.md` |
+| Final Master Doc | PDF template (embedded in this skill below) | — |
 
 All template paths are relative to `resources/client-network/`.
 
@@ -388,18 +389,116 @@ Present to Jasper:
 
 ---
 
+## Phase 4: Final Master Doc
+
+After Phase 3 is approved, synthesize ALL research from every previous document (Steps 1-10) into a single Final Master Doc. This is the definitive strategic reference for the vertical, designed to give any LLM or human operator a complete picture of the market, the consumer, the competitive landscape, and exactly how to write for this niche.
+
+### Step 11: Final Master Doc
+
+**Template structure** (follow this 8-section format exactly):
+
+#### 1. Target Market Demographic Overview
+
+Pull from: Niche Overview (Step 1), Avatar (Step 6), PPL Playbook (Step 2)
+
+- **Primary Awareness Levels:** Define B2C and B2B awareness stages separately (Problem-Aware, Solution-Aware, Product-Aware, Most Aware)
+- **B2C Demographic Profile:** Age, gender, location, income/revenue range, credit range (if applicable), role/title, and any other vertical-specific qualifiers
+- **Key Avatars:** 2-4 distinct buyer personas with names (e.g., "The Established Expander"), each with 4-5 bullet points covering their situation, motivations, and lead tier classification (Goldmine, High Volume, Lower Tier)
+
+#### 2. Target Market Psychographic Overview
+
+Pull from: VOC (Step 7), Avatar (Step 6), Competitor Funnel Audit (Step 5)
+
+- **Problems & Pain Points (Direct Market Language):** 8-12 verbatim consumer quotes sourced from forums, Reddit, reviews, social media. These must be real language, not paraphrased.
+- **Hopes, Dreams & Ideal Future State:** 4-6 verbatim quotes capturing the consumer's aspirational outcome
+- **Core Desired Outcome:** 4-5 emotional keywords (e.g., breathing room, control, security, respect)
+- **Self-Image:** How they see themselves (4-5 identity statements)
+- **Language to Use:** 8-12 approved phrases/terms that resonate with this audience
+- **Language to Avoid:** 6-8 terms that will trigger negative reactions or break trust
+
+#### 3. Biggest Objections & How to Address Them
+
+Pull from: VOC (Step 7), Copywriting Bible (Step 8)
+
+For each major objection (aim for 4-6):
+- **Objection:** in the consumer's own words (quoted)
+- **Address:** 3-4 bullet points with the specific counter-positioning, proof points, or narrative reframe that neutralizes the objection
+
+These must come directly from the VOC objections section and the copywriting bible's objection-handling copy blocks.
+
+#### 4. Existing Solutions & Why They're Failing
+
+Pull from: Competitors (Step 3), Competitor Funnel Audit (Step 5), Niche Overview (Step 1)
+
+Categorize the existing solutions available to the consumer (e.g., Traditional Banks, Aggregators, Data Providers, Direct Competitors). For each category:
+- Name the model and key players
+- List the consumer complaints and failure points using verbatim language where possible
+- Identify the specific gap our positioning exploits
+
+This section builds the case for why our approach is different and better. It directly feeds the messaging angles in sections 5 and 6.
+
+#### 5. Key Messaging & Emotional Triggers
+
+Pull from: VOC (Step 7), Avatar (Step 6), Copywriting Bible (Step 8), Ad Copy Swipe File (Step 9)
+
+- **Emotional Drivers:** Numbered list of 5-7 core emotional triggers (e.g., Protective Pride, Fear of Rejection, Need for Speed)
+- **Core Angles to Lean Into:** 3-5 strategic messaging positions, each with:
+  - A short name (e.g., "The Anti-Aggregator Position")
+  - A one-line example of how it sounds in copy (quoted)
+
+These angles should be the strongest, most differentiated positions discovered across all research, not generic benefits.
+
+#### 6. Dominant Belief Chains
+
+Pull from: VOC (Step 7), Avatar (Step 6), Copywriting Bible (Step 8)
+
+3-4 belief chains, each structured as:
+- **Surface:** The thing the consumer says out loud
+- **Deeper:** The underlying belief driving the surface complaint
+- **Emotion:** The core feeling attached to the deeper belief
+- **Opportunity:** The positioning angle that turns this belief chain into a conversion
+
+These are the psychological leverage points for the entire vertical's messaging strategy.
+
+#### 7. Compliance & Trust Guardrails
+
+Pull from: Niche Overview (Step 1), PPL Playbook (Step 2)
+
+Bullet list of 4-6 hard compliance rules for this vertical. These are non-negotiable guardrails that every piece of copy, every landing page, and every ad must respect. Examples: TCPA consent requirements, prohibited claims, required disclosures, restricted categories on ad platforms.
+
+#### 8. Strategic Summary for LLM Copywriting
+
+This is the operational instruction set. When any LLM (or human copywriter) needs to write for this vertical, this section tells them exactly how.
+
+Structure as a numbered list of 5-7 rules, formatted as:
+1. **Bold the strategic directive**, then explain it.
+2. Include 3-5 verbatim consumer phrases to always have in rotation (quoted, sourced from VOC)
+
+This section should be dense, actionable, and written so that loading just this section into context would produce on-brand, on-strategy copy for the vertical.
+
+**Rules for the Final Master Doc:**
+- Every data point, quote, and insight must be traceable to one of the 10 research documents. No generic filler.
+- Verbatim consumer language takes priority over paraphrasing everywhere it appears.
+- No em dashes. No staccato fragments.
+- This document should be self-contained: someone reading only this doc should understand the entire vertical well enough to write copy, build funnels, and pitch lead buyers.
+- Keep it concise and scannable. Use bullet points and structured formatting, not long paragraphs.
+
+**Save as:** `resources/client-network/{vertical}/{vertical}-final-master-doc.md`
+
+---
+
 ## After All Phases Complete
 
 ### Upload to Google Drive
 
-Upload all completed documents to `Lead Gen Brands / {Vertical} / Foundational Docs /` on Client Network's Google Drive as Google Docs.
+Upload all 11 documents (10 research docs + Final Master Doc) to `Lead Gen Brands / {Vertical} / Foundational Docs /` on Client Network's Google Drive as Google Docs.
 
 ### Final Summary
 
 Present a complete summary:
-- All documents created (with local file paths)
+- All 11 documents created (with local file paths)
 - Google Drive folder link
-- Key strategic insights about the vertical
+- Key strategic insights about the vertical (pulled from the Final Master Doc's strategic summary)
 - Recommended next steps (e.g., "Start prospecting in Apollo", "Test these 3 ad angles first")
 
 ---

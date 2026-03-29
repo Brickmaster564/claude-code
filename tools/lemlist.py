@@ -58,10 +58,12 @@ def api_request(api_key, method, endpoint, data=None):
         return {"error": str(e)}
 
 
-def add_lead(api_key, campaign_id, email, first_name=None, last_name=None,
+def add_lead(api_key, campaign_id, email=None, first_name=None, last_name=None,
              company=None, title=None, linkedin=None):
     """Add a single lead to a Lemlist campaign."""
-    payload = {"email": email}
+    payload = {}
+    if email:
+        payload["email"] = email
     if first_name:
         payload["firstName"] = first_name
     if last_name:
@@ -136,7 +138,7 @@ def main():
     # add-lead
     add_cmd = subparsers.add_parser("add-lead", help="Add a lead to a campaign")
     add_cmd.add_argument("--campaign-id", required=True, help="Lemlist campaign ID")
-    add_cmd.add_argument("--email", required=True, help="Lead email")
+    add_cmd.add_argument("--email", required=False, default=None, help="Lead email (optional for LinkedIn-only leads)")
     add_cmd.add_argument("--first-name", help="First name")
     add_cmd.add_argument("--last-name", help="Last name")
     add_cmd.add_argument("--company", help="Company name")
