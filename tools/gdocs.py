@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Google Docs tool for duplicating and updating documents.
+Google Docs tool for duplicating, creating, and updating documents.
 
 Usage:
     python3 tools/gdocs.py --account nalu duplicate --template-id "DOC_ID" --title "New Doc Title"
@@ -8,6 +8,9 @@ Usage:
     python3 tools/gdocs.py --account nalu replace --doc-id "DOC_ID" --placeholder "{{KEY}}" --value "replacement text"
     python3 tools/gdocs.py --account nalu batch-replace --doc-id "DOC_ID" --replacements '{"{{KEY1}}":"val1","{{KEY2}}":"val2"}'
     python3 tools/gdocs.py --account nalu share --doc-id "DOC_ID" --email "user@example.com" --role "reader"
+    python3 tools/gdocs.py --account nalu list-folder --folder-id "FOLDER_ID"
+    python3 tools/gdocs.py --account nalu search-folder --parent-id "PARENT_ID" --name "folder name"
+    python3 tools/gdocs.py --account nalu create-doc --title "Doc Title" --folder-id "FOLDER_ID"
 
 Accounts: cn (hello@clientnetwork.io, default), nalu (hello@nalupodcasts.com).
 """
@@ -198,6 +201,53 @@ def share_doc(doc_id, email, role="reader"):
     return api_request_with_refresh("POST", url, body)
 
 
+def list_folder(folder_id):
+    """List all files and subfolders in a Drive folder."""
+    url = (
+        f"https://www.googleapis.com/drive/v3/files"
+        f"?q='{folder_id}'+in+parents+and+trashed=false"
+        f"&fields=files(id,name,mimeType)"
+        f"&pageSize=100"
+    )
+    result = api_request_with_refresh("GET", url)
+    if isinstance(result, dict) and "error" in result:
+        return result
+    files = result.get("files", [])
+    return {"files": sorted(files, key=lambda f: f["name"])}
+
+
+def search_folder(parent_id, name):
+    """Search for a folder by name (case-insensitive contains) under a parent."""
+    import urllib.parse
+    escaped = name.replace("'", "\\'")
+    q = f"'{parent_id}' in parents and mimeType='application/vnd.google-apps.folder' and name contains '{escaped}' and trashed=false"
+    url = (
+        f"https://www.googleapis.com/drive/v3/files"
+        f"?q={urllib.parse.quote(q, safe='')}"
+        f"&fields=files(id,name)"
+        f"&pageSize=20"
+    )
+    result = api_request_with_refresh("GET", url)
+    if isinstance(result, dict) and "error" in result:
+        return result
+    return {"files": result.get("files", [])}
+
+
+def create_doc(title, folder_id=None):
+    """Create a new blank Google Doc, optionally in a specific folder."""
+    url = "https://www.googleapis.com/drive/v3/files"
+    body = {
+        "name": title,
+        "mimeType": "application/vnd.google-apps.document"
+    }
+    if folder_id:
+        body["parents"] = [folder_id]
+    result = api_request_with_refresh("POST", url, body)
+    if isinstance(result, dict) and "id" in result:
+        result["url"] = f"https://docs.google.com/document/d/{result['id']}/edit"
+    return result
+
+
 def move_doc(doc_id, dest_folder_id):
     """Move a document to a different Drive folder."""
     # First get current parents
@@ -252,6 +302,20 @@ def main():
     share_cmd.add_argument("--role", default="reader", choices=["reader", "writer", "commenter"],
                            help="Permission role (default: reader)")
 
+    # list-folder
+    lf_cmd = subparsers.add_parser("list-folder", help="List files and subfolders in a Drive folder")
+    lf_cmd.add_argument("--folder-id", required=True, help="Drive folder ID")
+
+    # search-folder
+    sf_cmd = subparsers.add_parser("search-folder", help="Search for a subfolder by name")
+    sf_cmd.add_argument("--parent-id", required=True, help="Parent folder ID to search within")
+    sf_cmd.add_argument("--name", required=True, help="Folder name to search for (case-insensitive contains)")
+
+    # create-doc
+    cd_cmd = subparsers.add_parser("create-doc", help="Create a new blank Google Doc")
+    cd_cmd.add_argument("--title", required=True, help="Document title")
+    cd_cmd.add_argument("--folder-id", help="Optional Drive folder ID to create the doc in")
+
     # move
     move_cmd = subparsers.add_parser("move", help="Move document to a folder")
     move_cmd.add_argument("--doc-id", required=True, help="Google Doc ID")
@@ -279,6 +343,15 @@ def main():
         print(json.dumps(result, indent=2))
     elif args.command == "share":
         result = share_doc(args.doc_id, args.email, args.role)
+        print(json.dumps(result, indent=2))
+    elif args.command == "list-folder":
+        result = list_folder(args.folder_id)
+        print(json.dumps(result, indent=2))
+    elif args.command == "search-folder":
+        result = search_folder(args.parent_id, args.name)
+        print(json.dumps(result, indent=2))
+    elif args.command == "create-doc":
+        result = create_doc(args.title, args.folder_id)
         print(json.dumps(result, indent=2))
     elif args.command == "move":
         result = move_doc(args.doc_id, args.folder_id)

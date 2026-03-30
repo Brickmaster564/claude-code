@@ -231,6 +231,90 @@
       }
     },
 
+    "hym": {
+      "name": "Hack You",
+      "host": "Hack You Media",
+      "guest_criteria_file": "guest-criteria-hym.md",
+      "airtable_base_id": "apptwbxnUum6b0fv4",
+      "airtable_table_id": "tblDgQFIg9c02D4SH",
+      "airtable_fields": {
+        "name": "fldjKSFItOBinePZi",
+        "status": "fldnF236htySErV2o",
+        "location": "fld0OYHJBhkJmry5P",
+        "profile": "fldk2K96B7Vc6mPrH",
+        "rationale": "flduTkP4cv94Np9xC",
+        "shortlisted": "fld1FMFHzCSBpiejz",
+        "hy": "fldCxjPH9f58ll7kH"
+      },
+      "airtable_defaults": {
+        "status": "For Review",
+        "hy": "HY"
+      },
+      "default_location": "General / Remote",
+      "target_per_run": 30,
+      "min_followers": 50000,
+      "priority_locations": ["US", "UK", "Dubai", "Australia"],
+      "seed_sample_size": 10,
+
+      "competitor_podcasts": [
+        {"name": "The Model Health Show", "apple_url": "https://podcasts.apple.com/us/podcast/the-model-health-show/id640246578"},
+        {"name": "Found My Fitness", "apple_url": "https://podcasts.apple.com/us/podcast/foundmyfitness/id818198322"},
+        {"name": "The Drive with Peter Attia", "apple_url": "https://podcasts.apple.com/us/podcast/the-peter-attia-drive/id1400828889"},
+        {"name": "Ben Greenfield Life", "apple_url": "https://podcasts.apple.com/us/podcast/ben-greenfield-life/id283908447"},
+        {"name": "The Genius Life", "apple_url": "https://podcasts.apple.com/us/podcast/the-genius-life/id1460867050"},
+        {"name": "ZOE Science & Nutrition", "apple_url": "https://podcasts.apple.com/us/podcast/zoe-science-nutrition/id1633889670"}
+      ],
+
+      "exclude_types": [
+        "generic dietitian",
+        "conventional clinical practitioner without online presence",
+        "wellness influencer without credentials",
+        "academic who cannot communicate",
+        "health MLM promoter",
+        "celebrity fitness dabbler",
+        "crystal healer or pseudoscience promoter"
+      ],
+
+      "diversity_categories": {
+        "nutrition_metabolism": {
+          "quota_min": 5,
+          "search_terms": ["nutrition researcher podcast", "sports nutrition scientist", "metabolic health doctor", "evidence-based nutrition expert", "clinical nutritionist influencer", "keto science researcher"]
+        },
+        "longevity_antiaging": {
+          "quota_min": 4,
+          "search_terms": ["longevity researcher", "anti-aging scientist", "healthspan doctor", "cellular aging researcher", "blue zones expert", "longevity biohacker"]
+        },
+        "functional_integrative": {
+          "quota_min": 4,
+          "search_terms": ["functional medicine doctor podcast", "integrative medicine practitioner", "root cause medicine doctor", "holistic doctor social media", "functional health influencer"]
+        },
+        "exercise_science": {
+          "quota_min": 4,
+          "search_terms": ["exercise science PhD", "hypertrophy researcher", "strength science expert", "exercise physiology professor social media", "sports science YouTuber", "muscle science podcast"]
+        },
+        "biohacking_optimization": {
+          "quota_min": 3,
+          "search_terms": ["biohacker influencer", "health optimization expert", "wearable technology health founder", "quantified self expert", "performance optimization doctor"]
+        },
+        "gut_health": {
+          "quota_min": 3,
+          "search_terms": ["gut health doctor podcast", "microbiome researcher", "digestive health expert social media", "gut brain connection doctor", "fermentation health expert"]
+        },
+        "brain_sleep_mental": {
+          "quota_min": 3,
+          "search_terms": ["neuroscientist podcast guest", "sleep researcher social media", "brain health doctor", "neuroplasticity expert", "mental health doctor influencer"]
+        },
+        "hormone_health": {
+          "quota_min": 2,
+          "search_terms": ["hormone optimization doctor", "endocrinologist social media", "testosterone expert", "women's hormone health doctor", "metabolic endocrinology influencer"]
+        },
+        "physique_strength_crossover": {
+          "quota_min": 2,
+          "search_terms": ["elite strongman podcast", "bodybuilder scientist", "physique competitor health expert", "strength athlete health advocate"]
+        }
+      }
+    },
+
     "btm": {
       "name": "Build to Matter",
       "host": "Ayax Bader",

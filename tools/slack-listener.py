@@ -17,9 +17,12 @@ Spawned tasks are fully detached and survive listener restarts.
 import json
 import os
 import re
+import signal
 import subprocess
 import sys
 import logging
+import threading
+import time
 import urllib.request
 from datetime import datetime
 from pathlib import Path
@@ -66,17 +69,103 @@ if not APP_TOKEN or not APP_TOKEN.startswith("xapp-"):
 GUEST_PIPELINE_CHANNEL = "C089HSD8US1"  # #guest-research-and-comms
 NALU_HUB_CHANNEL = "C08P14TTBA7"  # #nalu-hub
 
+# Max time a spawned skill can run before being considered stuck (30 minutes)
+SKILL_TIMEOUT_SECS = 30 * 60
+
 app = App(token=BOT_TOKEN)
+
+# Track last message received for WebSocket health monitoring
+_last_event_time = time.time()
+
+
+def _reap_and_watchdog():
+    """Daemon thread: reap zombies, clean stale PIDs, and monitor WebSocket health.
+
+    Runs every 60 seconds. If no Slack event has been received in 15 minutes,
+    assumes the WebSocket is dead and force-exits so launchd can restart us.
+    """
+    # WebSocket silence threshold: 15 minutes with zero events means dead socket.
+    # Slack sends internal events (hello, ping) frequently, so 15 min of true
+    # silence is a reliable indicator of a broken connection.
+    WS_SILENCE_THRESHOLD = 15 * 60
+
+    while True:
+        try:
+            # 1. Reap zombie children
+            while True:
+                try:
+                    pid, status = os.waitpid(-1, os.WNOHANG)
+                    if pid == 0:
+                        break
+                    log.info(f"Reaped child PID {pid} (status {status})")
+                except ChildProcessError:
+                    break
+
+            # 2. Clean stale PID files older than SKILL_TIMEOUT_SECS
+            for pidfile in PIDFILE_DIR.glob("*.pid"):
+                try:
+                    age = time.time() - pidfile.stat().st_mtime
+                    if age > SKILL_TIMEOUT_SECS:
+                        pid = int(pidfile.read_text().strip())
+                        skill = pidfile.stem
+                        log.warning(
+                            f"{skill} PID {pid} has been running for {int(age)}s "
+                            f"(>{SKILL_TIMEOUT_SECS}s), killing and clearing"
+                        )
+                        try:
+                            os.killpg(os.getpgid(pid), signal.SIGTERM)
+                        except (OSError, ProcessLookupError):
+                            pass
+                        pidfile.unlink(missing_ok=True)
+                except Exception as e:
+                    log.error(f"Error cleaning PID file {pidfile}: {e}")
+
+            # 3. WebSocket health check
+            silence = time.time() - _last_event_time
+            if silence > WS_SILENCE_THRESHOLD:
+                log.error(
+                    f"No Slack events received for {int(silence)}s "
+                    f"(>{WS_SILENCE_THRESHOLD}s). WebSocket likely dead. "
+                    f"Exiting so launchd can restart."
+                )
+                os._exit(1)
+
+        except Exception as e:
+            log.error(f"Reaper/watchdog thread error: {e}")
+
+        time.sleep(60)
+
+
+# Start the reaper as a daemon thread
+_watchdog_thread = threading.Thread(target=_reap_and_watchdog, daemon=True)
+_watchdog_thread.start()
 
 
 def _is_skill_active(skill_name):
-    """Check if a skill is already running via PID file (survives listener restarts)."""
+    """Check if a skill is already running via PID file (survives listener restarts).
+
+    Detects zombie processes (state Z/defunct) as inactive, since they represent
+    finished processes whose parent hasn't reaped them yet.
+    """
     pidfile = PIDFILE_DIR / f"{skill_name}.pid"
     if not pidfile.exists():
         return False
     try:
         pid = int(pidfile.read_text().strip())
         os.kill(pid, 0)
+        # Process exists, but check if it's a zombie
+        try:
+            result = subprocess.run(
+                ["ps", "-p", str(pid), "-o", "state="],
+                capture_output=True, text=True, timeout=5,
+            )
+            state = result.stdout.strip()
+            if state.startswith("Z"):
+                log.warning(f"{skill_name} PID {pid} is a zombie, clearing")
+                pidfile.unlink(missing_ok=True)
+                return False
+        except Exception:
+            pass
         return True
     except (OSError, ValueError):
         pidfile.unlink(missing_ok=True)
@@ -167,6 +256,16 @@ def extract_email_id(text):
 
 @app.event("message")
 def handle_message(event, say):
+    try:
+        _handle_message_inner(event, say)
+    except Exception as e:
+        log.error(f"Unhandled error in message handler: {e}", exc_info=True)
+
+
+def _handle_message_inner(event, say):
+    global _last_event_time
+    _last_event_time = time.time()
+
     if event.get("bot_id") or event.get("subtype"):
         return
 

@@ -3,12 +3,10 @@
 ## What Gets Kept (Pattern from 2026-03-08 run)
 
 The FTT audience (men 18-30) responds to guests who are:
-- **Psychology experts who help men directly:** Jonathan Haidt, Joe Navarro, William Costello, Jordan Peterson. These people offer frameworks young men can USE.
-- **High-performance coaches with elite clients:** Michael Gervais (Seahawks, Olympics). Not generic motivational speakers.
+- **Practical psychology experts who help men directly:** Joe Navarro (body language), Michael Gervais (performance psych for athletes). NOT academic psychologists like Jonathan Haidt or William Costello, who were later cut as too academic for the audience.
 - **Authors with science-backed discomfort/resilience frameworks:** Michael Easter (The Comfort Crisis).
 - **Health experts connected to physical performance:** Louisa Nicola (neurophysiology + athletics). Not pure longevity/biohacking researchers.
 - **Compelling life stories with substance:** Ben Mallah (poverty to $250M), Alex Honnold (free solo), Paul Rosolie (Amazon explorer). Extreme stories that inspire action.
-- **Massive thought leaders the audience already knows:** Jordan Peterson (9.3M IG).
 
 ## Hard Rules
 

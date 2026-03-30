@@ -7,6 +7,23 @@ Universal workspace for Client Network, Nalu, and personal automation. Combines 
 - **NEVER use em dashes (—).** Use colons, commas, periods, or restructure the sentence. Applies to all output without exception.
 - **NEVER write staccato sentence fragments.** No short punchy sentences under 5 words, especially in sequence (e.g. "That ends." / "Simple. Clean. Done." / "Post consistently. See what works."). Combine them into proper sentences. Applies to all output without exception.
 
+## Quick Start
+
+```bash
+# Run any tool
+python3 tools/<tool>.py --help
+
+# Common invocations
+python3 tools/gmail.py send --to "email" --subject "subject" --body "body"
+python3 tools/slack.py send --channel "CHANNEL_ID" --text "message"
+python3 tools/instantly.py list-leads --campaign "CAMPAIGN_ID"
+python3 tools/apify.py scrape-instagram-related --handles "handle1,handle2"
+python3 tools/meta_ads.py --help
+python3 tools/higgsfield.py --help
+```
+
+**Environment:** Python 3. Credentials in `config/api-keys.json` (gitignored). OAuth tokens in `config/google-token*.json`.
+
 ## Project Structure
 
 ```
@@ -22,88 +39,40 @@ tools/                — Python scripts for deterministic workflow execution
 .tmp/                 — Temporary processing files (gitignored, regenerable)
 ```
 
-## Available Skills
+## Skills
 
-### `/skills-builder`
-Build, optimize, or audit Claude Code skills following official best practices.
+| Skill | Purpose | Triggers |
+|-------|---------|----------|
+| `/skills-builder` | Build, optimize, or audit Claude Code skills | "build a skill", "optimize skill" |
+| `/copywriter` | Research-gated copy for CN verticals and Nalu | "write copy for...", "draft headlines for..." |
+| `/yt-packaging` | Extract high-ceiling concepts + YouTube titles from transcripts | "package this episode", "YouTube titles from transcript" |
+| `/niche-setup` | Build foundational resource library for new CN vertical | "set up a new niche", "niche setup [vertical]" |
+| `/morning-coffee` | Daily intel briefing (copywriting, AI, X, BHW) | "run morning coffee", "daily briefing" |
+| `/bhw-intel` | BlackHatWorld Meta bulletproofing scan | "run bhw intel", "meta underground" |
+| `/youtube-transcript` | Download YouTube video transcripts | YouTube URL provided |
+| `/guest-pipeline` | Automated guest discovery for Nalu podcast clients | "find podcast guests", "run guest pipeline" |
+| `/ad-creatives` | Ad creative workshop (5 modes) for CN | "create ads for...", "rehash this ad" |
+| `/media-buyer` | Meta Ads co-pilot (reports, operations, optimization) | "check ad performance", "media buyer report" |
+| `/outreach-retarget` | Weekly Instantly completed-sequence retargeting scan | "run outreach retarget" |
 
-### `/copywriter`
-Research-gated copywriter for Client Network (lead gen verticals) and Nalu (podcast agency). Produces channel-specific, framework-driven copy backed by VOC data, offer architecture, and awareness mapping.
+Each skill has full docs in `.claude/skills/<name>/SKILL.md`, loaded automatically on invocation.
 
-- **Triggers:** "write copy for...", "create an ad for...", "draft headlines for..."
-- **Resources:** `resources/client-network/{vertical}/`, `resources/nalu/`, `resources/general/`
+## Workflows
 
-### `/yt-packaging`
-Analyzes a podcast transcript to extract 3-5 high-ceiling concepts (with micro sub-themes and verbatim quotes), ranks them by click potential, and generates 5-10 YouTube title options based on proven conventions. Built for Nalu client episodes.
+| Workflow | Purpose | Trigger |
+|----------|---------|---------|
+| Prospector (`workflows/prospector.md`) | Apollo > email verify > Instantly pipeline for CN leads | "run prospector", "prospect [vertical]" |
+| Lead Replenish (`workflows/lead-replenish-outbound.md`) | Replenish completed Instantly leads via Apollo + route LinkedIn posters to Lemlist | "lead replenish [vertical]" |
 
-- **Triggers:** "package this episode", "find high-ceiling concepts", "create YouTube titles from transcript"
-- **Resources:** `resources/nalu/yt-headlines-swipe-file.md`, `resources/general/copywriting-resources/headline-performers.md`, `resources/general/copywriting-resources/headlines-swipe-file-dna.md`
-
-### `/niche-setup`
-Researches and builds the complete foundational resource library for a new Client Network lead gen vertical. Produces 10 source-of-truth documents matching the quality and structure of existing verticals, then uploads to Google Drive.
-
-- **Triggers:** "set up a new niche", "build resources for [vertical]", "research [vertical] for lead gen", "niche setup [vertical]"
-- **Phases:** Market Research > Audience & Competitor Deep Dive > Synthesis (review between each)
-- **Outputs:** `resources/client-network/{vertical}/` (local) + Google Drive `Lead Gen Brands/{Vertical}/Foundational Docs/` (Google Docs)
-- **Dependencies:** WebSearch, WebFetch, Sabri Suby resources, existing vertical templates, Google Drive API
-
-### `/morning-coffee`
-Daily intelligence briefing covering copywriting wisdom, AI news, X/Twitter insights from tracked marketers, and BlackHatWorld gems. Runs as a 7:45 AM cron job or manually.
-
-- **Triggers:** "run morning coffee", "daily briefing", "morning intel"
-- **Outputs:** Email (hello@clientnetwork.io → Jasperkilic10@gmail.com) + `output/morning-coffee/YYYY-MM-DD.md`
-- **Dependencies:** WebSearch, WebFetch, Apify (X scraper), `tools/gmail.py`
-- **Cron:** `cron-morning-coffee.sh` at 7:45 AM daily
-
-### `/bhw-intel`
-Scans BlackHatWorld's Facebook and paid advertising subforums for Meta bulletproofing tactics and ad performance insights. Tuned to Jasper's setup (aged US accounts, AdsPower profiles, BM sharing).
-
-- **Triggers:** "run bhw intel", "black hat world scan", "meta underground"
-- **Outputs:** Email (hello@clientnetwork.io → Jasperkilic10@gmail.com) + `output/bhw-intel/YYYY-MM-DD.md`
-- **Dependencies:** WebSearch, WebFetch, `tools/gmail.py`
-- **Cron:** `cron-bhw-intel.sh` Mon / Thu / Sun 9 AM
-
-### `/youtube-transcript`
-Download transcripts from YouTube videos.
-
-### `/guest-pipeline`
-Automated guest discovery pipeline for Nalu podcast clients. Runs 5 research methods (competitor podcast scraping, seed-based lookalikes, Instagram discovery, listicle mining, book/media trending), deduplicates against Airtable, enforces diversity quotas, and writes 30 qualified candidates per run.
-
-- **Triggers:** "find new podcast guests", "run guest pipeline", "guest research for [client]", "refresh guest list"
-- **Clients:** FTT (Mike Thurston), Scale to Win (Dominic Munkhouse), Jeremy Harbour
-- **Outputs:** Records in client's Airtable guest tracker + Slack summary to #nalu-hub + `output/guest-pipeline/YYYY-MM-DD.json`
-- **Dependencies:** WebSearch, WebFetch, Apify (Instagram), Airtable MCP, `tools/apify.py`, `tools/slack.py`
-- **Cron:** `cron-guest-pipeline.sh` Monday + Thursday 10 AM
-
-### `/ad-creatives`
-Universal ad creative workshop for Client Network. Five modes: copy rehash, full ad creative generation, UGC AI characters, video script rehash, and winner variant (take a winning creative and produce genuinely different variants across messaging angles, visual direction, and formats). Conversational and interactive. Loads vertical-specific resources and copywriting frameworks automatically.
-
-- **Triggers:** "create ads for...", "rehash this ad", "generate ad images", "create a UGC character", "rewrite this video script for...", "create variants of this winner"
-- **Modes:** Copy-Only, Full Ad Creative, UGC AI Character, Video Script Rehash, Winner Variant
-- **Dependencies:** `tools/higgsfield.py` (Kie.ai API), copywriter resources, vertical resources
-- **Image Gen:** Nano Banana Pro via Kie.ai (2 variants per run, 2K default)
-
----
-
-## Paid Advertising — Client Network Context
-
-### `/media-buyer`
-Meta Ads media buyer co-pilot. Three pillars: daily performance reports (PDF via email), campaign operations (create/upload), and optimization recommendations. Connected to the Meta Marketing API for live data.
-
-- **Triggers:** "check ad performance", "daily ad report", "create a Meta campaign", "upload creatives", "media buyer report", "optimize ad spend"
-- **Account:** Pass any Meta ad account ID. Credentials in `config/api-keys.json` as `meta_access_token`.
-- **Outputs:** PDF report emailed + saved to `output/media-buyer/YYYY-MM-DD.pdf`
-- **Dependencies:** `tools/meta_ads.py`, `tools/meta_report.py`, `tools/gmail.py` (with attachment support)
-- **Setup:** See `.claude/skills/media-buyer/meta-api-setup.md` for Meta API credential setup
+## Paid Advertising — Client Network
 
 ### Business Model
-Client Network is a **PPL (pay-per-lead) lead generation** business. All ads drive prospects into a quiz/landing funnel that qualifies and phone-verifies them before delivering to insurance agents or brokers.
+PPL (pay-per-lead) lead generation. Ads drive prospects into quiz/landing funnel with OTP phone verification, then real-time delivery to insurance agents/brokers.
 
-- **Primary KPIs:** CPL (cost per lead), qualified lead rate, contact rate. NOT ROAS.
-- **Funnel:** Ad > Quiz/landing page > OTP phone verification > real-time delivery to buyer
+- **Primary KPIs:** CPL, qualified lead rate, contact rate (NOT ROAS)
 - **Primary platform:** Meta (Facebook + Instagram)
 
-### Verticals & Resources
+### Verticals
 
 | Vertical | Resource Path | Compliance |
 |---|---|---|
@@ -119,66 +88,20 @@ Client Network is a **PPL (pay-per-lead) lead generation** business. All ads dri
 - Recovery SOP: `resources/paid-advertising/meta-recovery-sop.md`
 - Domain/pixel strategy: `resources/paid-advertising/meta-multi-vertical-domain-strategy.md`
 
-### `/outreach-retarget`
-Weekly scan of Instantly outreach campaigns for podcast clients. Finds contacts who completed the sequence without responding, matches them to Airtable guest tracker records, and updates location/status to move them into a retargeting pool.
-
-- **Triggers:** "run outreach retarget", "retarget completed guests", "check who never responded"
-- **Clients:** FTT (more clients to be added)
-- **Config:** `.claude/skills/outreach-retarget/config.json`
-- **Outputs:** Airtable updates + Slack summary to #guest-research-and-comms + `output/outreach-retarget/YYYY-MM-DD-[client].json`
-- **Dependencies:** `tools/instantly.py`, Airtable MCP, `tools/slack.py`
-- **Cron:** `cron-outreach-retarget.sh` Sunday 9 AM UK (FTT)
-
-## Available Workflows
-
-### Prospector (`workflows/prospector.md`)
-End-to-end lead generation pipeline for Client Network. Finds decision-makers in Apollo (MCP), verifies emails through MillionVerifier and BounceBan, and loads verified leads into an Instantly campaign.
-
-- **Trigger:** "find me X leads for [vertical]", "run prospector", "prospect [vertical]"
-- **Input:** lead count, vertical, Apollo list name, Instantly campaign name
-- **Tools:** `tools/millionverifier.py`, `tools/bounceban.py`, `tools/instantly.py`
-- **MCP:** Apollo (search, enrich, create contacts)
-
-### Lead Replenish Outbound (`workflows/lead-replenish-outbound.md`)
-Weekly automated pipeline that scans Instantly campaigns for completed leads, finds fresh contacts at the same companies via Apollo, verifies emails, loads them into Instantly, and routes active LinkedIn posters to Lemlist.
-
-- **Trigger:** "run lead replenish outbound for [vertical]", "replenish [vertical]", "lead replenish [vertical]"
-- **Input:** vertical name (must match a key in `config/replenisher.json`)
-- **Config:** `config/replenisher.json` (maps verticals to campaign IDs, Apollo lists, Lemlist campaigns)
-- **Tools:** `tools/instantly.py`, `tools/millionverifier.py`, `tools/bounceban.py`, `tools/apify.py`, `tools/lemlist.py`
-- **MCP:** Apollo (search, create contacts), Slack (summary notification)
-
----
-
 ## Operating Rules
 
-1. **Check for existing tools first.** Before building anything new, check `tools/`. Only create new scripts when nothing exists for the task.
-
-2. **Learn and adapt when things fail.** Read the full error, fix the script, retest, and document what changed in the workflow. If a tool uses paid API calls or credits, check with Jasper before re-running.
-
-3. **Keep workflows current.** When I find better methods, discover constraints, or hit recurring issues, update the workflow. But never create or overwrite workflows without asking unless explicitly told to.
-
-4. **Update the Tracker after every creation or significant update.** When a new skill, workflow, or automation is created (or an existing one is significantly updated), add/update a row in the [Tracker sheet](https://docs.google.com/spreadsheets/d/1bypUOLHBBG9E5X0Gxpx4tLT45pGbgIj5hEPfCSB36js) (gid=924376767). Columns: Name, Type (Skill/Workflow), Status, Description, Steps. This is mandatory, not optional. Use the Google Sheets API with `config/google-token.json` credentials to append/update rows.
-
-5. **Self-improvement loop.** Every failure makes the system stronger:
-   - Identify what broke
-   - Fix the tool
-   - Verify the fix
-   - Update the workflow
-   - Move on with a more robust system
-
-### File handling
-
-- **Deliverables** go to cloud services (Google Sheets, Docs, etc.) or `output/` where Jasper can access them directly.
-- **Intermediates** go to `.tmp/` — these are disposable and regenerable.
-- **Credentials** go in `config/api-keys.json` (for tool scripts) or `config/` (for OAuth tokens). Never store secrets anywhere else.
+1. **Check `tools/` first.** Only create new scripts when nothing exists for the task.
+2. **Learn from failures.** Fix, retest, document. If a tool uses paid API calls, check with Jasper before re-running.
+3. **Keep workflows current.** Update when methods improve or constraints emerge. Never create/overwrite without asking.
+4. **Update the Tracker** after every skill/workflow creation or significant update. [Google Sheet](https://docs.google.com/spreadsheets/d/1bypUOLHBBG9E5X0Gxpx4tLT45pGbgIj5hEPfCSB36js) (Tracker tab, gid=1439128365). Columns: Name, Type, Status, Description, Steps.
+5. **File handling:** Deliverables to cloud/`output/`. Intermediates to `.tmp/`. Credentials in `config/` only.
 
 ## Proactive Automation Thinking
 
-When working on Client Network or Nalu tasks, actively look for processes that could become workflows. Flag opportunities where:
-- A task is repeated more than twice with the same structure
-- Multiple manual steps could be chained (research → format → deliver)
-- Data moves between systems by hand (CRM, Sheets, email)
+Flag processes that could become workflows when:
+- A task repeats with the same structure
+- Multiple manual steps could be chained
+- Data moves between systems by hand
 - Jasper is doing coordination work that could be orchestrated
 
-Don't build workflows unsolicited — flag the opportunity, explain the value, and wait for the go-ahead.
+Don't build unsolicited. Flag, explain value, wait for go-ahead.

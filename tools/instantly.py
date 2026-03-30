@@ -3,6 +3,7 @@
 Instantly.ai campaign tools.
 
 Usage:
+    python3 tools/instantly.py get-campaign --campaign-id "ID"
     python3 tools/instantly.py list-campaigns --search "campaign name"
     python3 tools/instantly.py create-campaign --name "Campaign Name" --emails "sender@domain.com"
     python3 tools/instantly.py create-campaign --name "Campaign Name" --emails "sender@domain.com" --sequence-file sequence.json
@@ -202,6 +203,12 @@ def set_sequence(api_key, campaign_id, sequence_file):
         "steps_count": len(result.get("sequences", [{}])[0].get("steps", [])) if result.get("sequences") else 0,
         "updated": True,
     }
+
+
+def get_campaign(api_key, campaign_id):
+    """Get a single campaign by ID via GET /campaigns/{id}. Includes sequences."""
+    result = api_request(api_key, "GET", f"/campaigns/{campaign_id}")
+    return result
 
 
 def list_campaigns(api_key, search=None):
@@ -420,6 +427,7 @@ def get_email(api_key, email_id):
         "subject": result.get("subject", ""),
         "from_address_email": result.get("from_address_email", ""),
         "to_address_email_list": result.get("to_address_email_list", ""),
+        "cc_address_email_list": result.get("cc_address_email_list", ""),
         "body": result.get("body", {}),
         "eaccount": result.get("eaccount", ""),
         "campaign_id": result.get("campaign_id", ""),
@@ -497,7 +505,7 @@ def list_emails(api_key, email_type=None, campaign_id=None, is_unread=None,
     return {"total": len(all_emails), "emails": all_emails}
 
 
-def send_reply(api_key, reply_to_uuid, eaccount, subject, body_text, body_html=None):
+def send_reply(api_key, reply_to_uuid, eaccount, subject, body_text, body_html=None, cc=None):
     """Reply to an email via POST /emails/reply.
 
     reply_to_uuid: ID of the email being replied to
@@ -505,6 +513,7 @@ def send_reply(api_key, reply_to_uuid, eaccount, subject, body_text, body_html=N
     subject: subject line (typically "Re: ...")
     body_text: plain text body
     body_html: optional HTML body (defaults to wrapping body_text in <p> tags)
+    cc: comma-separated CC email addresses for reply-all
     """
     if not body_html:
         body_html = body_text.replace("\n", "<br>\n")
@@ -519,6 +528,11 @@ def send_reply(api_key, reply_to_uuid, eaccount, subject, body_text, body_html=N
         },
     }
 
+    if cc:
+        cc_list = [addr.strip() for addr in cc.split(",") if addr.strip()]
+        if cc_list:
+            payload["cc"] = cc_list
+
     result = api_request(api_key, "POST", "/emails/reply", data=payload)
     if "error" in result:
         return result
@@ -529,6 +543,7 @@ def send_reply(api_key, reply_to_uuid, eaccount, subject, body_text, body_html=N
         "reply_to": reply_to_uuid,
         "eaccount": eaccount,
         "subject": subject,
+        "cc": cc or "",
     }
 
 
@@ -551,6 +566,10 @@ def main():
     cc_cmd.add_argument("--no-link-tracking", action="store_true", help="Disable link tracking")
     cc_cmd.add_argument("--no-open-tracking", action="store_true", help="Disable open tracking")
     cc_cmd.add_argument("--email-gap", type=int, default=5, help="Minutes between emails (default 5)")
+
+    # get-campaign
+    gc_cmd = subparsers.add_parser("get-campaign", help="Get campaign details including sequences")
+    gc_cmd.add_argument("--campaign-id", required=True, help="Instantly campaign ID")
 
     # set-sequence
     ss_cmd = subparsers.add_parser("set-sequence", help="Set/update email sequence on a campaign")
@@ -598,6 +617,7 @@ def main():
     sr_cmd.add_argument("--subject", required=True, help="Reply subject line")
     sr_cmd.add_argument("--body", required=True, help="Plain text reply body")
     sr_cmd.add_argument("--body-html", help="Optional HTML reply body")
+    sr_cmd.add_argument("--cc", help="Comma-separated CC email addresses for reply-all")
 
     args = parser.parse_args()
     api_key = load_api_key()
@@ -614,6 +634,10 @@ def main():
             open_tracking=not args.no_open_tracking,
             email_gap=args.email_gap,
         )
+        print(json.dumps(result, indent=2))
+
+    elif args.command == "get-campaign":
+        result = get_campaign(api_key, args.campaign_id)
         print(json.dumps(result, indent=2))
 
     elif args.command == "set-sequence":
@@ -654,6 +678,7 @@ def main():
         result = send_reply(
             api_key, reply_to_uuid=args.reply_to, eaccount=args.eaccount,
             subject=args.subject, body_text=args.body, body_html=args.body_html,
+            cc=args.cc,
         )
         print(json.dumps(result, indent=2))
 

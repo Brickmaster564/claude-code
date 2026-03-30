@@ -1,6 +1,6 @@
 ---
 name: guest-pipeline
-description: Use when someone asks to run guest discovery, find new podcast guests, run the guest pipeline, source guest candidates, do guest research, or refresh guest lists for any show (FTT, Deal Junky, Scale to Win). Also use when someone asks to find guests similar to a specific person, or find the CEO/founder of specific companies. Triggers on "guest-pipeline" in Slack messages.
+description: Use when someone asks to run guest discovery, find new podcast guests, run the guest pipeline, source guest candidates, do guest research, or refresh guest lists for any show (FTT, Deal Junky, Scale to Win, Hack You). Also use when someone asks to find guests similar to a specific person, or find the CEO/founder of specific companies. Triggers on "guest-pipeline" in Slack messages.
 argument-hint: show name, count, and optional seed person or companies
 ---
 
@@ -16,7 +16,13 @@ Three modes:
 
 Parse the `` to determine which mode to run. Requests can come from `/guest-pipeline`, natural language, or Slack messages from Jasper or Scott.
 
-**Required info for targeted/reactive requests:** The request MUST specify the show (`ftt`, `jh`, or `stw`) and the count. If a seed person is given, run similar-to mode. If companies are given (STW only), run company lookup. If neither, ask for clarification.
+**Required info for targeted/reactive requests:** The request MUST specify the show and the count. If a seed person is given, run similar-to mode. If companies are given (STW only), run company lookup. If neither, ask for clarification.
+
+**Show name aliases:** Map these to config keys before proceeding:
+- `ftt`: "FTT", "First Things THRST", "THRST", "Mike Thurston", "Mike's show"
+- `jh`: "JH", "Deal Junky", "Jeremy Harbour", "Jeremy's show", "DJ"
+- `stw`: "STW", "Scale to Win", "Dominic", "Dom's show"
+- `hym`: "HYM", "Hack You", "Hack You Media", "HY"
 
 **Slack trigger examples (Jasper or Scott may phrase it like):**
 - "guest-pipeline: find 15 people for Deal Junky similar to Daniel Priestley"
@@ -34,6 +40,18 @@ Parse the `` to determine which mode to run. Requests can come from `/guest-pipe
   - "who runs Gousto, Brewdog, Gymshark? add to STW" -> companies: ["Gousto", "Brewdog", "Gymshark"], client: stw
   - `/guest-pipeline stw companies: Monzo, Starling, Revolut` -> companies: ["Monzo", "Starling", "Revolut"], client: stw
 - If `` is just a client name or "run guest pipeline for [client]": **Full pipeline mode**.
+
+---
+
+## Tool Pre-Flight (ALL MODES)
+
+Before doing anything else, load all required deferred tools. These are not available by default and will fail silently if not loaded first.
+
+```
+ToolSearch: "select:mcp__claude_ai_Airtable__list_records_for_table,mcp__claude_ai_Airtable__create_records_for_table,WebSearch,WebFetch"
+```
+
+If any tool fails to load, retry with individual `select:` queries. Do NOT proceed until all four tools are confirmed available.
 
 ---
 
@@ -102,7 +120,7 @@ This mode is exclusively for Scale to Win. The show is about UK scale-up founder
 
 ## Step 1: Deduplication Setup
 
-Pull ALL existing records from the client's Airtable table using `mcp__claude_ai_Airtable__list_records_for_table`. Use pagination (pass `nextCursor` if returned) to get every record. Only request the Name field to keep the response lean.
+Pull ALL existing records from the client's Airtable table using `mcp__claude_ai_Airtable__list_records_for_table`. Use pagination (pass `nextCursor` if returned) to get every record. Request the Name, Rationale, and Profile fields (Method 2 needs Rationale to pick seed guests, Method 3 needs Profile to extract Instagram handles).
 
 Build a dedup set: normalize each name (lowercase, trim whitespace, strip titles like "Dr.", "Mr.", suffixes like "Jr", "III"). Store as a list in the checkpoint file.
 

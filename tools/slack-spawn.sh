@@ -20,10 +20,16 @@ PROMPT="$5"
 WORKDIR="/Users/jasper/Library/Application Support/Claude/Jasper OS - CC Hub"
 START_TIME=$(date +%s)
 
+# Always clean up PID file on exit (normal, error, or signal)
+cleanup() {
+  rm -f "/tmp/slack-listener-pids/${SKILL_NAME}.pid"
+}
+trap cleanup EXIT
+
 cd "$WORKDIR" || exit 1
 
-# Run Claude
-claude \
+# Run Claude with a 25-minute timeout (reaper kills at 30, so this fires first)
+timeout 1500 claude \
   --print \
   --dangerously-skip-permissions \
   --max-budget-usd 10 \
@@ -55,3 +61,4 @@ else
 fi
 
 echo "$(date): ${SKILL_NAME} finished with exit code ${EXIT_CODE} (${DURATION})" >> "$LOG_FILE"
+# PID file cleanup handled by EXIT trap
