@@ -248,6 +248,94 @@ def create_doc(title, folder_id=None):
     return result
 
 
+def create_folder(name, parent_id=None):
+    """Create a folder in Google Drive."""
+    url = "https://www.googleapis.com/drive/v3/files"
+    body = {
+        "name": name,
+        "mimeType": "application/vnd.google-apps.folder"
+    }
+    if parent_id:
+        body["parents"] = [parent_id]
+    result = api_request_with_refresh("POST", url, body)
+    return result
+
+
+def upload_markdown(file_path, title, folder_id=None):
+    """Upload a markdown file as a Google Doc (Drive API multipart upload with conversion).
+    Converts markdown to HTML first so Google Docs renders formatting properly."""
+    import email.generator
+    import io
+
+    with open(file_path, "r") as f:
+        content = f.read()
+
+    # Convert markdown to HTML for proper Google Docs rendering
+    try:
+        import markdown
+        html_content = markdown.markdown(
+            content,
+            extensions=["tables", "fenced_code", "nl2br"]
+        )
+    except ImportError:
+        # Fallback to plain text if markdown package not available
+        html_content = None
+
+    metadata = {
+        "name": title,
+        "mimeType": "application/vnd.google-apps.document"
+    }
+    if folder_id:
+        metadata["parents"] = [folder_id]
+
+    upload_content = html_content if html_content else content
+    content_type = "text/html" if html_content else "text/plain"
+
+    boundary = "----MultipartBoundary7890"
+    body_parts = []
+    body_parts.append(f"--{boundary}")
+    body_parts.append("Content-Type: application/json; charset=UTF-8")
+    body_parts.append("")
+    body_parts.append(json.dumps(metadata))
+    body_parts.append(f"--{boundary}")
+    body_parts.append(f"Content-Type: {content_type}; charset=UTF-8")
+    body_parts.append("")
+    body_parts.append(upload_content)
+    body_parts.append(f"--{boundary}--")
+
+    body_str = "\r\n".join(body_parts)
+    body_bytes = body_str.encode("utf-8")
+
+    url = "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
+
+    token_data = load_token()
+    access_token = token_data["token"]
+
+    req = urllib.request.Request(url, data=body_bytes, method="POST")
+    req.add_header("Authorization", f"Bearer {access_token}")
+    req.add_header("Content-Type", f"multipart/related; boundary={boundary}")
+
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            result = json.loads(resp.read().decode())
+    except urllib.error.HTTPError as e:
+        if e.code == 401:
+            print("Access token expired, refreshing...", file=sys.stderr)
+            access_token = refresh_access_token(token_data)
+            req = urllib.request.Request(url, data=body_bytes, method="POST")
+            req.add_header("Authorization", f"Bearer {access_token}")
+            req.add_header("Content-Type", f"multipart/related; boundary={boundary}")
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                result = json.loads(resp.read().decode())
+        else:
+            error_body = e.read().decode() if e.fp else ""
+            return {"error": f"HTTP {e.code}: {e.reason}", "detail": error_body}
+
+    if "id" in result:
+        result["url"] = f"https://docs.google.com/document/d/{result['id']}/edit"
+    return result
+
+
 def move_doc(doc_id, dest_folder_id):
     """Move a document to a different Drive folder."""
     # First get current parents
@@ -316,6 +404,17 @@ def main():
     cd_cmd.add_argument("--title", required=True, help="Document title")
     cd_cmd.add_argument("--folder-id", help="Optional Drive folder ID to create the doc in")
 
+    # create-folder
+    cf_cmd = subparsers.add_parser("create-folder", help="Create a folder in Google Drive")
+    cf_cmd.add_argument("--name", required=True, help="Folder name")
+    cf_cmd.add_argument("--parent-id", help="Optional parent folder ID")
+
+    # upload-md
+    umd_cmd = subparsers.add_parser("upload-md", help="Upload a markdown file as a Google Doc")
+    umd_cmd.add_argument("--file", required=True, help="Path to the markdown file")
+    umd_cmd.add_argument("--title", required=True, help="Google Doc title")
+    umd_cmd.add_argument("--folder-id", help="Optional Drive folder ID")
+
     # move
     move_cmd = subparsers.add_parser("move", help="Move document to a folder")
     move_cmd.add_argument("--doc-id", required=True, help="Google Doc ID")
@@ -352,6 +451,12 @@ def main():
         print(json.dumps(result, indent=2))
     elif args.command == "create-doc":
         result = create_doc(args.title, args.folder_id)
+        print(json.dumps(result, indent=2))
+    elif args.command == "create-folder":
+        result = create_folder(args.name, args.parent_id)
+        print(json.dumps(result, indent=2))
+    elif args.command == "upload-md":
+        result = upload_markdown(args.file, args.title, args.folder_id)
         print(json.dumps(result, indent=2))
     elif args.command == "move":
         result = move_doc(args.doc_id, args.folder_id)

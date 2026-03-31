@@ -206,7 +206,16 @@ Using the team member's notes as direction, draft a professional email reply.
 - Sign off as the person who sent the original outreach (check the `eaccount` or original email context)
 - Keep replies under 150 words unless the situation demands more
 
-### Step 5: Send the Reply
+### Step 5: Send the Reply (Reply-All)
+
+Always reply-all so that anyone CC'd on the original email receives the reply too.
+
+Check the `cc_address_email_list` from the get-email response in Step 2. Build the full CC list by combining:
+1. All addresses from `cc_address_email_list`
+2. All addresses from `to_address_email_list` that are NOT our `eaccount`
+3. The `from_address_email` (the person who sent the reply to us)
+
+Remove duplicates and our own `eaccount` from the final CC list.
 
 Run:
 ```
@@ -214,8 +223,11 @@ python3 tools/instantly.py send-reply \
   --reply-to "<INSTANTLY EMAIL ID>" \
   --eaccount "<eaccount from get-email>" \
   --subject "Re: <original subject>" \
-  --body "<drafted reply text>"
+  --body "<drafted reply text>" \
+  --cc "<comma-separated CC addresses>"
 ```
+
+If there are no CC recipients (single-person thread), omit the `--cc` flag.
 
 ### Step 6: Post Confirmation to Slack
 
