@@ -591,6 +591,13 @@ def main():
     ll_cmd.add_argument("--status", help="Filter by lead status (e.g. completed, replied)")
     ll_cmd.add_argument("--limit", type=int, default=1000, help="Max leads to return (default 1000)")
 
+    # update-lead
+    upd_cmd = subparsers.add_parser("update-lead", help="Update a lead's fields by ID")
+    upd_cmd.add_argument("--lead-id", required=True, help="Lead UUID")
+    upd_cmd.add_argument("--company-name", help="New company name")
+    upd_cmd.add_argument("--first-name", help="New first name")
+    upd_cmd.add_argument("--last-name", help="New last name")
+
     # delete-leads
     del_cmd = subparsers.add_parser("delete-leads", help="Delete leads from a campaign")
     del_cmd.add_argument("--campaign-id", required=True, help="Instantly campaign ID")
@@ -655,6 +662,20 @@ def main():
 
     elif args.command == "list-leads":
         result = list_leads(api_key, args.campaign_id, status=args.status, limit=args.limit)
+        print(json.dumps(result, indent=2))
+
+    elif args.command == "update-lead":
+        updates = {}
+        if args.company_name:
+            updates["company_name"] = args.company_name
+        if args.first_name:
+            updates["first_name"] = args.first_name
+        if args.last_name:
+            updates["last_name"] = args.last_name
+        if not updates:
+            print("ERROR: No fields to update", file=sys.stderr)
+            sys.exit(1)
+        result = update_lead(api_key, args.lead_id, updates)
         print(json.dumps(result, indent=2))
 
     elif args.command == "delete-leads":

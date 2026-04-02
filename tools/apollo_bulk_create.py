@@ -46,7 +46,6 @@ def load_api_key():
 def create_contact(api_key, contact, label_names):
     """Create a single contact in Apollo with dedup enabled."""
     payload = {
-        "api_key": api_key,
         "first_name": contact.get("first_name", ""),
         "last_name": contact.get("last_name", ""),
         "email": contact.get("email", ""),
@@ -62,6 +61,7 @@ def create_contact(api_key, contact, label_names):
         method="POST",
     )
     req.add_header("Content-Type", "application/json")
+    req.add_header("X-Api-Key", api_key)
     req.add_header("User-Agent", "JasperOS/1.0")
 
     try:

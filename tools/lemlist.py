@@ -123,6 +123,15 @@ def list_leads(api_key, campaign_id):
     return {"total": len(all_leads), "leads": all_leads}
 
 
+def update_lead(api_key, email, updates):
+    """Update a lead's fields via PATCH /leads/{email}.
+
+    `updates` is a dict of fields to change (e.g. {"companyName": "New Name"}).
+    """
+    result = api_request(api_key, "PATCH", f"/leads/{email}", data=updates)
+    return result
+
+
 def delete_lead(api_key, campaign_id, email):
     """Delete a single lead from a Lemlist campaign."""
     if not campaign_id.startswith("cam_"):
@@ -152,6 +161,14 @@ def main():
     ll_cmd = subparsers.add_parser("list-leads", help="List leads in a campaign")
     ll_cmd.add_argument("--campaign-id", required=True, help="Lemlist campaign ID")
 
+    # update-lead
+    ul_cmd = subparsers.add_parser("update-lead", help="Update a lead's fields")
+    ul_cmd.add_argument("--email", required=True, help="Email of lead to update")
+    ul_cmd.add_argument("--company", help="New company name")
+    ul_cmd.add_argument("--first-name", help="New first name")
+    ul_cmd.add_argument("--last-name", help="New last name")
+    ul_cmd.add_argument("--title", help="New job title")
+
     # delete-lead
     dl_cmd = subparsers.add_parser("delete-lead", help="Delete a lead from a campaign")
     dl_cmd.add_argument("--campaign-id", required=True, help="Lemlist campaign ID")
@@ -174,6 +191,22 @@ def main():
 
     elif args.command == "list-leads":
         result = list_leads(api_key, args.campaign_id)
+        print(json.dumps(result, indent=2))
+
+    elif args.command == "update-lead":
+        updates = {}
+        if args.company:
+            updates["companyName"] = args.company
+        if args.first_name:
+            updates["firstName"] = args.first_name
+        if args.last_name:
+            updates["lastName"] = args.last_name
+        if args.title:
+            updates["jobTitle"] = args.title
+        if not updates:
+            print("ERROR: No fields to update. Provide at least one of --company, --first-name, --last-name, --title", file=sys.stderr)
+            sys.exit(1)
+        result = update_lead(api_key, args.email, updates)
         print(json.dumps(result, indent=2))
 
     elif args.command == "delete-lead":
