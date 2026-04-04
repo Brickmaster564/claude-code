@@ -120,11 +120,23 @@ This mode is exclusively for Scale to Win. The show is about UK scale-up founder
 
 ## Step 1: Deduplication Setup
 
-Pull ALL existing records from the client's Airtable table using `mcp__claude_ai_Airtable__list_records_for_table`. Use pagination (pass `nextCursor` if returned) to get every record. Request the Name, Rationale, and Profile fields (Method 2 needs Rationale to pick seed guests, Method 3 needs Profile to extract Instagram handles).
+Pull ALL existing records from the client's Airtable table using `mcp__claude_ai_Airtable__list_records_for_table`. Follow the fetch strategy below exactly - do NOT deviate, as large requests time out.
 
-Build a dedup set: normalize each name (lowercase, trim whitespace, strip titles like "Dr.", "Mr.", suffixes like "Jr", "III"). Store as a list in the checkpoint file.
+### Airtable Fetch Strategy (required)
 
-**If Airtable read fails, STOP the entire run. Dedup is non-negotiable.**
+**Problem:** Large `pageSize` values (500+) time out on tables with 100+ records, even with `fieldIds` filtering. Cursor-based pagination also times out if anything happens between the initial call and the follow-up cursor call.
+
+**Solution: Two-pass fetch**
+
+**Pass 1 - Names only (dedup set):**
+Use `pageSize: 200` and request ONLY the Name field (`fieldIds: [name_field_id]`). This keeps the payload tiny and returns all records in a single call with no cursor needed for most tables. If a `nextCursor` is returned (table has 200+ records), immediately use it for Pass 1b with the same single-field request before doing anything else.
+
+**Pass 2 - Rationale + Profile (seed data for Methods 2 and 3):**
+After Pass 1 completes, fetch Rationale and Profile fields separately using the same pageSize 200 + immediate cursor strategy. This is only needed for guests who will be used as seeds.
+
+**Why two passes:** Fetching all three fields at once in a single large call increases payload size and processing time on Airtable's side, causing timeouts. Splitting name-only (dedup) from rationale/profile (seed data) keeps each call fast and reliable.
+
+**If any Airtable read fails after one retry, STOP the entire run. Dedup is non-negotiable.**
 
 Write checkpoint: save `existing_names` to `.tmp/guest-pipeline-run.json`.
 
