@@ -8,7 +8,7 @@
 set -uo pipefail
 
 # Ensure tools are on PATH
-export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/Users/jasper/.local/bin:$PATH"
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/Users/jasper/.local/bin:$PATH"
 unset CLAUDECODE 2>/dev/null || true
 
 SKILL_NAME="$1"
