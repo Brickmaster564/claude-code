@@ -133,11 +133,66 @@ def update_lead(api_key, email, updates):
 
 
 def delete_lead(api_key, campaign_id, email):
-    """Delete a single lead from a Lemlist campaign."""
+    """Delete a single lead from a Lemlist campaign by email."""
     if not campaign_id.startswith("cam_"):
         campaign_id = f"cam_{campaign_id}"
     result = api_request(api_key, "DELETE", f"/campaigns/{campaign_id}/leads/{email}")
     return result
+
+
+def delete_lead_by_id(api_key, lead_id):
+    """Delete a lead by its lead ID. Works for LinkedIn-only leads without email."""
+    result = api_request(api_key, "DELETE", f"/leads/{lead_id}")
+    return result
+
+
+def search_contacts(api_key, query, campaign_id=None):
+    """Search contacts by name/keyword, optionally filtered to a campaign."""
+    endpoint = f"/contacts?search={query}"
+    if campaign_id:
+        if not campaign_id.startswith("cam_"):
+            campaign_id = f"cam_{campaign_id}"
+        endpoint += f"&campaignId={campaign_id}"
+    result = api_request(api_key, "GET", endpoint)
+    return result.get("contacts", []) if isinstance(result, dict) else []
+
+
+def remove_leads(api_key, campaign_id, names):
+    """Remove leads from a campaign by name. Searches contacts, resolves lead IDs, deletes."""
+    if not campaign_id.startswith("cam_"):
+        campaign_id = f"cam_{campaign_id}"
+
+    results = []
+    for name in names:
+        last_name = name.strip().split()[-1]
+        contacts = search_contacts(api_key, last_name, campaign_id)
+
+        match = None
+        for c in contacts:
+            if c.get("fullName", "").lower() == name.strip().lower():
+                match = c
+                break
+
+        if not match:
+            results.append({"name": name, "status": "not found"})
+            continue
+
+        detail = api_request(api_key, "GET", f"/contacts/{match['_id']}")
+        lead_id = None
+        for camp in detail.get("campaigns", []):
+            if camp.get("campaignId") == campaign_id:
+                lead_id = camp.get("leadId")
+                break
+
+        if not lead_id:
+            results.append({"name": name, "status": "no lead in campaign"})
+            continue
+
+        del_result = delete_lead_by_id(api_key, lead_id)
+        status = del_result.get("status", del_result.get("error", "unknown"))
+        results.append({"name": name, "leadId": lead_id, "status": status})
+
+    return results
 
 
 def main():
@@ -173,6 +228,16 @@ def main():
     dl_cmd = subparsers.add_parser("delete-lead", help="Delete a lead from a campaign")
     dl_cmd.add_argument("--campaign-id", required=True, help="Lemlist campaign ID")
     dl_cmd.add_argument("--email", required=True, help="Email of lead to delete")
+
+    # remove-leads (by name, works for LinkedIn-only leads)
+    rl_cmd = subparsers.add_parser("remove-leads", help="Remove leads by name (works without email)")
+    rl_cmd.add_argument("--campaign-id", required=True, help="Lemlist campaign ID")
+    rl_cmd.add_argument("--names", required=True, nargs="+", help="Full names of leads to remove")
+
+    # search-contacts
+    sc_cmd = subparsers.add_parser("search-contacts", help="Search contacts by name/keyword")
+    sc_cmd.add_argument("--query", required=True, help="Search query")
+    sc_cmd.add_argument("--campaign-id", help="Filter to specific campaign")
 
     args = parser.parse_args()
     api_key = load_api_key()
@@ -211,6 +276,14 @@ def main():
 
     elif args.command == "delete-lead":
         result = delete_lead(api_key, args.campaign_id, args.email)
+        print(json.dumps(result, indent=2))
+
+    elif args.command == "remove-leads":
+        result = remove_leads(api_key, args.campaign_id, args.names)
+        print(json.dumps(result, indent=2))
+
+    elif args.command == "search-contacts":
+        result = search_contacts(api_key, args.query, args.campaign_id)
         print(json.dumps(result, indent=2))
 
     else:

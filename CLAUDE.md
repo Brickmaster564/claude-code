@@ -7,19 +7,20 @@ Universal workspace for Client Network, Nalu, and personal automation. Combines 
 - **NEVER use em dashes (—).** Use colons, commas, periods, or restructure the sentence. Applies to all output without exception.
 - **NEVER write staccato sentence fragments.** No short punchy sentences under 5 words, especially in sequence (e.g. "That ends." / "Simple. Clean. Done." / "Post consistently. See what works."). Combine them into proper sentences. Applies to all output without exception.
 
+## Tool Discovery Protocol (Zero Tolerance)
+
+Before declaring ANY capability unavailable or asking Jasper to provide data manually, check all three layers:
+
+1. **Local scripts:** `ls tools/` + run `--help` on candidates. Full map in `resources/tool-capability-map.md`.
+2. **Deferred MCP tools:** Check system reminder for deferred tools. Use ToolSearch with `select:` and keyword variants.
+3. **Memory:** Check MEMORY.md Service Integrations for credentials and tool references.
+
+**NEVER** suggest copy-paste, manual download, or "provide it here" when a tool can retrieve the data.
+
 ## Quick Start
 
 ```bash
-# Run any tool
 python3 tools/<tool>.py --help
-
-# Common invocations
-python3 tools/gmail.py send --to "email" --subject "subject" --body "body"
-python3 tools/slack.py send --channel "CHANNEL_ID" --text "message"
-python3 tools/instantly.py list-leads --campaign "CAMPAIGN_ID"
-python3 tools/apify.py scrape-instagram-related --handles "handle1,handle2"
-python3 tools/meta_ads.py --help
-python3 tools/higgsfield.py --help
 ```
 
 **Environment:** Python 3. Credentials in `config/api-keys.json` (gitignored). OAuth tokens in `config/google-token*.json`.
