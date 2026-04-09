@@ -74,20 +74,39 @@ SKILL_TIMEOUT_SECS = 30 * 60
 
 app = App(token=BOT_TOKEN)
 
-# Track last message received for WebSocket health monitoring
+# Track last event received for WebSocket health monitoring
 _last_event_time = time.time()
+
+
+@app.middleware
+def update_heartbeat(body, next):
+    """Update the heartbeat timestamp on EVERY incoming event (not just messages).
+
+    Without this, the watchdog only sees message events. If no one posts for 15
+    minutes the watchdog falsely kills the process. Slack Socket Mode sends
+    various internal events (slash commands ack, interactive payloads, etc.)
+    that pass through middleware, keeping the heartbeat alive.
+    """
+    global _last_event_time
+    _last_event_time = time.time()
+    event_type = body.get("event", {}).get("type", "?") if isinstance(body, dict) else "?"
+    log.info(f"MIDDLEWARE: event_type={event_type} keys={list(body.keys()) if isinstance(body, dict) else 'n/a'}")
+    next()
 
 
 def _reap_and_watchdog():
     """Daemon thread: reap zombies, clean stale PIDs, and monitor WebSocket health.
 
-    Runs every 60 seconds. If no Slack event has been received in 15 minutes,
-    assumes the WebSocket is dead and force-exits so launchd can restart us.
+    Runs every 60 seconds. Uses the Socket Mode client's is_connected() method
+    to check WebSocket health instead of tracking event timestamps, since quiet
+    channels can go hours without any application-level events.
+
+    If the client reports disconnected for 3 consecutive checks (3 minutes),
+    we force-exit so launchd can restart us. The SDK's auto-reconnect handles
+    transient blips, so 3 consecutive failures means something is genuinely stuck.
     """
-    # WebSocket silence threshold: 15 minutes with zero events means dead socket.
-    # Slack sends internal events (hello, ping) frequently, so 15 min of true
-    # silence is a reliable indicator of a broken connection.
-    WS_SILENCE_THRESHOLD = 15 * 60
+    disconnect_streak = 0
+    DISCONNECT_THRESHOLD = 3  # consecutive checks before we force-exit
 
     while True:
         try:
@@ -120,15 +139,25 @@ def _reap_and_watchdog():
                 except Exception as e:
                     log.error(f"Error cleaning PID file {pidfile}: {e}")
 
-            # 3. WebSocket health check
-            silence = time.time() - _last_event_time
-            if silence > WS_SILENCE_THRESHOLD:
-                log.error(
-                    f"No Slack events received for {int(silence)}s "
-                    f"(>{WS_SILENCE_THRESHOLD}s). WebSocket likely dead. "
-                    f"Exiting so launchd can restart."
-                )
-                os._exit(1)
+            # 3. WebSocket health check using actual connection state
+            if _socket_handler and hasattr(_socket_handler, "client"):
+                connected = _socket_handler.client.is_connected()
+                if not connected:
+                    disconnect_streak += 1
+                    log.warning(
+                        f"WebSocket not connected (streak: {disconnect_streak}/"
+                        f"{DISCONNECT_THRESHOLD}). SDK auto-reconnect should handle this."
+                    )
+                    if disconnect_streak >= DISCONNECT_THRESHOLD:
+                        log.error(
+                            f"WebSocket disconnected for {disconnect_streak} consecutive "
+                            f"checks. Auto-reconnect failed. Exiting so launchd can restart."
+                        )
+                        os._exit(1)
+                else:
+                    if disconnect_streak > 0:
+                        log.info(f"WebSocket reconnected after {disconnect_streak} check(s)")
+                    disconnect_streak = 0
 
         except Exception as e:
             log.error(f"Reaper/watchdog thread error: {e}")
@@ -136,7 +165,10 @@ def _reap_and_watchdog():
         time.sleep(60)
 
 
-# Start the reaper as a daemon thread
+# Handler reference for the watchdog (set in __main__)
+_socket_handler = None
+
+# Start the reaper as a daemon thread (watchdog waits for _socket_handler to be set)
 _watchdog_thread = threading.Thread(target=_reap_and_watchdog, daemon=True)
 _watchdog_thread.start()
 
@@ -263,9 +295,9 @@ def handle_message(event, say):
 
 
 def _handle_message_inner(event, say):
-    global _last_event_time
-    _last_event_time = time.time()
-
+    log.info(f"EVENT RECEIVED: channel={event.get('channel')} user={event.get('user')} "
+             f"bot_id={event.get('bot_id')} subtype={event.get('subtype')} "
+             f"thread_ts={event.get('thread_ts')} text={event.get('text', '')[:80]}")
     if event.get("bot_id") or event.get("subtype"):
         return
 
@@ -321,4 +353,18 @@ if __name__ == "__main__":
     log.info("Watching #guest-research-and-comms for reply-router thread replies")
     log.info("Watching #nalu-hub for 'client-agendas' triggers")
     handler = SocketModeHandler(app, APP_TOKEN)
+
+    # Give the watchdog thread access to the handler's connection state
+    _socket_handler = handler
+
+    # Register a raw message listener so the heartbeat updates on ALL WebSocket
+    # frames (hello, disconnect, envelopes), not just Bolt-level message events
+    def _raw_heartbeat(client, message, raw_message):
+        global _last_event_time
+        _last_event_time = time.time()
+        msg_type = message.get("type", "unknown") if isinstance(message, dict) else "non-dict"
+        log.info(f"RAW WS frame: type={msg_type}")
+
+    handler.client.message_listeners.append(_raw_heartbeat)
+
     handler.start()
