@@ -310,7 +310,8 @@ Runs `apimaestro/linkedin-profile-comments`. Extract the username slug from the 
 Before loading leads into Instantly or Lemlist, strip legal/corporate fluff from company names so they read like a human wrote them. This runs on all prospects with status `good` or `recovered` in the working file.
 
 **What to strip:**
-- Legal entity suffixes: Inc, LLC, PLLC, Ltd, Corp, Corporation, Company, Co, Limited, Incorporated, P.C., P.A., S.C., P.L., "and Co."
+- Legal entity suffixes: Inc, LLC, PLLC, Ltd, PLC, Corp, Corporation, Company, Co, Limited, Incorporated, P.C., P.A., S.C., P.L., "and Co."
+- Also catch dot-prefixed and dot-suffixed variants (e.g. `.Inc`, `Inc.`, `.LLC`, `Ltd.`)
 - These can appear with or without a preceding comma
 
 **What to fix:**
@@ -321,6 +322,9 @@ Before loading leads into Instantly or Lemlist, strip legal/corporate fluff from
 - Spa, MedSpa, Associates, Group (these are meaningful in medical/service businesses, not legal fluff)
 - Names that are already clean
 - Brand-specific formatting (miraDry, BeautyFix, etc.)
+
+**Personal business detection (runs last, after all other cleaning):**
+- If the prospect's `first_name` appears in the cleaned company name (case-insensitive match), the company is likely a personal business (e.g. "John Smith Insurance", "Smith & Associates"). Replace the `company` field with `"your firm"`.
 
 Update the `company` field on each prospect in the working file after cleaning. This ensures both Instantly and Lemlist receive the cleaned version.
 

@@ -143,3 +143,7 @@ When writing titles, optimise for this order:
 - My Luxury Trip to Cape Town
 - Is Cape Town Actually Worth the Hype? (Full Vlog)
 - Is This The Most Beautiful City in the World? (Cape Town Vlog)
+- 15 "Normal" Habits Destroying Your Health So Slowly You Don't Notice
+- 15 "Normal" Habits You Do Every Day Destroying Your Body, Brain, & Testosterone
+- 15 Reasons You Feel Tired, Foggy, & Low Energy (and don't know why)
+- Modern Life is a Disease: 15 "Normal Habits" Destroying Your Body, Brain, & Hormones
