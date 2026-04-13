@@ -123,12 +123,19 @@ def list_leads(api_key, campaign_id):
     return {"total": len(all_leads), "leads": all_leads}
 
 
-def update_lead(api_key, email, updates):
-    """Update a lead's fields via PATCH /leads/{email}.
+def update_lead(api_key, email, updates, campaign_id=None):
+    """Update a lead's fields.
 
+    Uses PATCH /campaigns/{id}/leads/{email} when campaign_id given (required for
+    companyName updates). Falls back to PATCH /leads/{email} otherwise.
     `updates` is a dict of fields to change (e.g. {"companyName": "New Name"}).
     """
-    result = api_request(api_key, "PATCH", f"/leads/{email}", data=updates)
+    if campaign_id:
+        if not campaign_id.startswith("cam_"):
+            campaign_id = f"cam_{campaign_id}"
+        result = api_request(api_key, "PATCH", f"/campaigns/{campaign_id}/leads/{email}", data=updates)
+    else:
+        result = api_request(api_key, "PATCH", f"/leads/{email}", data=updates)
     return result
 
 
@@ -195,6 +202,66 @@ def remove_leads(api_key, campaign_id, names):
     return results
 
 
+def batch_update(api_key, plan_file, workers=2, delay=0.3):
+    """Batch update leads from a JSON plan file with rate-limited concurrency.
+
+    Plan file format: list of {"email": "...", "campaign_id": "cam_...", "updates": {"field": "value", ...}}
+    Uses campaign-specific endpoint (PATCH /campaigns/{id}/leads/{email}) which is required
+    for companyName updates to actually persist. The generic /leads/{email} endpoint silently ignores them.
+    """
+    import time
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    with open(plan_file) as f:
+        plan = json.load(f)
+
+    results = {"updated": 0, "failed": 0, "skipped": 0, "errors": []}
+
+    def do_update(item):
+        email = item.get("email")
+        updates = item.get("updates", {})
+        campaign_id = item.get("campaign_id", "")
+        if not email or not updates:
+            return "skip", email, None
+        # Use campaign-specific endpoint
+        if campaign_id:
+            endpoint = f"/campaigns/{campaign_id}/leads/{email}"
+        else:
+            endpoint = f"/leads/{email}"
+        for attempt in range(3):
+            result = api_request(api_key, "PATCH", endpoint, data=updates)
+            if isinstance(result, dict) and "429" in result.get("error", ""):
+                time.sleep(2 * (attempt + 1))
+                continue
+            break
+        if isinstance(result, dict) and "error" in result:
+            return "fail", email, result["error"]
+        return "ok", email, None
+
+    done = 0
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = []
+        for item in plan:
+            futures.append(pool.submit(do_update, item))
+            time.sleep(delay)
+
+        for future in as_completed(futures):
+            status, email, error = future.result()
+            done += 1
+            if status == "ok":
+                results["updated"] += 1
+            elif status == "fail":
+                results["failed"] += 1
+                results["errors"].append({"email": email, "error": error})
+            else:
+                results["skipped"] += 1
+            if done % 50 == 0:
+                print(f"  Progress: {done}/{len(plan)} ({results['updated']} ok, {results['failed']} fail)", file=sys.stderr)
+
+    print(f"  Done: {done}/{len(plan)} ({results['updated']} ok, {results['failed']} fail)", file=sys.stderr)
+    return results
+
+
 def main():
     parser = argparse.ArgumentParser(description="Lemlist campaign tools")
     subparsers = parser.add_subparsers(dest="command")
@@ -219,6 +286,7 @@ def main():
     # update-lead
     ul_cmd = subparsers.add_parser("update-lead", help="Update a lead's fields")
     ul_cmd.add_argument("--email", required=True, help="Email of lead to update")
+    ul_cmd.add_argument("--campaign-id", help="Campaign ID (required for companyName updates)")
     ul_cmd.add_argument("--company", help="New company name")
     ul_cmd.add_argument("--first-name", help="New first name")
     ul_cmd.add_argument("--last-name", help="New last name")
@@ -238,6 +306,12 @@ def main():
     sc_cmd = subparsers.add_parser("search-contacts", help="Search contacts by name/keyword")
     sc_cmd.add_argument("--query", required=True, help="Search query")
     sc_cmd.add_argument("--campaign-id", help="Filter to specific campaign")
+
+    # batch-update
+    bu_cmd = subparsers.add_parser("batch-update", help="Batch update leads from a JSON plan file")
+    bu_cmd.add_argument("--plan", required=True, help="Path to JSON plan file")
+    bu_cmd.add_argument("--workers", type=int, default=2, help="Concurrent workers (default 2)")
+    bu_cmd.add_argument("--delay", type=float, default=0.3, help="Delay between submissions in seconds (default 0.3)")
 
     args = parser.parse_args()
     api_key = load_api_key()
@@ -271,7 +345,8 @@ def main():
         if not updates:
             print("ERROR: No fields to update. Provide at least one of --company, --first-name, --last-name, --title", file=sys.stderr)
             sys.exit(1)
-        result = update_lead(api_key, args.email, updates)
+        campaign_id = getattr(args, 'campaign_id', None)
+        result = update_lead(api_key, args.email, updates, campaign_id=campaign_id)
         print(json.dumps(result, indent=2))
 
     elif args.command == "delete-lead":
@@ -284,6 +359,10 @@ def main():
 
     elif args.command == "search-contacts":
         result = search_contacts(api_key, args.query, args.campaign_id)
+        print(json.dumps(result, indent=2))
+
+    elif args.command == "batch-update":
+        result = batch_update(api_key, args.plan, workers=args.workers, delay=args.delay)
         print(json.dumps(result, indent=2))
 
     else:

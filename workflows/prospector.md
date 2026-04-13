@@ -323,8 +323,13 @@ Before loading leads into Instantly or Lemlist, strip legal/corporate fluff from
 - Names that are already clean
 - Brand-specific formatting (miraDry, BeautyFix, etc.)
 
+**Personal name suffix stripping (runs before company cleaning):**
+- Strip personal suffixes from `first_name` and `last_name`: Esq., Jr., Sr., III, II, IV, PhD, J.D., P.A., Att.
+- Also catch comma-separated variants (e.g. "Brown, Esq." becomes "Brown")
+- If the suffix IS the entire last name (e.g. first_name="Denise", last_name="Esq"), the name was parsed wrong by Apollo. Flag these for manual review since the real last name can't be recovered automatically.
+
 **Personal business detection (runs last, after all other cleaning):**
-- If the prospect's `first_name` appears in the cleaned company name (case-insensitive match), the company is likely a personal business (e.g. "John Smith Insurance", "Smith & Associates"). Replace the `company` field with `"your firm"`.
+- If the prospect's `first_name` OR `last_name` appears in the cleaned company name (case-insensitive match, minimum 3 characters to avoid false positives), the company is likely a personal business (e.g. "John Smith Insurance", "Smith & Associates", "Gans Law", "Minick Law"). Replace the `company` field with `"your practice"`.
 
 Update the `company` field on each prospect in the working file after cleaning. This ensures both Instantly and Lemlist receive the cleaned version.
 
