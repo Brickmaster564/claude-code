@@ -7,7 +7,7 @@ description: Use when someone asks to prepare a client agenda, build a weekly ag
 
 Prepares and delivers weekly client agendas for Nalu podcast clients. The entire process runs through a Slack thread in #nalu-hub between Claude and Scott. Claude duplicates the template, opens a thread, walks Scott through each section one by one, updates the doc in real time, then handles review, email, and logging.
 
-Configured clients: **Dominic Monkhouse**, **Jeremy Harbour**. Process runs Dom first, then Jeremy.
+Configured clients: **Dominic Monkhouse**, **Hack You**, **Jeremy Harbour**. Process runs Dom first, then Hack You, then Jeremy.
 
 ## Key People
 
@@ -20,7 +20,7 @@ Jasper triggers this with something like:
 > Prepare Dom's Friday agenda
 > Client agendas for dominic-monkhouse
 
-If no client is specified, run all clients in order (Dom first, then Jeremy). The client name must match a key in `clients.json`. Once triggered, the workflow runs autonomously between Claude and Scott in #nalu-hub. Jasper does not need to intervene.
+If no client is specified, run all clients in order (Dom first, then Hack You, then Jeremy). The client name must match a key in `clients.json`. Once triggered, the workflow runs autonomously between Claude and Scott in #nalu-hub. Jasper does not need to intervene.
 
 ---
 
@@ -30,7 +30,7 @@ If no client is specified, run all clients in order (Dom first, then Jeremy). Th
 
 1. Read `clients.json` from this skill's directory
 2. Look up the client by name (match against keys, `display_name`, or `short_name`)
-3. If "all" or no client specified, queue all clients starting with `dominic-monkhouse`
+3. If "all" or no client specified, queue all clients starting with `dominic-monkhouse`, then `hack-you`, then `jeremy-harbour`
 
 ### Step 2: Duplicate the Template
 
@@ -88,7 +88,7 @@ python3 tools/gdocs.py --account {google_account} batch-replace --doc-id "{new_d
 
 6. **Move to the next section.** No need to confirm each section back to Scott unless clarifying.
 
-After all sections are done, reply in the thread: "All sections done. Doc's updated. Have a look and let me know if you want anything changed in any section. Once you're happy, say 'good to go' and I'll draft the email."
+After all sections are done, reply in the thread: "All sections done. Doc's updated. Have a look and let me know if you want anything changed in any section. Once you're happy, say 'good to go' and I'll wrap up." (Do not mention email for `whatsapp_summary` clients.)
 
 ---
 
@@ -171,17 +171,55 @@ Executive Summary                         ← Heading
 
 **Key differences from Dom:** Jeremy has an Executive Summary at the top. His Performance Snapshot is flat (L0 bullets, no Snapshot/Bottleneck sub-structure). He has no Video Ideation section. He has no Key Priorities section outside the Executive Summary.
 
+### Hack You's Template (`1s7YgYB28nulN6rowW8VGXwwwYwCVteSnXmAjktZMMTQ`)
+
+```
+Executive Summary                         ← Heading (fill with overview)
+
+---
+
+Performance Snapshot                      ← Section heading
+  (fill with performance data)
+  ○ Bottlenecks + Solutions               ← Bold subsection
+    (fill with bottleneck/fix pairs)
+
+---
+
+Key Priorities                            ← Section heading
+  (fill with priority bullets)
+
+---
+
+Guest Pipeline                            ← Section heading
+  ○ Runway & Release Schedule             ← Bold+underlined subsection
+    (fill with episode timeline: name, date, status)
+  ○ WARM / IN PROGRESS                    ← Bold+underlined subsection
+    (fill with guest names, status, next action)
+
+---
+
+Next Steps                                ← Section heading
+  (fill with action items)
+```
+
+**Hack You section prompts map to:** executive_summary → fills "Executive Summary"; performance_snapshot → fills "Performance Snapshot" including "Bottlenecks + Solutions" subsection; key_priorities → fills "Key Priorities"; guest_pipeline → fills "Guest Pipeline" including "Runway & Release Schedule" and "WARM / IN PROGRESS" subsections; next_steps → fills "Next Steps".
+
+**Key differences:** Hack You shares Executive Summary, Performance Snapshot, and Next Steps with Jeremy. Adds Key Priorities (like Dom) and a unique Guest Pipeline section with runway/release and warm/in-progress subsections. Performance Snapshot includes a "Bottlenecks + Solutions" subsection (like Dom's approach) but as a bold subsection rather than Dom's L1/L2/L3 nesting. Has no Video Ideation or Creative Pipeline section.
+
 ---
 
 ## Content Formatting Rules
 
 - **Tone**: professional but direct. Short sentences. No em dashes. No filler. Every bullet should convey information, not padding.
 - **Performance sections**: Replace placeholders with concise, factual content. For Dom, the Snapshot gets viewership/subs data and the Bottleneck + Solution gets what's blocking growth and the fix. Italic caveats go in L3 sub-bullets under Bottleneck.
-- **Key Priorities** (Dom only): Each priority is a bold line with sub-bullets explaining what's happening.
+- **Key Priorities** (Dom & Hack You): Each priority is a bold line with sub-bullets explaining what's happening.
 - **Video Ideation** (Dom only): Each idea gets a checkmark + bold title + status notes.
 - **Creative & Operations Pipeline**: Replace episode placeholder lines with actual episode names, dates, and statuses (filmed, go live [date], to be filmed, TO BE FILMED for urgent).
 - **Next Steps**: Checkbox-style (☐) action items. Short, decisive.
 - **Executive Summary** (Jeremy only): Fill each bullet (Performance, Key Priorities, Key Decisions, Fixes/Improvements) with a 1-line summary of that area.
+- **Executive Summary** (Hack You): Single overview paragraph or short bullets covering the week's headline. Not the structured 4-bullet format Jeremy uses.
+- **Performance Snapshot with Bottlenecks** (Hack You): Main performance data first (downloads, views, social), then "Bottlenecks + Solutions" as a bold subsection with problem/fix pairs.
+- **Guest Pipeline** (Hack You only): Two subsections. "Runway & Release Schedule" gets episode timeline (episode name, date, status: filmed, in edit, go live date, to be filmed). "WARM / IN PROGRESS" gets a list of guest names with their status (confirmed, outreach sent, chasing, waiting on response) and next action for each.
 - Screenshots get dropped in by Scott during review. Leave space for them.
 
 ### Step 5: Revision Loop
@@ -196,7 +234,7 @@ python3 tools/slack.py read-thread --channel "#nalu-hub" --thread-ts "{thread_ts
 
 When Scott replies, check what he said:
 
-1. **Confirmation** ("good to go", "looks good", "happy", "send it", "done", "all good", etc.) → Move to Step 6 (email preview).
+1. **Confirmation** ("good to go", "looks good", "happy", "send it", "done", "all good", etc.) → Check the client's `delivery` field. If `"whatsapp_summary"`, move to Step 6b (WhatsApp summary). Otherwise, move to Step 6 (email preview).
 
 2. **Revision request** (anything else: "update performance with...", "add to next steps...", "the pipeline section needs...", "I forgot to mention...", etc.) → This is a section update. Parse his message to identify:
    - Which section he's referring to (match against section labels from `clients.json`)
@@ -233,7 +271,24 @@ python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --t
 
 **Now wait.** Poll every 60 seconds until Scott replies. He will either suggest changes or confirm. If he suggests changes, redraft and preview again. Once he confirms, proceed.
 
-### Step 7: Send Email
+### Step 6b: WhatsApp Summary (for `delivery: "whatsapp_summary"` clients)
+
+For clients without email delivery (e.g. Hack You), skip Steps 6 and 7 entirely. Instead, after Scott approves the doc, write a conversational summary and post it in the same Slack thread for Jasper to copy into WhatsApp.
+
+**Summary voice and tone:**
+- Written as Jasper. Casual, direct, no fluff, no em dashes.
+- Hit the key headlines from each section without repeating the full doc. Think of it as a quick voice-note turned into text.
+- Include the Google Doc link so Jasper can paste it alongside.
+- Format for WhatsApp copy-paste: no Slack-specific formatting (no `<@mentions>`, no mrkdwn links). Plain text with line breaks, bold using *asterisks* (WhatsApp bold), and simple dashes for bullets.
+- Keep it tight: 6-10 lines covering what matters this week, what's moving, and anything that needs attention.
+
+```bash
+python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --text "WhatsApp summary ready to go:\n\n---\n{summary}\n\nDoc: https://docs.google.com/document/d/{new_doc_id}/edit\n---\n\nGrab that and drop it in the group. Moving on."
+```
+
+After posting, proceed directly to Step 8 (Move to Logged Folder). No polling needed here since this is the final output for the client.
+
+### Step 7: Send Email (skip for `whatsapp_summary` clients)
 
 Share the doc with the client (reader access):
 
@@ -270,12 +325,14 @@ python3 tools/gdocs.py --account {google_account} move --doc-id "{new_doc_id}" -
 Reply in the Slack thread:
 
 ```bash
-python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --text "Done. Email sent to {email_to}. Doc moved to Logged. Moving on to {next_client_or_'All done for this week.'}."
+python3 tools/slack.py reply --channel "#nalu-hub" --thread-ts "{thread_ts}" --text "Done. {delivery_confirmation}. Doc moved to Logged. Moving on to {next_client_or_'All done for this week.'}."
 ```
 
+Use `"Email sent to {email_to}"` for email clients, or `"WhatsApp summary posted in thread"` for whatsapp_summary clients.
+
 Also log to Claude Code output:
-- Doc: {link} (shared, moved to Logged)
-- Email: sent to {email_to} (CC: {email_cc} or "none")
+- Doc: {link} (moved to Logged)
+- Delivery: email sent to {email_to} (CC: {email_cc} or "none"), or WhatsApp summary posted in thread
 
 ### Step 10: Next Client
 
@@ -293,5 +350,6 @@ If there are more clients in the queue, go back to Step 2 and start a **new thre
 - **Doc access:** Scott is signed into hello@nalupodcasts.com (the Nalu account), so he has direct edit access to all docs created under that account. No sharing step needed for him.
 - **Update doc as you go:** Each section gets written into the doc immediately after parsing Scott's brain dump. Don't batch all updates to the end.
 - **Polling:** This skill pauses multiple times waiting for Scott: (1) after each section prompt for brain dumps, (2) after all sections are done for doc review, (3) after posting the email preview for approval. **At every pause point, poll every 60 seconds** (`sleep 60` then `read-thread`). Never stop polling. Keep looping until Scott replies. The cron job runs with `--dangerously-skip-permissions` so the sleep/poll loop runs unattended.
-- **Multiple clients:** Each client gets a separate Slack thread. Run Dom first, then Jeremy, unless specified otherwise.
+- **Multiple clients:** Each client gets a separate Slack thread. Run Dom first, then Hack You, then Jeremy, unless specified otherwise.
+- **Delivery modes:** Most clients use email (Steps 6-7). Clients with `"delivery": "whatsapp_summary"` in their config skip email entirely and get a WhatsApp-ready summary posted in the Slack thread instead (Step 6b). Check the client config to determine which path to take.
 - **Schedule:** Runs every Thursday at 8PM UK time via cron. Can also be triggered manually.

@@ -37,6 +37,38 @@
       }
     }
   },
+  "hack-you": {
+    "display_name": "Hack You",
+    "short_name": "HY",
+    "template_doc_id": "1s7YgYB28nulN6rowW8VGXwwwYwCVteSnXmAjktZMMTQ",
+    "logged_folder_id": "16IBPtOkgkdozaryiSis2n7_Si391MvAC",
+    "google_account": "nalu",
+    "delivery": "whatsapp_summary",
+    "slack_channel": "nalu-hub",
+    "doc_title_format": "HY Agenda (W/C {date})",
+    "sections": {
+      "executive_summary": {
+        "label": "Executive Summary",
+        "prompt": "Quick headline for Hack You. How are things looking overall? Performance headline, top priority, any key wins or issues worth flagging upfront."
+      },
+      "performance_snapshot": {
+        "label": "Performance Snapshot",
+        "prompt": "Performance numbers for Hack You. Downloads, views, social stats, anything worth calling out. Then bottlenecks: what's blocking growth right now, and what's the fix?"
+      },
+      "key_priorities": {
+        "label": "Key Priorities",
+        "prompt": "What are the top priorities for Hack You next week? What's being pushed forward and what does the client need to know is in motion?"
+      },
+      "guest_pipeline": {
+        "label": "Guest Pipeline",
+        "prompt": "Guest pipeline update. First, the runway and release schedule: what episodes are going live and when, what's filmed, what's in edit. Then the warm and in-progress guests: who's confirmed, who's being chased, where does each one stand?"
+      },
+      "next_steps": {
+        "label": "Next Steps",
+        "prompt": "Critical decisions and action items for next week. What needs sign-off and what are the must-dos?"
+      }
+    }
+  },
   "jeremy-harbour": {
     "display_name": "Jeremy Harbour",
     "short_name": "Jeremy",
