@@ -248,6 +248,8 @@ Never use in any Nalu copy (captions, newsletters, scripts, announcements):
 - "Certainly", "indeed", "delve", "navigate", "landscape"
 - "Leveraging", "synergies", "driving impact", "thought leader"
 - "Moreover", "furthermore", "in conclusion"
+- Cringe military/slang metaphors: "war stories", "in the trenches", "battle-tested", "boots on the ground", "in the weeds", "deep dive"
+- Overused slang: "hit differently", "hits different", "slaps", "fire", "game-changer", "level up"
 - Rhetorical label questions: "The reality?" "The truth?" "The problem?"
 - "It's not X, it's Y" or "It's not about X, it's about Y" sentence structures
 - Hashtag stuffing

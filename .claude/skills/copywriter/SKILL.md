@@ -378,18 +378,22 @@ After framework checks, compliance, and quality scoring are complete, rewrite ev
 
 1. Replace all em dashes (—) with commas, full stops, or normal hyphens.
 2. Remove banned words: certainly, indeed, delve, navigate, landscape.
-3. Keep exclamation marks minimal, usually zero.
-4. Avoid repeating the same opening word across nearby sentences or bullets.
-5. Mix short and medium sentence lengths for natural rhythm.
-6. Remove stiff transitions like "moreover", "furthermore", "in conclusion", unless truly needed.
-7. Match Jasper's voice: direct, casual UK tone, concise, no corporate fluff.
-8. Remove rhetorical label questions: "The reality?" "The truth?" "The problem?" and similar.
-9. Remove "it's not X, it's Y" or "it's not about X, it's about Y" sentence structures. Rewrite to state the point directly.
+3. Remove cringe military/slang metaphors: war stories, in the trenches, battle-tested, boots on the ground, in the weeds, deep dive.
+4. Remove overused slang: hit differently, hits different, slaps, fire, game-changer, level up.
+5. Keep exclamation marks minimal, usually zero.
+6. Avoid repeating the same opening word across nearby sentences or bullets.
+7. Mix short and medium sentence lengths for natural rhythm.
+8. Remove stiff transitions like "moreover", "furthermore", "in conclusion", unless truly needed.
+9. Match Jasper's voice: direct, casual UK tone, concise, no corporate fluff.
+10. Remove rhetorical label questions: "The reality?" "The truth?" "The problem?" and similar.
+11. Remove "it's not X, it's Y" or "it's not about X, it's about Y" sentence structures. Rewrite to state the point directly.
 
 ### Lint check (must pass before delivery)
 
 - Contains "—" → fail, rewrite
 - Contains banned words (certainly, indeed, delve, navigate, landscape) → fail, rewrite
+- Contains cringe metaphors (war stories, in the trenches, battle-tested, boots on the ground, in the weeds, deep dive) → fail, rewrite
+- Contains overused slang (hit differently, hits different, slaps, fire, game-changer, level up) → fail, rewrite
 - Contains rhetorical label questions ("The reality?", "The truth?", "The problem?") → fail, rewrite
 - Contains "it's not X, it's Y" / "it's not about X, it's about Y" patterns → fail, rewrite
 - 2+ consecutive lines starting with same word → rewrite

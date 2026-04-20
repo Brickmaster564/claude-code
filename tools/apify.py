@@ -172,7 +172,7 @@ def scrape_comments(token, usernames, results_per_profile=1):
     if not usernames:
         return {"error": "No usernames provided"}
 
-    BATCH_SIZE = 50
+    BATCH_SIZE = 250
     all_items = []
 
     for i in range(0, len(usernames), BATCH_SIZE):
