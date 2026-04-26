@@ -126,3 +126,49 @@ So what I did was move some of my retirement into physical gold.
 Think about this, Gold just hit all-time highs. It has preserved wealth through war, recessions, and currency collapses.
 
 If my fellow Americans who are serious about protecting what they've built want to learn how to do exactly what I did, click the link below."
+
+---
+
+## Script 10: "The Universe Stops Ignoring You" (Life Insurance / First Person Testimonial UGC)
+
+Parents, once you do this, the universe stops ignoring you.
+
+I'm 34 and people keep asking me why I'm not stressed about money or the future like I used to be.
+
+Honestly it's simple, I stopped putting off the one thing every parent says they'll do "next year."
+
+I finally got life insurance, just to protect the mortgage and the kids if anything happens to me.
+
+What's wild is I expected a couple hundred a month, but I qualified for two million for less than one takeout costs us a month!
+
+No long waits, no medical exam, I just answered a few questions on this tool and got matched with quotes that fit what I was looking for.
+
+If you're a parent watching this and interested, click "Learn More" and see what you qualify for.
+
+---
+
+## Script 11: "What I Haven't Told Him Yet" (Life Insurance / Mom UGC Testimonial)
+
+Moms, ever since I did this I feel like the universe is working for me.
+
+I'm 34 and my partner keeps asking me why I've been so calm about the future lately.
+
+What I haven't told him yet is I finally did something about that "what if" feeling I've been carrying since the kids were born. I took out life insurance and I can't believe I waited this long.
+
+I used this free tool, answered a few questions about my situation, and was matched with a free quote in minutes.
+
+The agents were genuinely on our side. They walked us through our options until we found the most affordable cover for our family.
+
+If you're a parent and your family isn't protected, click below and see how much you could qualify for.
+
+---
+
+## Script 12: "Every Few Minutes" (Life Insurance / Parent UGC Direct-Address)
+
+Every few minutes, a family loses the person they depend on financially.
+
+That feeling of helplessness pushed me to explore life insurance.
+
+I answered some questions using this site and qualified for up to one million in cover for the kids and the mortgage.
+
+Parents, click the link and see what you qualify for.

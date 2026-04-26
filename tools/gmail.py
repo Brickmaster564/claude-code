@@ -273,8 +273,11 @@ def find_thread_for_reply(query):
 
 
 def reply_to_thread(query=None, thread_id=None, to=None, body_text="", content_type="plain",
-                    cc=None, attachment=None):
-    """Reply to an existing thread, found by search query or thread ID."""
+                    cc=None, attachment=None, as_draft=False):
+    """Reply to an existing thread, found by search query or thread ID.
+
+    If as_draft=True, creates a threaded draft instead of sending.
+    """
     if query:
         info = find_thread_for_reply(query)
     elif thread_id:
@@ -317,7 +320,8 @@ def reply_to_thread(query=None, thread_id=None, to=None, body_text="", content_t
     # Default reply-to is the sender of the last message, unless --to overrides
     reply_to = to or info["from"]
 
-    return send_email(
+    send_fn = create_draft if as_draft else send_email
+    return send_fn(
         to=reply_to,
         subject=info["subject"],
         body_text=body_text,
@@ -358,6 +362,8 @@ def main():
     reply_cmd.add_argument("--html-file", help="Path to file containing HTML body")
     reply_cmd.add_argument("--cc", help="CC email address(es), comma-separated")
     reply_cmd.add_argument("--attachment", help="Path to file to attach")
+    reply_cmd.add_argument("--as-draft", action="store_true",
+                           help="Create a threaded draft instead of sending")
 
     # Search subcommand
     search_cmd = subparsers.add_parser("search", help="Search for email threads")
@@ -424,6 +430,7 @@ def main():
             content_type=content_type,
             cc=args.cc,
             attachment=attachment,
+            as_draft=args.as_draft,
         )
         print(json.dumps(result, indent=2))
 

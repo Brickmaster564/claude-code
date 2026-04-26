@@ -6,7 +6,9 @@ disable-model-invocation: true
 
 ## What This Skill Does
 
-A universal ad creative workshop for Client Network. Handles everything from rehashing competitor copy to generating full AI ad images via Kie.ai (Nano Banana Pro). Works across all verticals: life insurance, senior care, home security, tax relief, client acquisition.
+A universal ad creative workshop for Client Network. Handles everything from rehashing competitor copy to producing fully art-directed image prompts ready to paste into Higgsfield (Nano Banana Pro). Works across all verticals: life insurance, senior care, home security, tax relief, client acquisition.
+
+**The skill never generates images itself.** Every mode that involves visuals ends by delivering a finalized, copy-pasteable prompt. The user runs the generation manually in Higgsfield so they stay in control of cost, iteration, and approval.
 
 Five modes, auto-detected from context:
 
@@ -142,10 +144,9 @@ Interactive workshop. Analyze, suggest, iterate, generate on approval.
 
 6. **On approval:**
    - Read [image-gen-methodology.md](image-gen-methodology.md) and [prompt-guide.md](prompt-guide.md)
-   - Build a comprehensive prompt following the image gen methodology (art-direct the image, don't keyword-pile) and the Kie.ai template structure
-   - Show the prompt to the user for confirmation
-   - On confirmation, run: `python3 tools/higgsfield.py generate-and-wait --prompt "[PROMPT]" --aspect-ratio "[RATIO]" --resolution "2K" --n 2`
-   - Deliver the image URLs in chat
+   - Build a comprehensive prompt following the image gen methodology (art-direct the image, don't keyword-pile) and the Nano Banana Pro template structure
+   - Deliver the final prompt to the user in a single copy-pasteable code block, along with the recommended aspect ratio and resolution
+   - The user pastes it into Higgsfield and runs the generation manually
 
 ---
 
@@ -168,11 +169,9 @@ Generate realistic AI people that look like phone photos, not stock images.
    - Smartphone authenticity requirements
    - Negative prompt controls
 
-4. Show the prompt to the user for approval.
+4. Deliver the final prompt to the user in a single copy-pasteable code block, along with the recommended aspect ratio and resolution.
 
-5. On approval, run: `python3 tools/higgsfield.py generate-and-wait --prompt "[PROMPT]" --aspect-ratio "[RATIO]" --resolution "2K" --n 2`
-
-6. Deliver the image URLs in chat.
+5. The user pastes it into Higgsfield and runs the generation manually.
 
 ---
 
@@ -245,12 +244,11 @@ Take a winning creative and produce genuinely different variants, not just copy 
 
 4. **User picks favorites and gives feedback** (tweak headline, change colors, adjust imagery, etc.). Iterate until approved.
 
-5. **On approval, generate the creative:**
+5. **On approval, build the prompt:**
    - Read [prompt-guide.md](prompt-guide.md)
    - Build a Nano Banana Pro prompt incorporating the approved copy and visual direction
-   - Show the prompt for confirmation
-   - On confirmation, run: `python3 tools/higgsfield.py generate-and-wait --prompt "[PROMPT]" --aspect-ratio "[RATIO]" --resolution "2K" --n 2`
-   - Deliver image URLs in chat
+   - Deliver the final prompt to the user in a single copy-pasteable code block, along with the recommended aspect ratio and resolution
+   - The user pastes it into Higgsfield and runs the generation manually
 
 ### Video Winners
 
@@ -303,15 +301,23 @@ Default resolution: **2K**. Use 4K only for hero images or large display.
 
 ## Notes
 
-### Cost Control
-- **Never generate images without explicit user approval.** Always show the prompt first and wait for "approved", "go ahead", "generate it", or similar confirmation.
-- Each Kie.ai generation costs credits. If generating multiple (n=2), that's 2 separate tasks.
+### Generation Boundary
+- **The skill never generates images.** Every visual mode ends with a finalized prompt handed back to the user. The user runs the generation themselves inside Higgsfield.
+- This is deliberate: it keeps cost, iteration cadence, and approval in the user's hands.
+- Do not reference `tools/higgsfield.py`, Kie.ai API calls, or any auto-generation path. The final deliverable is always the prompt.
 
-### Image Generation
-- Tool: `tools/higgsfield.py` (uses Kie.ai API with Nano Banana Pro model)
-- Default: n=2 (two variants per generation)
-- Polling: tool handles polling automatically, returns image URLs
-- Images delivered as URLs in chat
+### Prompt Delivery Format
+When a mode ends with an image prompt, deliver it in this shape:
+
+```
+**Prompt (paste into Higgsfield):**
+[full prompt]
+
+**Aspect ratio:** [ratio]
+**Resolution:** 2K (use 4K only for hero creative)
+**Suggested n:** 2
+```
+
 - **Prompt quality:** Always follow [image-gen-methodology.md](image-gen-methodology.md) when building prompts. Art-direct the image with specific composition, lighting, typography, color systems, and material detail. Never use loose keyword piles. The prompt should read like a clear visual brief that controls every element of the output.
 
 ### Copy Quality
